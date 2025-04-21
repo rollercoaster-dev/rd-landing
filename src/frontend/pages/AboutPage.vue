@@ -6,7 +6,7 @@
     </p>
     <h2>What are Open Badges?</h2>
     <p>
-      Open Badges are digital credentials that represent skills, achievements, or certifications. 
+      Open Badges are digital credentials that represent skills, achievements, or certifications.
       They are portable, verifiable, and can be shared across the web.
     </p>
     <h2>Our Technology Stack</h2>
@@ -19,9 +19,8 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { useHead } from '@unhead/vue'
-
+<script setup>
+// Notice we don't need to import useHead anymore - it's auto-imported
 useHead({
   title: 'About - Rollercoaster.dev',
   meta: [

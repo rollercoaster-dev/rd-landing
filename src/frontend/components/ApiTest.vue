@@ -4,11 +4,11 @@
     <button @click="fetchApiData" :disabled="loading">
       {{ loading ? 'Loading...' : 'Test API Connection' }}
     </button>
-    
+
     <div v-if="error" class="error">
       <p>Error: {{ error }}</p>
     </div>
-    
+
     <div v-if="apiData" class="result">
       <h3>API Response:</h3>
       <pre>{{ JSON.stringify(apiData, null, 2) }}</pre>
@@ -16,9 +16,8 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue'
-
+<script setup>
+// Notice we don't need to import ref anymore - it's auto-imported
 const apiData = ref(null)
 const loading = ref(false)
 const error = ref('')
@@ -26,14 +25,14 @@ const error = ref('')
 const fetchApiData = async () => {
   loading.value = true
   error.value = ''
-  
+
   try {
     const response = await fetch('http://localhost:3000/api/test')
-    
+
     if (!response.ok) {
       throw new Error(`API error: ${response.status}`)
     }
-    
+
     apiData.value = await response.json()
   } catch (err) {
     error.value = err instanceof Error ? err.message : 'Unknown error'

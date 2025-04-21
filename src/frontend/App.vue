@@ -15,9 +15,8 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { useHead } from '@unhead/vue'
-
+<script setup>
+// Notice we don't need to import useHead anymore - it's auto-imported
 useHead({
   title: 'Rollercoaster.dev',
   meta: [

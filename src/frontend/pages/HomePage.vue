@@ -24,11 +24,8 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { useHead } from '@unhead/vue'
-import HelloWorld from '../components/HelloWorld.vue'
-import ApiTest from '../components/ApiTest.vue'
-
+<script setup>
+// Notice we don't need to import components or useHead anymore - they're auto-imported
 useHead({
   title: 'Home - Rollercoaster.dev',
   meta: [

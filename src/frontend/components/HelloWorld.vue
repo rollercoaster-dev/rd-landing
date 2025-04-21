@@ -5,12 +5,14 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const props = defineProps<{
-  greeting: string
-}>()
+<script setup>
+// Notice we don't need to import ref anymore - it's auto-imported
+const props = defineProps({
+  greeting: {
+    type: String,
+    required: true
+  }
+})
 
 const count = ref(0)
 
