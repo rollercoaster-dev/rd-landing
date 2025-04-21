@@ -16,11 +16,13 @@
   "dependencies": {
     "@elysiajs/cors": "^1.2.0",
     "@pinia/nuxt": "^0.11.0",
+    "@tailwindcss/vite": "^4.1.4",
     "@unhead/vue": "^1.8.10",
     "@vue/test-utils": "^2.4.6",
     "elysia": "^0.8.17",
     "jsdom": "^26.1.0",
     "pinia": "^3.0.2",
+    "tailwindcss": "^4.1.4",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5"
   },

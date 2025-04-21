@@ -1,16 +1,22 @@
 <template>
-  <div class="app">
-    <header>
-      <nav>
-        <router-link to="/">Home</router-link> |
-        <router-link to="/about">About</router-link>
+  <div class="min-h-screen flex flex-col bg-gray-50">
+    <header class="bg-white shadow">
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="flex justify-between">
+          <div class="flex space-x-4">
+            <router-link to="/" class="text-gray-900 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Home</router-link>
+            <router-link to="/about" class="text-gray-900 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">About</router-link>
+          </div>
+        </div>
       </nav>
     </header>
-    <main>
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <router-view />
     </main>
-    <footer>
-      <p>&copy; {{ new Date().getFullYear() }} Rollercoaster.dev</p>
+    <footer class="bg-white shadow">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-gray-500">
+        <p>&copy; {{ new Date().getFullYear() }} Rollercoaster.dev</p>
+      </div>
     </footer>
   </div>
 </template>
@@ -29,40 +35,6 @@ useHead({
 </script>
 
 <style>
-.app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-  text-decoration: none;
-  margin: 0 10px;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-
-main {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-footer {
-  margin-top: 40px;
-  padding: 20px;
-  font-size: 0.8em;
-  color: #666;
-}
+/* Base styles are provided by Tailwind CSS */
+/* Add any custom styles here if needed */
 </style>

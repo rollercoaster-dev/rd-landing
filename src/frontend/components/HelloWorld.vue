@@ -1,7 +1,12 @@
 <template>
-  <div class="hello-world">
-    <h1>{{ greeting }}</h1>
-    <button @click="incrementCount">Count: {{ count }}</button>
+  <div class="bg-white shadow overflow-hidden rounded-lg p-6 text-center">
+    <h1 class="text-2xl font-bold text-indigo-600 mb-4">{{ greeting }}</h1>
+    <button
+      @click="incrementCount"
+      class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+    >
+      Count: {{ count }}
+    </button>
   </div>
 </template>
 
@@ -22,29 +27,5 @@ const incrementCount = () => {
 </script>
 
 <style scoped>
-.hello-world {
-  padding: 20px;
-  border-radius: 8px;
-  background-color: #f5f5f5;
-  margin: 20px 0;
-}
-
-h1 {
-  color: #42b983;
-}
-
-button {
-  background-color: #42b983;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 10px;
-}
-
-button:hover {
-  background-color: #3aa876;
-}
+/* Styles are provided by Tailwind CSS */
 </style>

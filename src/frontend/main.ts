@@ -2,6 +2,8 @@ import { ViteSSG } from 'vite-ssg'
 import App from './App.vue'
 // Import the routes directly from the generated file
 import { routes } from 'vue-router/auto-routes'
+// Import Tailwind CSS
+import './styles/main.css'
 
 // `export const createApp` is required instead of the original `createApp(App).mount('#app')`
 export const createApp = ViteSSG(

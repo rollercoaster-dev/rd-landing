@@ -1,17 +1,21 @@
 <template>
-  <div class="api-test">
-    <h2>API Test</h2>
-    <button @click="fetchApiData" :disabled="loading">
+  <div class="bg-white shadow overflow-hidden rounded-lg p-6">
+    <h2 class="text-xl font-semibold text-gray-900 mb-4">API Test</h2>
+    <button
+      @click="fetchApiData"
+      :disabled="loading"
+      class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+    >
       {{ loading ? 'Loading...' : 'Test API Connection' }}
     </button>
 
-    <div v-if="error" class="error">
+    <div v-if="error" class="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
       <p>Error: {{ error }}</p>
     </div>
 
-    <div v-if="apiData" class="result">
-      <h3>API Response:</h3>
-      <pre>{{ JSON.stringify(apiData, null, 2) }}</pre>
+    <div v-if="apiData" class="mt-4">
+      <h3 class="text-lg font-medium text-gray-900 mb-2">API Response:</h3>
+      <pre class="bg-gray-100 p-3 rounded overflow-x-auto text-sm">{{ JSON.stringify(apiData, null, 2) }}</pre>
     </div>
   </div>
 </template>
@@ -44,51 +48,5 @@ const fetchApiData = async () => {
 </script>
 
 <style scoped>
-.api-test {
-  margin: 20px 0;
-  padding: 20px;
-  border-radius: 8px;
-  background-color: #f5f5f5;
-  text-align: left;
-}
-
-button {
-  background-color: #42b983;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-bottom: 20px;
-}
-
-button:hover:not(:disabled) {
-  background-color: #3aa876;
-}
-
-button:disabled {
-  background-color: #a0cfbe;
-  cursor: not-allowed;
-}
-
-.error {
-  color: #e74c3c;
-  margin: 10px 0;
-  padding: 10px;
-  background-color: #fadbd8;
-  border-radius: 4px;
-}
-
-.result {
-  margin-top: 20px;
-}
-
-pre {
-  background-color: #f8f8f8;
-  padding: 10px;
-  border-radius: 4px;
-  overflow-x: auto;
-  border: 1px solid #ddd;
-}
+/* Styles are provided by Tailwind CSS */
 </style>
