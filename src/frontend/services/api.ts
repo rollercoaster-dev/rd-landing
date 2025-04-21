@@ -3,7 +3,7 @@
  */
 
 // Base URL for API requests
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = "http://localhost:3000/api";
 
 /**
  * Fetch badges from the API
@@ -18,7 +18,7 @@ export async function fetchBadges() {
 
     return await response.json();
   } catch (error) {
-    console.error('Error fetching badges:', error);
+    console.error("Error fetching badges:", error);
     throw error;
   }
 }

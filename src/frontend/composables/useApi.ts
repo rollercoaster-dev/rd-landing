@@ -15,14 +15,17 @@ interface Badge {
 }
 
 export function useApi() {
-  const baseUrl = 'http://localhost:3000/api';
+  const baseUrl = "http://localhost:3000/api";
   const loading = ref(false);
   const error = ref<string | null>(null);
 
   /**
    * Generic fetch function with error handling
    */
-  async function fetchData<T>(endpoint: string, options?: RequestInit): Promise<T | null> {
+  async function fetchData<T>(
+    endpoint: string,
+    options?: RequestInit,
+  ): Promise<T | null> {
     loading.value = true;
     error.value = null;
 
@@ -35,7 +38,7 @@ export function useApi() {
 
       return (await response.json()) as T;
     } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Unknown error';
+      error.value = err instanceof Error ? err.message : "Unknown error";
       console.error(`Error fetching from ${endpoint}:`, err);
       return null;
     } finally {
@@ -47,14 +50,16 @@ export function useApi() {
    * Test the API connection
    */
   async function testConnection() {
-    return fetchData<{ status: string; message: string; timestamp: string }>('/test');
+    return fetchData<{ status: string; message: string; timestamp: string }>(
+      "/test",
+    );
   }
 
   /**
    * Get all badges
    */
   async function getBadges() {
-    return fetchData<Badge[]>('/badges');
+    return fetchData<Badge[]>("/badges");
   }
 
   /**

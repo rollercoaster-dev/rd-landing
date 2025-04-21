@@ -5,6 +5,7 @@ A monolithic application for Open Badges, built with Vue 3 + TypeScript frontend
 ## Tech Stack
 
 ### Frontend
+
 - Vue 3
 - TypeScript
 - Vite
@@ -12,6 +13,7 @@ A monolithic application for Open Badges, built with Vue 3 + TypeScript frontend
 - Histoire (Component Development)
 
 ### Backend
+
 - Bun
 - Elysia (TypeScript Framework)
 - PostgreSQL (via Docker)
@@ -27,16 +29,19 @@ A monolithic application for Open Badges, built with Vue 3 + TypeScript frontend
 ### Installation
 
 1. Install Bun:
+
 ```bash
 curl -fsSL https://bun.sh/install | bash
 ```
 
 2. Install dependencies:
+
 ```bash
 bun install
 ```
 
 3. Start PostgreSQL with Docker Compose:
+
 ```bash
 docker-compose up -d
 ```
@@ -44,6 +49,7 @@ docker-compose up -d
 ### Development
 
 Run the development server:
+
 ```bash
 bun run dev
 ```
@@ -53,6 +59,7 @@ This will start both the frontend and backend development servers.
 ### Building for Production
 
 Build the application:
+
 ```bash
 bun run build
 ```
@@ -60,6 +67,7 @@ bun run build
 ### Running in Production
 
 Start the production server:
+
 ```bash
 bun run start
 ```
@@ -67,6 +75,7 @@ bun run start
 ## Component Development with Histoire
 
 Run Histoire to develop and test components in isolation:
+
 ```bash
 bun run histoire
 ```
@@ -74,6 +83,7 @@ bun run histoire
 ## Testing
 
 Run tests:
+
 ```bash
 bun run test
 ```
@@ -85,6 +95,7 @@ The application is configured for deployment to [Fly.io](https://fly.io/). To de
 1. Install the Fly CLI
 2. Authenticate with Fly
 3. Deploy the application:
+
 ```bash
 fly deploy
 ```

@@ -1,45 +1,45 @@
-import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
-import { resolve } from 'path';
-import AutoImport from 'unplugin-auto-import/vite';
-import Components from 'unplugin-vue-components/vite';
-import VueRouter from 'unplugin-vue-router/vite';
-import { VueRouterAutoImports } from 'unplugin-vue-router';
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+import { resolve } from "path";
+import AutoImport from "unplugin-auto-import/vite";
+import Components from "unplugin-vue-components/vite";
+import VueRouter from "unplugin-vue-router/vite";
+import { VueRouterAutoImports } from "unplugin-vue-router";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     // Vue Router needs to be installed before Vue
     VueRouter({
-      routesFolder: 'src/frontend/pages',
-      dts: './typed-router.d.ts',
+      routesFolder: "src/frontend/pages",
+      dts: "./typed-router.d.ts",
     }),
     vue(),
     AutoImport({
       imports: [
-        'vue',
-        '@vueuse/core',
+        "vue",
+        "@vueuse/core",
         VueRouterAutoImports,
         {
           // add any other imports you're using
-          '@unhead/vue': ['useHead'],
+          "@unhead/vue": ["useHead"],
         },
       ],
-      dts: './auto-imports.d.ts',
-      dirs: ['src/frontend/composables', 'src/frontend/stores'],
+      dts: "./auto-imports.d.ts",
+      dirs: ["src/frontend/composables", "src/frontend/stores"],
       vueTemplate: true,
     }),
     Components({
-      dirs: ['src/frontend/components'],
-      dts: './components.d.ts',
+      dirs: ["src/frontend/components"],
+      dts: "./components.d.ts",
     }),
   ],
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src'),
-      '@frontend': resolve(__dirname, './src/frontend'),
-      '@backend': resolve(__dirname, './src/backend'),
-      '@shared': resolve(__dirname, './src/shared'),
+      "@": resolve(__dirname, "./src"),
+      "@frontend": resolve(__dirname, "./src/frontend"),
+      "@backend": resolve(__dirname, "./src/backend"),
+      "@shared": resolve(__dirname, "./src/shared"),
     },
   },
   /*

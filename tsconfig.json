@@ -30,7 +30,13 @@
       "@shared/*": ["src/shared/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/types/**/*.d.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "src/types/**/*.d.ts"
+  ],
   "exclude": ["node_modules", "dist"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
