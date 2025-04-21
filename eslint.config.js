@@ -26,6 +26,16 @@ export default tseslint.config(
   // Apply Vue recommended rules to .vue files
   ...pluginVue.configs["flat/recommended"],
 
+  // Explicitly define parser for <script> sections in .vue files
+  {
+    files: ["**/*.vue"],
+    languageOptions: {
+      parserOptions: {
+        parser: tseslint.parser,
+      },
+    },
+  },
+
   // Configuration applied to most files (JS, TS, Vue)
   {
     files: ["**/*.{js,mjs,cjs,ts,vue}"],
@@ -87,6 +97,7 @@ export default tseslint.config(
           math: "always",
         },
       ],
+      "vue/require-default-prop": "off", // Disable this rule
     },
   },
 
