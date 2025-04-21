@@ -1,13 +1,14 @@
 import { ViteSSG } from 'vite-ssg'
 import App from './App.vue'
-import { createRouter } from 'vue-router/auto'
+// Import the routes directly from the generated file
+import { routes } from 'vue-router/auto-routes'
 
 // `export const createApp` is required instead of the original `createApp(App).mount('#app')`
 export const createApp = ViteSSG(
   // the root component
   App,
   // vue-router options - using the auto-generated routes
-  { routes: createRouter().routes },
+  { routes },
   // function to have custom setups
   ({ app, router, routes, isClient, initialState }) => {
     // install plugins etc.

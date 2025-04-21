@@ -12,7 +12,7 @@ export default defineConfig({
     // Vue Router needs to be installed before Vue
     VueRouter({
       routesFolder: 'src/frontend/pages',
-      dts: 'src/frontend/typed-router.d.ts',
+      dts: './typed-router.d.ts',
     }),
     vue(),
     AutoImport({
@@ -25,13 +25,13 @@ export default defineConfig({
           '@unhead/vue': ['useHead'],
         },
       ],
-      dts: 'src/frontend/auto-imports.d.ts',
+      dts: './auto-imports.d.ts',
       dirs: ['src/frontend/composables', 'src/frontend/stores'],
       vueTemplate: true,
     }),
     Components({
       dirs: ['src/frontend/components'],
-      dts: 'src/frontend/components.d.ts',
+      dts: './components.d.ts',
     }),
   ],
   resolve: {
