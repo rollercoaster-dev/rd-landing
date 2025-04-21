@@ -1,0 +1,38 @@
+{
+  "name": "rd-monolith",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev:frontend": "vite",
+    "dev:backend": "bun --watch src/backend/index.ts",
+    "build": "vite-ssg build && bun build src/backend/index.ts --outdir dist/backend",
+    "start": "bun dist/backend/index.js",
+    "histoire": "histoire dev",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@elysiajs/cors": "^1.2.0",
+    "@unhead/vue": "^1.8.10",
+    "@vue/test-utils": "^2.4.6",
+    "elysia": "^0.8.17",
+    "jsdom": "^26.1.0",
+    "vue": "^3.4.15",
+    "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@histoire/plugin-vue": "^0.17.6",
+    "@types/node": "^20.10.0",
+    "@vitejs/plugin-vue": "^5.0.3",
+    "beasties": "^0.3.2",
+    "concurrently": "^8.2.2",
+    "histoire": "^0.17.6",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12",
+    "vite-ssg": "^0.23.5",
+    "vitest": "^1.2.1",
+    "vue-tsc": "^1.8.27"
+  }
+}
