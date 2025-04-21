@@ -1,7 +1,7 @@
-import { Elysia } from 'elysia'
+import { Elysia } from 'elysia';
 
 // Import route modules
-import { badgesRoutes } from './badges'
+import { badgesRoutes } from './badges';
 
 // Create and export the API routes
 export const apiRoutes = new Elysia({ prefix: '/api' })
@@ -11,11 +11,11 @@ export const apiRoutes = new Elysia({ prefix: '/api' })
   .get('/', () => ({
     name: 'Rollercoaster.dev API',
     version: '0.1.0',
-    documentation: '/api/docs'
+    documentation: '/api/docs',
   }))
   // Add a test endpoint
   .get('/test', () => ({
     status: 'ok',
     message: 'API is working properly',
-    timestamp: new Date().toISOString()
-  }))
+    timestamp: new Date().toISOString(),
+  }));

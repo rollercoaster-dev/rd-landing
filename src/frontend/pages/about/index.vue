@@ -4,7 +4,8 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 class="text-4xl font-bold text-gray-900">About Rollercoaster.dev</h1>
         <p class="mt-4 text-lg text-gray-600">
-          Rollercoaster.dev is an Open Badges platform that allows organizations to create, issue, and verify digital badges.
+          Rollercoaster.dev is an Open Badges platform that allows organizations to create, issue,
+          and verify digital badges.
         </p>
       </div>
     </header>
@@ -13,8 +14,8 @@
       <div class="prose prose-indigo max-w-none">
         <h2 class="text-2xl font-bold text-gray-900 mt-8">What are Open Badges?</h2>
         <p class="mt-4 text-gray-600">
-          Open Badges are digital credentials that represent skills, achievements, or certifications.
-          They are portable, verifiable, and can be shared across the web.
+          Open Badges are digital credentials that represent skills, achievements, or
+          certifications. They are portable, verifiable, and can be shared across the web.
         </p>
 
         <h2 class="text-2xl font-bold text-gray-900 mt-8">Our Technology Stack</h2>
@@ -39,7 +40,7 @@ useHead({
       content: 'Learn about Rollercoaster.dev - An Open Badges platform',
     },
   ],
-})
+});
 </script>
 
 <style scoped>

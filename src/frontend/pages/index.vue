@@ -3,7 +3,9 @@
     <header>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 class="text-4xl font-bold text-gray-900 text-center">Welcome to Rollercoaster.dev</h1>
-        <p class="mt-4 text-xl text-gray-600 text-center">An Open Badges platform built with Vue 3, TypeScript, and Bun.</p>
+        <p class="mt-4 text-xl text-gray-600 text-center">
+          An Open Badges platform built with Vue 3, TypeScript, and Bun.
+        </p>
       </div>
     </header>
 
@@ -22,19 +24,25 @@
         <div class="bg-white overflow-hidden shadow rounded-lg">
           <div class="px-4 py-5 sm:p-6">
             <h2 class="text-lg font-medium text-gray-900">Vue 3 + TypeScript</h2>
-            <p class="mt-2 text-sm text-gray-600">Enjoy the latest Vue features with full TypeScript support.</p>
+            <p class="mt-2 text-sm text-gray-600">
+              Enjoy the latest Vue features with full TypeScript support.
+            </p>
           </div>
         </div>
         <div class="bg-white overflow-hidden shadow rounded-lg">
           <div class="px-4 py-5 sm:p-6">
             <h2 class="text-lg font-medium text-gray-900">SSR & SSG</h2>
-            <p class="mt-2 text-sm text-gray-600">Server-side rendering and static site generation for optimal performance.</p>
+            <p class="mt-2 text-sm text-gray-600">
+              Server-side rendering and static site generation for optimal performance.
+            </p>
           </div>
         </div>
         <div class="bg-white overflow-hidden shadow rounded-lg">
           <div class="px-4 py-5 sm:p-6">
             <h2 class="text-lg font-medium text-gray-900">Bun + Elysia</h2>
-            <p class="mt-2 text-sm text-gray-600">Fast, type-safe backend powered by Bun and Elysia.</p>
+            <p class="mt-2 text-sm text-gray-600">
+              Fast, type-safe backend powered by Bun and Elysia.
+            </p>
           </div>
         </div>
       </div>
@@ -52,7 +60,7 @@ useHead({
       content: 'Welcome to Rollercoaster.dev - An Open Badges platform',
     },
   ],
-})
+});
 </script>
 
 <style scoped>

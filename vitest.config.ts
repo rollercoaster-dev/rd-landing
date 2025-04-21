@@ -1,6 +1,6 @@
-import { defineConfig } from 'vitest/config'
-import vue from '@vitejs/plugin-vue'
-import { resolve } from 'path'
+import { defineConfig } from 'vitest/config';
+import vue from '@vitejs/plugin-vue';
+import { resolve } from 'path';
 
 export default defineConfig({
   plugins: [vue()],
@@ -8,15 +8,15 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     deps: {
-      inline: ['@vue']
-    }
+      inline: ['@vue'],
+    },
   },
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
       '@frontend': resolve(__dirname, './src/frontend'),
       '@backend': resolve(__dirname, './src/backend'),
-      '@shared': resolve(__dirname, './src/shared')
-    }
-  }
-})
+      '@shared': resolve(__dirname, './src/shared'),
+    },
+  },
+});

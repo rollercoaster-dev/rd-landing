@@ -1,11 +1,10 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import { resolve } from 'path'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import VueRouter from 'unplugin-vue-router/vite'
-import { VueRouterAutoImports } from 'unplugin-vue-router'
-import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import { resolve } from 'path';
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import VueRouter from 'unplugin-vue-router/vite';
+import { VueRouterAutoImports } from 'unplugin-vue-router';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -16,8 +15,6 @@ export default defineConfig({
       dts: './typed-router.d.ts',
     }),
     vue(),
-    // Tailwind CSS plugin
-    tailwindcss(),
     AutoImport({
       imports: [
         'vue',
@@ -42,9 +39,10 @@ export default defineConfig({
       '@': resolve(__dirname, './src'),
       '@frontend': resolve(__dirname, './src/frontend'),
       '@backend': resolve(__dirname, './src/backend'),
-      '@shared': resolve(__dirname, './src/shared')
-    }
+      '@shared': resolve(__dirname, './src/shared'),
+    },
   },
+  /*
   ssgOptions: {
     script: 'async',
     formatting: 'minify',
@@ -53,4 +51,5 @@ export default defineConfig({
       pruneSource: true
     }
   }
-})
+  */
+});
