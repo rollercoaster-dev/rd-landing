@@ -5,7 +5,7 @@
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
-    "types": [],
+    "types": ["vite/client", "node", "vue"],
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -27,7 +27,14 @@
       "@/*": ["src/*"],
       "@frontend/*": ["src/frontend/*"],
       "@backend/*": ["src/backend/*"],
-      "@shared/*": ["src/shared/*"]
+      "@shared/*": ["src/shared/*"],
+      // Add platform/frontend-style aliases
+      "~/*": ["src/frontend/*"],
+      "#components": ["src/frontend/components"],
+      "#pages": ["src/frontend/pages"],
+      "#layouts": ["src/frontend/layouts"],
+      "#styles": ["src/frontend/styles"],
+      "#imports": ["src/frontend/composables"]
     }
   },
   "include": [

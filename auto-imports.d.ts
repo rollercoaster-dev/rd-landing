@@ -111,6 +111,7 @@ declare global {
   const unrefElement: (typeof import("@vueuse/core"))["unrefElement"];
   const until: (typeof import("@vueuse/core"))["until"];
   const useActiveElement: (typeof import("@vueuse/core"))["useActiveElement"];
+  const useAliasTest: (typeof import("./src/frontend/composables/useAliasTest"))["default"];
   const useAnimate: (typeof import("@vueuse/core"))["useAnimate"];
   const useApi: (typeof import("./src/frontend/composables/useApi"))["useApi"];
   const useArrayDifference: (typeof import("@vueuse/core"))["useArrayDifference"];
@@ -251,6 +252,7 @@ declare global {
   const useTextDirection: (typeof import("@vueuse/core"))["useTextDirection"];
   const useTextSelection: (typeof import("@vueuse/core"))["useTextSelection"];
   const useTextareaAutosize: (typeof import("@vueuse/core"))["useTextareaAutosize"];
+  const useTheme: (typeof import("./src/frontend/composables/useTheme"))["useTheme"];
   const useThrottle: (typeof import("@vueuse/core"))["useThrottle"];
   const useThrottleFn: (typeof import("@vueuse/core"))["useThrottleFn"];
   const useThrottledRefHistory: (typeof import("@vueuse/core"))["useThrottledRefHistory"];
@@ -317,6 +319,12 @@ declare global {
     WritableComputedRef,
   } from "vue";
   import("vue");
+  // @ts-ignore
+  export type {
+    ThemeMode,
+    ThemeIntensity,
+  } from "./src/frontend/composables/useTheme";
+  import("./src/frontend/composables/useTheme");
 }
 
 // for vue template auto import
@@ -564,6 +572,9 @@ declare module "vue" {
     readonly until: UnwrapRef<(typeof import("@vueuse/core"))["until"]>;
     readonly useActiveElement: UnwrapRef<
       (typeof import("@vueuse/core"))["useActiveElement"]
+    >;
+    readonly useAliasTest: UnwrapRef<
+      (typeof import("./src/frontend/composables/useAliasTest"))["default"]
     >;
     readonly useAnimate: UnwrapRef<
       (typeof import("@vueuse/core"))["useAnimate"]
@@ -928,6 +939,9 @@ declare module "vue" {
     >;
     readonly useTextareaAutosize: UnwrapRef<
       (typeof import("@vueuse/core"))["useTextareaAutosize"]
+    >;
+    readonly useTheme: UnwrapRef<
+      (typeof import("./src/frontend/composables/useTheme"))["useTheme"]
     >;
     readonly useThrottle: UnwrapRef<
       (typeof import("@vueuse/core"))["useThrottle"]

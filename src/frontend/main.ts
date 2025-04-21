@@ -12,10 +12,8 @@ export const createApp = ViteSSG(
   // vue-router options - using the auto-generated routes
   { routes },
   // function to have custom setups
-  // @ts-expect-error - ViteSSG context parameters not properly typed
-  ({ _app, _router, _routes, _isClient, initialState }) => {
+  ({ initialState }) => {
     // install plugins etc.
-    // @ts-expect-error - Vite-specific property not in type definitions
     if (import.meta.env.SSR) {
       // Set initial state during server side
       initialState.data = {
