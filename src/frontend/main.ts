@@ -13,7 +13,7 @@ export const createApp = ViteSSG(
   { routes },
   // function to have custom setups
   // @ts-ignore - ViteSSG context parameters
-  ({ app, router, routes, isClient, initialState }) => {
+  ({ _app, _router, _routes, _isClient, initialState }) => {
     // install plugins etc.
     // @ts-ignore - Vite-specific property
     if (import.meta.env.SSR) {
