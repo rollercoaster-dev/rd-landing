@@ -3,10 +3,11 @@ import { pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
 export const users = pgTable("user", {
   id: varchar("id", { length: 255 }).primaryKey(),
   username: varchar("username", { length: 255 }).unique().notNull(),
-  email: text("email").unique().notNull(),
+  email: text("email").unique(), // Allow null emails
   name: text("name"),
   avatarUrl: text("avatar_url"),
-  githubId: varchar("github_id", { length: 255 }).unique(), // Add github_id
+  // Removed githubId - Linking happens via 'keys' table now
+  emailVerified: timestamp("email_verified", { withTimezone: true }), // Added nullable timestamp
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
     .notNull(),
@@ -31,5 +32,8 @@ export const keys = pgTable("key", {
   userId: varchar("user_id", { length: 255 })
     .notNull()
     .references(() => users.id),
-  hashedPassword: text("hashed_password"), // For password-based login if needed later
+  hashedPassword: text("hashed_password"), // For password-based login
+  // Added fields for OAuth provider linking
+  provider: text("provider").notNull(), // e.g., 'github', 'google'
+  providerUserId: text("provider_user_id").notNull(), // User's ID from the provider
 });

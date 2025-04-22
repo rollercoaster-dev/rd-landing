@@ -1,25 +1,41 @@
-import { Elysia, type Context } from "elysia";
-import type { AppJwtPayload } from "@backend/services/jwt.service";
-import githubRoutes from "./github.routes"; // Corrected import name
+import { Elysia, t } from "elysia";
+import { githubRoutes } from "./github.routes";
 import { authConfig } from "@backend/config/auth.config";
 
-// Define a type for the context decorated with the user payload
-export type AuthenticatedContext = Context & {
-  jwtPayload?: AppJwtPayload;
-};
-
-const authRoutes = new Elysia()
-  // Mount GitHub OAuth routes under '/github' prefix
+// Create and export the authRoutes instance
+export const authRoutes = new Elysia()
+  // Mount GitHub routes under /github prefix using group()
   .group("/github", (app) => app.use(githubRoutes))
-  // Simple status endpoint for now
-  .get("/status", ({ cookie, set }: Context) => {
-    // Basic check if a token cookie exists (doesn't validate yet)
+  // Add other auth routes like logout directly here
+  .post(
+    "/logout",
+    ({ cookie, set }) => {
+      const jwtCookieName = authConfig.jwt.cookieName;
+      // Check if the cookie exists before trying to remove it
+      if (cookie && cookie[jwtCookieName]) {
+        console.log(`[LOGOUT] Clearing cookie: ${jwtCookieName}`);
+        cookie[jwtCookieName].remove(); // Use remove() on the cookie object
+        set.status = 200;
+        return { message: "Logged out successfully" };
+      } else {
+        console.log(`[LOGOUT] Cookie ${jwtCookieName} not found.`);
+        // It's debatable whether this is an error, client might already be logged out.
+        // Return success anyway.
+        set.status = 200;
+        return { message: "No active session found or already logged out" };
+      }
+    },
+    {
+      // Define expected cookie structure for validation (optional but good practice)
+      cookie: t.Object({
+        [authConfig.jwt.cookieName]: t.Optional(t.String()),
+      }),
+    },
+  )
+  .get("/status", ({ cookie, set }) => {
     const tokenCookie = cookie[authConfig.jwt.cookieName];
     if (tokenCookie) {
-      return {
-        authenticated: true,
-        message: "Token cookie found (not validated)",
-      };
+      return { authenticated: true, message: "User is authenticated" };
     } else {
       set.status = 401;
       return {
@@ -27,18 +43,4 @@ const authRoutes = new Elysia()
         message: "No authentication token cookie found",
       };
     }
-  })
-  // Logout route - clears the auth token cookie
-  .post("/logout", ({ cookie, set }: Context) => {
-    // Clear the auth token cookie using the configured name
-    if (cookie[authConfig.jwt.cookieName]) {
-      cookie[authConfig.jwt.cookieName].remove();
-    } else {
-      // Optional: Log if the cookie wasn't found? Usually not an error.
-      // console.debug('Logout attempt but no auth cookie found.');
-    }
-    set.status = 200;
-    return { message: "Logged out successfully" };
   });
-
-export default authRoutes;

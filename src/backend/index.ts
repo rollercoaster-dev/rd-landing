@@ -3,13 +3,13 @@ import { cors } from "@elysiajs/cors";
 import { cookie } from "@elysiajs/cookie";
 import { jwt } from "@elysiajs/jwt";
 import { db } from "@backend/db"; // Import Drizzle db instance
-import { apiRoutes } from "./api/routes";
+import { apiRoutes } from "./api/routes"; // Import the instance
 import { staticFiles } from "./services/static";
 import { authConfig } from "./config/auth.config"; // Import auth config
 import { authMiddleware } from "./middleware/auth.middleware"; // Import the auth middleware
 
-// Create the main Elysia app
-export const app = new Elysia()
+// Create a base instance with core plugins and decorators
+const baseApp = new Elysia()
   // Add CORS middleware
   .use(
     cors({
@@ -32,11 +32,20 @@ export const app = new Elysia()
   // Decorate context with Drizzle db instance
   .decorate("db", db)
   // Apply the auth middleware
-  .use(authMiddleware)
+  .use(authMiddleware);
+
+// Create the main Elysia app by adding routes and static files to the base
+export const app = baseApp
   // Serve static files from the dist directory (built frontend)
   .use(staticFiles)
-  // Mount API routes under '/api' prefix
+  // --- Routes ---
+  // Mount all API routes under the '/api' prefix using group()
   .group("/api", (app) => app.use(apiRoutes))
+  // --- Root Endpoint ---
+  .get("/", () => ({
+    status: "ok",
+    message: "Welcome to Rollercoaster.dev Backend!",
+  }))
   // Add a simple health check endpoint
   .get("/health", () => ({ status: "ok", timestamp: new Date().toISOString() }))
   // Global error handler
@@ -68,6 +77,3 @@ if (import.meta.main) {
     console.log(`🚀 Server running at http://localhost:${port}`);
   });
 }
-
-// Export the app for testing and importing in other files
-export type App = typeof app;

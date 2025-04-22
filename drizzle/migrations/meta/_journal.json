@@ -15,6 +15,13 @@
       "when": 1745322241961,
       "tag": "0001_brown_avengers",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1745334732471,
+      "tag": "0002_minor_baron_strucker",
+      "breakpoints": true
     }
   ]
 }
