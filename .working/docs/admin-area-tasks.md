@@ -18,13 +18,13 @@ This document outlines feature branches and PRs for building the Admin area and 
 **PR: Implement backend authentication**
 
 - [x] Define Drizzle ORM models/schema: `User` (Assuming initial model exists)
-- [ ] Implement OAuth routes (GitHub, Google) using custom Elysia handlers:
+- [x] Implement OAuth routes (GitHub) using custom Elysia handlers:
   - **GitHub:**
-    - [x] `/api/auth/github` (initiates flow)
+    - [x] `/api/auth/github/login` (initiates flow)
     - [x] `/api/auth/github/callback` (handles GitHub redirect, exchanges code, fetches user, finds/creates DB user, generates JWT)
 - [ ] Integrate WebAuthn server-side via `@simplewebauthn/server` (TODO)
 - [x] Issue JWT tokens (Specifically for GitHub flow)
-- [x] Set HttpOnly cookies (`rd_auth_token` via `Set-Cookie` header in GitHub callback)
+- [x] Set HttpOnly cookies (`rd_auth_token` via `Set-Cookie` header in GitHub callback) - _Note: Had to bypass `@elysiajs/cookie` due to instability; using standard `cookie` package directly with headers._
 - [x] Redirect to frontend `/auth/callback` from backend callback
 - [ ] Add middleware for protecting routes (TODO)
 - [ ] Write unit tests for auth flows (TODO)
@@ -37,7 +37,7 @@ This document outlines feature branches and PRs for building the Admin area and 
 - [x] Add OAuth buttons (specifically GitHub login initiation logic)
 - [x] Create frontend callback page/route (`/auth/callback`): This page loads after successful backend GitHub OAuth callback, verifies auth status (checks cookie/fetches user data), and navigates user to the main app (`/`).
 - [ ] Integrate WebAuthn client-side via `@simplewebauthn/browser` (TODO)
-- [ ] Handle JWT cookies and session persistence (e.g., Pinia, composables) (Partially done via `useAuth`, needs verification)
+- [ ] Handle JWT cookies and session persistence (e.g., Pinia, composables) - _Note: Confirmed working with GitHub flow via `useAuth`._
 - [ ] Implement route guards for `/admin` routes (TODO)
 - [ ] Add stories/tests for auth components (TODO)
 - [ ] Implement Logout functionality (TODO)

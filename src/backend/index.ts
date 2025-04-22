@@ -1,6 +1,5 @@
 import { Elysia, type ErrorHandler } from "elysia";
 import { cors } from "@elysiajs/cors";
-import { cookie } from "@elysiajs/cookie";
 import { jwt } from "@elysiajs/jwt";
 import { db } from "@backend/db"; // Import Drizzle db instance
 import { apiRoutes } from "./api/routes"; // Import the instance
@@ -10,6 +9,12 @@ import { authMiddleware } from "./middleware/auth.middleware"; // Import the aut
 
 // Create a base instance with core plugins and decorators
 const baseApp = new Elysia()
+  // Add a simple '.onRequest' middleware at the beginning of the app definition to log the path of every incoming request
+  .onRequest(({ request }) => {
+    console.log(
+      `[REQ] Received request: ${request.method} ${new URL(request.url).pathname}`,
+    );
+  })
   // Add CORS middleware
   .use(
     cors({
@@ -19,8 +24,6 @@ const baseApp = new Elysia()
       credentials: true, // Allow cookies to be sent
     }),
   )
-  // Add Cookie plugin
-  .use(cookie())
   // Add JWT plugin
   .use(
     jwt({

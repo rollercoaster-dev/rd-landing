@@ -34,7 +34,7 @@ export const authConfig = {
         httpOnly: true,
         secure: env.NODE_ENV === "production",
         path: "/",
-        sameSite: "lax",
+        sameSite: "lax", // Changed from "Lax" to "lax"
         maxAge: 10 * 60, // 10 minutes validity for state cookie
       },
     },

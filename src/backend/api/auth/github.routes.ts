@@ -1,51 +1,50 @@
 import { Elysia, t } from "elysia";
 import { GitHubAuthService } from "@backend/services/githubAuth.service";
 import { authConfig } from "@backend/config/auth.config";
+import { parse, serialize, type SerializeOptions } from "cookie";
 
 export const githubRoutes = new Elysia()
-  .derive(({ cookie: _cookie }) => ({
-    stateCookieName: authConfig.github.stateCookie.name,
-  }))
-  .get("/login", async ({ set, stateCookieName }) => {
+  .get("/login", async ({ set }) => {
+    const stateCookieName = authConfig.github.stateCookie.name;
     try {
       const { url, state } = await GitHubAuthService.initiateGitHubLogin();
 
-      if (set.cookie) {
-        set.cookie[stateCookieName] = {
-          ...authConfig.github.stateCookie.options,
-          value: state,
-        };
-      } else {
-        console.error("/login route: set.cookie is unexpectedly undefined.");
-        set.status = 500;
-        return { error: "Internal Server Configuration Error" };
-      }
+      const stateCookieString = serialize(
+        stateCookieName,
+        state,
+        authConfig.github.stateCookie.options as SerializeOptions,
+      );
+      set.headers["Set-Cookie"] = stateCookieString;
+      console.log(
+        `[LOGIN] Set ${stateCookieName} cookie via 'cookie' package: ${stateCookieString}`,
+      );
 
-      console.log(`[LOGIN] Set ${stateCookieName} cookie via Elysia API.`);
       set.redirect = url.toString();
       set.status = 302;
     } catch (error) {
-      console.error("[LOGIN] Error initiating GitHub login:", error);
+      console.error("Error during GitHub login initiation:", error);
       set.status = 500;
-      return { error: "Failed to initiate GitHub login." };
+      return {
+        error: "GitHub Login Initiation Failed",
+        message: (error as Error).message,
+      };
     }
   })
   .get(
     "/callback",
-    async ({ query, cookie, set, stateCookieName }) => {
+    async ({ query, set, request }) => {
       console.log("[CALLBACK] Received request");
+      const stateCookieName = authConfig.github.stateCookie.name;
+      const jwtCookieName = authConfig.jwt.cookieName;
       const { code, state: receivedState } = query;
-      const storedState = cookie[stateCookieName]?.value;
+      const rawCookies = request.headers.get("Cookie") || "";
+      const cookies = parse(rawCookies);
+      const storedState = cookies[stateCookieName];
 
       console.log(
         `[CALLBACK] Query params: code=${code}, state=${receivedState}`,
       );
       console.log(`[CALLBACK] Cookie state value: ${storedState}`);
-
-      if (cookie[stateCookieName]) {
-        cookie[stateCookieName].remove();
-        console.log(`[CALLBACK] Removed ${stateCookieName} cookie.`);
-      }
 
       if (
         !code ||
@@ -71,19 +70,23 @@ export const githubRoutes = new Elysia()
             receivedState,
           );
 
-        if (set.cookie) {
-          set.cookie[authConfig.jwt.cookieName] = {
-            ...authConfig.cookie,
-            value: generatedJwt,
-          };
-          console.log(`[CALLBACK] Set ${authConfig.jwt.cookieName} cookie.`);
-        } else {
-          console.error(
-            "/callback route: set.cookie is unexpectedly undefined.",
-          );
-          set.status = 500;
-          return { error: "Internal Server Configuration Error" };
-        }
+        const authTokenCookie = serialize(
+          jwtCookieName,
+          generatedJwt,
+          authConfig.cookie as SerializeOptions,
+        );
+        const clearStateCookie = serialize(stateCookieName, "", {
+          ...authConfig.github.stateCookie.options,
+          maxAge: 0,
+        } as SerializeOptions);
+
+        set.headers["Set-Cookie"] = [authTokenCookie, clearStateCookie];
+        console.log(
+          `[CALLBACK] Set ${jwtCookieName} cookie via 'cookie' package.`,
+        );
+        console.log(
+          `[CALLBACK] Cleared ${stateCookieName} cookie via 'cookie' package.`,
+        );
 
         set.redirect = `${authConfig.frontendUrl}/auth/callback`;
         console.log(`[CALLBACK] Redirecting to frontend: ${set.redirect}`);
@@ -106,9 +109,6 @@ export const githubRoutes = new Elysia()
       query: t.Object({
         code: t.Optional(t.String()),
         state: t.Optional(t.String()),
-      }),
-      cookie: t.Object({
-        [authConfig.github.stateCookie.name]: t.Optional(t.String()),
       }),
     },
   );

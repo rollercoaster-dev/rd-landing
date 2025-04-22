@@ -1,14 +1,5 @@
 <script setup lang="ts">
-export type SectionHeaderProps = {
-  title: string;
-  description?: string;
-  align?: "left" | "center" | "right";
-};
-
-const props = withDefaults(defineProps<SectionHeaderProps>(), {
-  description: "",
-  align: "center",
-});
+defineProps<{ title: string; description?: string; class?: string }>();
 </script>
 
 <template>

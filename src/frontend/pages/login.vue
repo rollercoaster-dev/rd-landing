@@ -5,6 +5,7 @@ import { useAuth } from "@/frontend/composables/useAuth";
 const auth = useAuth();
 
 function loginWithGitHub() {
+  console.log("[DEBUG] login.vue: loginWithGitHub button clicked."); // Add log here
   auth.loginWithGitHub();
 }
 </script>

@@ -45,6 +45,7 @@ export const useAuthStore = defineStore("auth", () => {
    * The backend handles the actual OAuth process and sets the cookie.
    */
   function loginWithGitHub() {
+    console.log("[DEBUG] loginWithGitHub function called."); // Add log
     // Construct the full backend URL
     const backendUrl = "http://localhost:3000/api/auth/github/login"; // Corrected URL
     // Redirect the user to the backend GitHub login endpoint using assign for clarity

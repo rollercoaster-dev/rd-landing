@@ -23,14 +23,14 @@ onMounted(async () => {
       router.push("/");
     } else {
       console.error(
-        "Auth callback: User not found after fetchUser, redirecting to home.",
+        "Auth callback: User not found after fetchUser, redirecting to login.",
       );
-      router.push("/");
+      router.push("/login?error=authentication_failed"); // Redirect to login on failure
     }
   } catch (error) {
     console.error("Error during auth callback processing:", error);
-    console.log("Redirecting to home after error.");
-    router.push("/");
+    console.log("Redirecting to login after error.");
+    router.push("/login?error=authentication_failed"); // Redirect to login on failure
   }
 });
 </script>

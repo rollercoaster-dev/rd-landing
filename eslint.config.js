@@ -13,6 +13,7 @@ export default tseslint.config(
       "**/.vitepress/cache/*",
       "**/.vitepress/dist/*",
       "node_modules",
+      "src/frontend/components/ui/**", // Ignore shadcn/ui components
     ],
   },
 
@@ -75,7 +76,7 @@ export default tseslint.config(
         "warn",
         { argsIgnorePattern: "^_" },
       ],
-      "@typescript-eslint/no-explicit-any": "error", // Warn instead of error
+      "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/ban-ts-comment": [
         "error",
         { "ts-expect-error": "allow-with-description" },
