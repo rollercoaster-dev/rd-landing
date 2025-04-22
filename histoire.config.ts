@@ -7,10 +7,6 @@ export default defineConfig({
   plugins: [HstVue()],
   vite: {
     base: "./",
-    // Add optimizeDeps to exclude problematic packages
-    optimizeDeps: {
-      exclude: ["vscode-oniguruma", "vscode-textmate"],
-    },
     // Make sure Tailwind CSS is properly processed
     css: {
       postcss: {

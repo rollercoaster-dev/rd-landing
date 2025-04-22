@@ -55,6 +55,9 @@ export default defineConfig({
       "#imports": resolve(__dirname, "./src/frontend/composables"),
     },
   },
+  ssr: {
+    noExternal: ["lucide-vue-next"],
+  },
   /*
   ssgOptions: {
     script: 'async',
