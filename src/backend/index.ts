@@ -35,8 +35,8 @@ export const app = new Elysia()
   .use(authMiddleware)
   // Serve static files from the dist directory (built frontend)
   .use(staticFiles)
-  // Mount API routes
-  .use(apiRoutes)
+  // Mount API routes under '/api' prefix
+  .group("/api", (app) => app.use(apiRoutes))
   // Add a simple health check endpoint
   .get("/health", () => ({ status: "ok", timestamp: new Date().toISOString() }))
   // Global error handler

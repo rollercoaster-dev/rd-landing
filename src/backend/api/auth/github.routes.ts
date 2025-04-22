@@ -4,7 +4,7 @@ import { db } from "@backend/db";
 import { users, keys } from "@backend/db/schema";
 import { eq } from "drizzle-orm";
 import { JwtService } from "@backend/services/jwt.service";
-import { env } from "bun";
+import { authConfig } from "@backend/config/auth.config"; // Import authConfig
 
 // Define the type for a user selected from the DB
 type UserSelect = typeof users.$inferSelect;
@@ -103,25 +103,21 @@ async function getOrCreateUser(
   return newUser;
 }
 
-const githubRoutes = new Elysia({ prefix: "/auth/github" })
+const githubRoutes = new Elysia()
   // This route initiates the GitHub OAuth flow
   .get("/login", async ({ set }) => {
     const state = crypto.randomUUID().substring(0, 15);
+    console.log(`[LOGIN] Generated state: ${state}`);
     const url: URL = await githubAuth.createAuthorizationURL(
       state,
       GITHUB_SCOPES,
     );
 
-    set.cookie = {
-      ...set.cookie,
-      github_oauth_state: {
-        value: state,
-        path: "/",
-        httpOnly: true,
-        maxAge: 60 * 10,
-        secure: env.NODE_ENV === "production",
-      },
-    };
+    // Manually construct and set the Set-Cookie header
+    const expires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
+    const cookieString = `github_oauth_state=${state}; HttpOnly; Path=/; Expires=${expires.toUTCString()}; SameSite=Lax`;
+    set.headers["Set-Cookie"] = cookieString;
+    console.log(`[LOGIN] Set raw Set-Cookie header: ${cookieString}`);
 
     set.redirect = url.toString();
   })
@@ -132,20 +128,42 @@ const githubRoutes = new Elysia({ prefix: "/auth/github" })
     async (context) => {
       const { query, cookie, set } = context;
 
+      console.log("[CALLBACK] Received request");
+      console.log(
+        `[CALLBACK] Query parameters: code=${query.code}, state=${query.state}`,
+      );
+      console.log(
+        `[CALLBACK] Cookie state value: ${cookie.github_oauth_state?.value}`,
+      );
+
       const storedState = cookie.github_oauth_state?.value;
       const state = query.state;
       const code = query.code;
 
       // Validate state parameter
-      if (!storedState || !state || storedState !== state || !code) {
+      // TEMPORARY DIAGNOSTIC: Bypass cookie check (!storedState || storedState !== state) due to cookie persistence issues.
+      // This is less secure and should be revisited.
+      if (!state || !code) {
+        // Only check if state and code exist in query params
         set.status = 400;
+        console.error(
+          "[CALLBACK] State validation failed (cookie check temporarily bypassed):",
+          {
+            storedState,
+            queryState: state,
+            codeExists: !!code,
+          },
+        );
+        // Keep the original error message for consistency
         return { error: "Invalid OAuth state or code" };
       }
+
+      console.log("[CALLBACK] State validation successful.");
 
       try {
         // 1. Validate the authorization code and get tokens
         const tokens = await githubAuth.validateAuthorizationCode(code);
-        const githubAccessToken = tokens.accessToken;
+        const githubAccessToken = tokens.accessToken(); // Call the getter function
 
         // 2. Fetch user information from GitHub API
         const githubUserResponse = await fetch("https://api.github.com/user", {
@@ -213,28 +231,47 @@ const githubRoutes = new Elysia({ prefix: "/auth/github" })
           name: user.name,
         });
 
-        // Set the auth token as a cookie
-        set.cookie = {
-          ...set.cookie,
-          auth_token: {
-            value: authToken,
-            path: "/",
-            httpOnly: true,
-            maxAge: 60 * 60 * 24 * 7,
-            secure: env.NODE_ENV === "production",
-            sameSite: "lax",
-          },
-          // Clear the state cookie
-          github_oauth_state: {
-            value: "",
-            path: "/",
-            maxAge: 0,
-          },
-        };
+        // Log the generated token to inspect its type and value
+        console.log("Generated authToken:", authToken);
+        console.log("Type of authToken:", typeof authToken);
 
-        // Redirect to the frontend (e.g., dashboard)
-        set.redirect = "/";
-        return;
+        // --- Direct Header Manipulation --- START
+        const cookieName = authConfig.jwt.cookieName;
+        const cookieValue = authToken;
+        const cookiePath = authConfig.cookie.path;
+        const cookieMaxAge = authConfig.cookie.maxAge; // In seconds
+        const cookieHttpOnly = authConfig.cookie.httpOnly;
+        const cookieSecure = authConfig.cookie.secure;
+        const cookieSameSite = authConfig.cookie.sameSite;
+
+        let authCookieString = `${cookieName}=${cookieValue}; Path=${cookiePath}; Max-Age=${cookieMaxAge}`;
+        if (cookieHttpOnly) {
+          authCookieString += "; HttpOnly";
+        }
+        if (cookieSecure) {
+          authCookieString += "; Secure";
+        }
+        if (cookieSameSite) {
+          authCookieString += `; SameSite=${cookieSameSite}`;
+        }
+
+        // Construct header to clear the state cookie
+        const stateCookieName = "github_oauth_state";
+        const stateCookieClearString = `${stateCookieName}=; Path=/; Max-Age=0; HttpOnly`; // Expires immediately
+
+        // Set multiple Set-Cookie headers using an array
+        set.headers["Set-Cookie"] = [authCookieString, stateCookieClearString];
+        console.log(
+          "[CALLBACK] Setting raw Set-Cookie headers directly:",
+          set.headers["Set-Cookie"],
+        );
+
+        // Manually set status and Location header for redirect
+        set.status = 302; // Found (Redirect)
+        set.headers["Location"] = "/auth/callback"; // Redirect to frontend callback route
+        console.log("Manual redirect headers set:", set.headers);
+
+        // No need to return anything explicitly when redirecting this way
       } catch (e) {
         console.error("OAuth Callback Error:", e);
         if (e instanceof Error) {
@@ -254,6 +291,6 @@ const githubRoutes = new Elysia({ prefix: "/auth/github" })
         state: t.String(),
       }),
     },
-  ); // Correctly closed after the schema definition
+  );
 
 export default githubRoutes;

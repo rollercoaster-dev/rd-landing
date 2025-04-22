@@ -129,6 +129,8 @@ declare global {
   const useAsyncQueue: (typeof import("@vueuse/core"))["useAsyncQueue"];
   const useAsyncState: (typeof import("@vueuse/core"))["useAsyncState"];
   const useAttrs: (typeof import("vue"))["useAttrs"];
+  const useAuth: (typeof import("./src/frontend/composables/useAuth"))["useAuth"];
+  const useAuthStore: (typeof import("./src/frontend/composables/useAuth"))["useAuthStore"];
   const useBase64: (typeof import("@vueuse/core"))["useBase64"];
   const useBattery: (typeof import("@vueuse/core"))["useBattery"];
   const useBluetooth: (typeof import("@vueuse/core"))["useBluetooth"];
@@ -319,6 +321,9 @@ declare global {
     WritableComputedRef,
   } from "vue";
   import("vue");
+  // @ts-ignore
+  export type { UseApiReturnType } from "./src/frontend/composables/useApi";
+  import("./src/frontend/composables/useApi");
   // @ts-ignore
   export type {
     ThemeMode,
@@ -625,6 +630,12 @@ declare module "vue" {
       (typeof import("@vueuse/core"))["useAsyncState"]
     >;
     readonly useAttrs: UnwrapRef<(typeof import("vue"))["useAttrs"]>;
+    readonly useAuth: UnwrapRef<
+      (typeof import("./src/frontend/composables/useAuth"))["useAuth"]
+    >;
+    readonly useAuthStore: UnwrapRef<
+      (typeof import("./src/frontend/composables/useAuth"))["useAuthStore"]
+    >;
     readonly useBase64: UnwrapRef<(typeof import("@vueuse/core"))["useBase64"]>;
     readonly useBattery: UnwrapRef<
       (typeof import("@vueuse/core"))["useBattery"]

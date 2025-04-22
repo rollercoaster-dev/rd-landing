@@ -1,4 +1,5 @@
 import { ViteSSG } from "vite-ssg";
+import { createPinia } from "pinia";
 import App from "./App.vue";
 // Import the routes directly from the generated file
 import { routes } from "vue-router/auto-routes";
@@ -12,7 +13,11 @@ export const createApp = ViteSSG(
   // vue-router options - using the auto-generated routes
   { routes },
   // function to have custom setups
-  ({ initialState }) => {
+  ({ app, initialState }) => {
+    // Create and use Pinia instance
+    const pinia = createPinia();
+    app.use(pinia);
+
     // install plugins etc.
     if (import.meta.env.SSR) {
       // Set initial state during server side

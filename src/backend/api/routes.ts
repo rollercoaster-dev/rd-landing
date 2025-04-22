@@ -6,11 +6,11 @@ import authRoutes from "./auth"; // Corrected: Use default import
 import userRoutes from "./users/users.routes"; // Import user routes
 
 // Create and export the API routes
-export const apiRoutes = new Elysia({ prefix: "/api" })
+export const apiRoutes = new Elysia()
   // Mount badge-related routes
   .use(badgesRoutes)
-  // Mount auth-related routes
-  .use(authRoutes)
+  // Mount auth-related routes under '/auth' prefix
+  .group("/auth", (app) => app.use(authRoutes))
   // Mount user routes
   .use(userRoutes)
   // Add a simple root endpoint

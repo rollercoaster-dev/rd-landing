@@ -7,7 +7,7 @@
     "dev": "concurrently \"bun run dev:frontend\" \"bun run dev:backend\"",
     "dev:frontend": "vite",
     "dev:backend": "bun --watch src/backend/index.ts",
-    "build": "vite-ssg build && bun build src/backend/index.ts --outdir dist/backend",
+    "build": "vite-ssg build && bun build src/backend/index.ts --outdir dist/backend --target bun",
     "start": "bun dist/backend/index.js",
     "histoire": "histoire dev",
     "test": "vitest run",

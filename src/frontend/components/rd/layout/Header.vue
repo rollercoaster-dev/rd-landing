@@ -1,9 +1,16 @@
 <script setup lang="ts">
-import { Sun, Moon, Paintbrush } from "lucide-vue-next";
+import { Sun, Moon, Paintbrush, LogIn, LogOut } from "lucide-vue-next";
 import { useTheme } from "@/frontend/composables/useTheme";
+import { useAuth } from "@/frontend/composables/useAuth";
 import { ref, onMounted } from "vue";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/frontend/components/ui/button";
 
+// Theme composable
 const { mode, intensity, toggleIntensity } = useTheme();
+
+// Auth composable
+const auth = useAuth();
 
 // Toggle mode function (replaces toggleDarkMode)
 const toggleMode = () => {
@@ -35,8 +42,7 @@ onMounted(() => {
   onUnmounted(() => window.removeEventListener("keydown", handleKeydown));
 });
 
-const navigation = [
-  { name: "", href: "" },
+const navigation: Array<{ name: string; href: string }> = [
   // { name: 'Home', href: '/' },
   // { name: 'About', href: '/about' },
   // { name: 'Blog', href: '/blog' },
@@ -68,78 +74,115 @@ const navigation = [
         </RouterLink>
       </nav>
 
-      <!-- Mode Toggles -->
+      <div class="flex items-center space-x-2">
+        <!-- Auth Status -->
+        <div v-if="auth.isLoading" class="text-sm text-muted-foreground">
+          Loading...
+        </div>
+        <div
+          v-else-if="auth.isAuthenticated && auth.user"
+          class="flex items-center space-x-2"
+        >
+          <img
+            v-if="auth.user.avatarUrl"
+            :src="auth.user.avatarUrl"
+            alt="User Avatar"
+            class="h-8 w-8 rounded-full border"
+          />
+          <!-- Add fallback avatar if needed -->
+          <UiButtonButton
+            variant="ghost"
+            size="icon"
+            class="rounded-full"
+            @click="auth.logout"
+          >
+            <LogOut class="h-5 w-5" />
+            <span class="sr-only">Logout</span>
+          </UiButtonButton>
+        </div>
+        <RouterLink
+          v-else
+          to="/login"
+          :class="cn(buttonVariants({ variant: 'outline', size: 'sm' }))"
+        >
+          <LogIn class="mr-2 h-4 w-4" />
+          Login
+        </RouterLink>
 
-      <UiTooltipTooltipProvider :delay-duration="200">
-        <div v-if="isMounted" class="flex items-center space-x-1">
-          <UiTooltipTooltip>
-            <UiTooltipTooltipTrigger as-child>
-              <UiButtonButton
-                variant="ghost"
-                size="icon"
-                class="rounded-full"
-                @click="toggleMode"
-              >
-                <Sun v-if="mode === 'dark'" class="h-5 w-5" />
-                <Moon v-else class="h-5 w-5" />
-                <span class="sr-only">
+        <!-- Mode Toggles -->
+        <UiTooltipTooltipProvider :delay-duration="200">
+          <div v-if="isMounted" class="flex items-center space-x-1">
+            <!-- Mode Toggle -->
+            <UiTooltipTooltip content="">
+              <UiTooltipTooltipTrigger as-child>
+                <UiButtonButton
+                  variant="ghost"
+                  size="icon"
+                  class="rounded-full"
+                  @click="toggleMode"
+                >
+                  <Sun v-if="mode === 'dark'" class="h-5 w-5" />
+                  <Moon v-else class="h-5 w-5" />
+                  <span class="sr-only">
+                    {{
+                      mode === "dark"
+                        ? "Switch to light mode"
+                        : "Switch to dark mode"
+                    }}
+                  </span>
+                </UiButtonButton>
+              </UiTooltipTooltipTrigger>
+              <UiTooltipTooltipContent side="bottom">
+                <p>
                   {{
                     mode === "dark"
                       ? "Switch to light mode"
                       : "Switch to dark mode"
                   }}
-                </span>
-              </UiButtonButton>
-            </UiTooltipTooltipTrigger>
-            <UiTooltipTooltipContent side="bottom">
-              <p>
-                {{
-                  mode === "dark"
-                    ? "Switch to light mode"
-                    : "Switch to dark mode"
-                }}
-                <br />
-                <span class="text-xs text-muted-foreground"
-                  >Shortcut: Cmd + D</span
-                >
-              </p>
-            </UiTooltipTooltipContent>
-          </UiTooltipTooltip>
+                  <br />
+                  <span class="text-xs text-muted-foreground"
+                    >Shortcut: Cmd + D</span
+                  >
+                </p>
+              </UiTooltipTooltipContent>
+            </UiTooltipTooltip>
 
-          <UiTooltipTooltip>
-            <UiTooltipTooltipTrigger as-child>
-              <UiButtonButton
-                variant="ghost"
-                size="icon"
-                class="rounded-full"
-                @click="toggleIntensity"
-              >
-                <Paintbrush class="h-5 w-5" />
-                <span class="sr-only">
+            <!-- Intensity Toggle -->
+            <UiTooltipTooltip content="">
+              <UiTooltipTooltipTrigger as-child>
+                <UiButtonButton
+                  variant="ghost"
+                  size="icon"
+                  class="rounded-full"
+                  @click="toggleIntensity"
+                >
+                  <Paintbrush class="h-5 w-5" />
+                  <span class="sr-only">
+                    {{
+                      intensity === "vibrant"
+                        ? "Switch to calm intensity"
+                        : "Switch to vibrant intensity"
+                    }}
+                  </span>
+                </UiButtonButton>
+              </UiTooltipTooltipTrigger>
+              <UiTooltipTooltipContent side="bottom">
+                <p>
                   {{
                     intensity === "vibrant"
                       ? "Switch to calm intensity"
                       : "Switch to vibrant intensity"
                   }}
-                </span>
-              </UiButtonButton>
-            </UiTooltipTooltipTrigger>
-            <UiTooltipTooltipContent side="bottom">
-              <p>
-                {{
-                  intensity === "vibrant"
-                    ? "Switch to calm intensity"
-                    : "Switch to vibrant intensity"
-                }}
-                <br />
-                <span class="text-xs text-muted-foreground"
-                  >Shortcut: Cmd + I</span
-                >
-              </p>
-            </UiTooltipTooltipContent>
-          </UiTooltipTooltip>
-        </div>
-      </UiTooltipTooltipProvider>
+                  <br />
+                  <span class="text-xs text-muted-foreground"
+                    >Shortcut: Cmd + I</span
+                  >
+                </p>
+              </UiTooltipTooltipContent>
+            </UiTooltipTooltip>
+          </div>
+        </UiTooltipTooltipProvider>
+      </div>
     </div>
   </header>
 </template>

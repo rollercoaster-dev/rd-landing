@@ -8,9 +8,9 @@ export type AuthenticatedContext = Context & {
   jwtPayload?: AppJwtPayload;
 };
 
-const authRoutes = new Elysia({ prefix: "/auth" })
-  // Mount GitHub OAuth routes
-  .use(githubRoutes)
+const authRoutes = new Elysia()
+  // Mount GitHub OAuth routes under '/github' prefix
+  .group("/github", (app) => app.use(githubRoutes))
   // Simple status endpoint for now
   .get("/status", ({ cookie, set }: Context) => {
     // Basic check if a token cookie exists (doesn't validate yet)
