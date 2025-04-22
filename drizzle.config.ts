@@ -1,0 +1,21 @@
+import type { Config } from "drizzle-kit";
+import * as dotenv from "dotenv";
+
+dotenv.config({
+  path: ".env",
+});
+
+if (!process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL environment variable is required.");
+}
+
+export default {
+  schema: "./src/backend/db/schema.ts",
+  out: "./drizzle/migrations",
+  dialect: "postgresql", // Specify the SQL dialect
+  dbCredentials: {
+    url: process.env.DATABASE_URL, // Use 'url' instead of 'connectionString'
+  },
+  verbose: true,
+  strict: true,
+} satisfies Config;

@@ -1,18 +1,38 @@
-import { Elysia } from "elysia";
+import { Elysia, type ErrorHandler } from "elysia";
 import { cors } from "@elysiajs/cors";
+import { cookie } from "@elysiajs/cookie";
+import { jwt } from "@elysiajs/jwt";
+import { db } from "@backend/db"; // Import Drizzle db instance
 import { apiRoutes } from "./api/routes";
 import { staticFiles } from "./services/static";
+import { authConfig } from "./config/auth.config"; // Import auth config
+import { authMiddleware } from "./middleware/auth.middleware"; // Import the auth middleware
 
 // Create the main Elysia app
 export const app = new Elysia()
   // Add CORS middleware
   .use(
     cors({
-      origin: ["http://localhost:5173"],
-      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      origin: [authConfig.webauthn.origin, "http://localhost:5173"], // Use origin from config + keep localhost for dev
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
       allowedHeaders: ["Content-Type", "Authorization"],
+      credentials: true, // Allow cookies to be sent
     }),
   )
+  // Add Cookie plugin
+  .use(cookie())
+  // Add JWT plugin
+  .use(
+    jwt({
+      name: "jwt", // Namespace for JWT functions (e.g., context.jwt.sign)
+      secret: authConfig.jwt.secret,
+      exp: authConfig.jwt.expiresIn,
+    }),
+  )
+  // Decorate context with Drizzle db instance
+  .decorate("db", db)
+  // Apply the auth middleware
+  .use(authMiddleware)
   // Serve static files from the dist directory (built frontend)
   .use(staticFiles)
   // Mount API routes
@@ -20,7 +40,9 @@ export const app = new Elysia()
   // Add a simple health check endpoint
   .get("/health", () => ({ status: "ok", timestamp: new Date().toISOString() }))
   // Global error handler
-  .onError(({ code, error, set }) => {
+  .onError((context: Parameters<ErrorHandler>[0]) => {
+    const { code, error, set } = context;
+
     console.error(`Error [${code}]:`, error);
 
     if (code === "NOT_FOUND") {
@@ -39,7 +61,6 @@ export const app = new Elysia()
   });
 
 // Start the server if this file is run directly
-// @ts-expect-error - Bun-specific property not recognized by TypeScript
 if (import.meta.main) {
   const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 

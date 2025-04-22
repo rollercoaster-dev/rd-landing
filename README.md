@@ -18,6 +18,10 @@ A monolithic application for Open Badges, built with Vue 3 + TypeScript frontend
 - Elysia (TypeScript Framework)
 - PostgreSQL (via Docker)
 
+## Documentation
+
+- [Backend Authentication](./docs/backend/authentication.md)
+
 ## Prerequisites
 
 - [Bun](https://bun.sh/) (v1.2.10+)
