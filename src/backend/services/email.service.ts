@@ -15,7 +15,10 @@ const EMAIL_PASS = process.env.RD_EMAIL_PASS;
 const FRONTEND_URL = process.env.RD_FRONTEND_URL || "http://localhost:5173";
 
 // Token expiration time (24 hours by default, longer than typical for accessibility)
-const TOKEN_EXPIRY_HOURS = parseInt(process.env.RD_TOKEN_EXPIRY_HOURS || "24", 10);
+const TOKEN_EXPIRY_HOURS = parseInt(
+  process.env.RD_TOKEN_EXPIRY_HOURS || "24",
+  10,
+);
 
 // Create a transporter based on environment
 const createTransporter = () => {
@@ -34,10 +37,13 @@ const createTransporter = () => {
     host: EMAIL_HOST,
     port: EMAIL_PORT,
     secure: EMAIL_SECURE,
-    auth: EMAIL_USER && EMAIL_PASS ? {
-      user: EMAIL_USER,
-      pass: EMAIL_PASS,
-    } : undefined,
+    auth:
+      EMAIL_USER && EMAIL_PASS
+        ? {
+            user: EMAIL_USER,
+            pass: EMAIL_PASS,
+          }
+        : undefined,
   });
 };
 
@@ -56,24 +62,27 @@ export class EmailService {
 
     // Generate a random token
     const tokenValue = crypto.randomBytes(32).toString("hex");
-    
+
     // Hash the token for storage
-    const hashedToken = crypto.createHash("sha256").update(tokenValue).digest("hex");
-    
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(tokenValue)
+      .digest("hex");
+
     // Calculate expiration time
     const expiresAt = new Date();
     expiresAt.setHours(expiresAt.getHours() + TOKEN_EXPIRY_HOURS);
-    
+
     // Delete any existing tokens of the same type for this user
     await db
       .delete(verificationTokens)
       .where(
         and(
           eq(verificationTokens.userId, userId),
-          eq(verificationTokens.type, type)
-        )
+          eq(verificationTokens.type, type),
+        ),
       );
-    
+
     // Create a new token
     const token = {
       id: createId(),
@@ -82,13 +91,13 @@ export class EmailService {
       type,
       expiresAt,
     };
-    
+
     // Store the token in the database
     await db.insert(verificationTokens).values(token);
-    
+
     return tokenValue;
   }
-  
+
   /**
    * Verify a token
    * @param userId The user ID
@@ -98,10 +107,10 @@ export class EmailService {
    */
   static async verifyToken(userId: string, token: string, type: string) {
     console.log(`[EmailService] Verifying ${type} token for user: ${userId}`);
-    
+
     // Hash the token for comparison
     const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
-    
+
     // Find the token in the database
     const tokenResult = await db
       .select()
@@ -110,32 +119,32 @@ export class EmailService {
         and(
           eq(verificationTokens.userId, userId),
           eq(verificationTokens.token, hashedToken),
-          eq(verificationTokens.type, type)
-        )
+          eq(verificationTokens.type, type),
+        ),
       )
       .limit(1);
-    
+
     if (tokenResult.length === 0) {
       console.warn(`[EmailService] Token not found for user: ${userId}`);
       return { valid: false, error: "Token not found" };
     }
-    
+
     const storedToken = tokenResult[0];
-    
+
     // Check if the token has expired
     if (new Date() > storedToken.expiresAt) {
       console.warn(`[EmailService] Token expired for user: ${userId}`);
       return { valid: false, error: "Token expired" };
     }
-    
+
     // Delete the token after verification
     await db
       .delete(verificationTokens)
       .where(eq(verificationTokens.id, storedToken.id));
-    
+
     return { valid: true };
   }
-  
+
   /**
    * Send an email verification email
    * @param to The recipient email address
@@ -144,14 +153,14 @@ export class EmailService {
    */
   static async sendVerificationEmail(to: string, userId: string) {
     console.log(`[EmailService] Sending verification email to: ${to}`);
-    
+
     try {
       // Generate a verification token
       const token = await this.generateToken(userId, "email");
-      
+
       // Create the verification URL
       const verificationUrl = `${FRONTEND_URL}/verify-email?token=${token}&userId=${userId}`;
-      
+
       // Create the email content
       const emailContent = {
         from: `"Rollercoaster.dev" <${EMAIL_FROM}>`,
@@ -229,11 +238,11 @@ The Rollercoaster.dev Team
 </html>
         `,
       };
-      
+
       // Send the email
       const transporter = createTransporter();
       const info = await transporter.sendMail(emailContent);
-      
+
       console.log(`[EmailService] Email sent: ${info.messageId}`);
       return { success: true, messageId: info.messageId };
     } catch (error) {
@@ -241,7 +250,7 @@ The Rollercoaster.dev Team
       return { success: false, error: (error as Error).message };
     }
   }
-  
+
   /**
    * Send a password reset email
    * @param to The recipient email address
@@ -250,14 +259,14 @@ The Rollercoaster.dev Team
    */
   static async sendPasswordResetEmail(to: string, userId: string) {
     console.log(`[EmailService] Sending password reset email to: ${to}`);
-    
+
     try {
       // Generate a password reset token
       const token = await this.generateToken(userId, "password-reset");
-      
+
       // Create the reset URL
       const resetUrl = `${FRONTEND_URL}/reset-password?token=${token}&userId=${userId}`;
-      
+
       // Create the email content
       const emailContent = {
         from: `"Rollercoaster.dev" <${EMAIL_FROM}>`,
@@ -335,15 +344,18 @@ The Rollercoaster.dev Team
 </html>
         `,
       };
-      
+
       // Send the email
       const transporter = createTransporter();
       const info = await transporter.sendMail(emailContent);
-      
+
       console.log(`[EmailService] Email sent: ${info.messageId}`);
       return { success: true, messageId: info.messageId };
     } catch (error) {
-      console.error(`[EmailService] Error sending password reset email:`, error);
+      console.error(
+        `[EmailService] Error sending password reset email:`,
+        error,
+      );
       return { success: false, error: (error as Error).message };
     }
   }

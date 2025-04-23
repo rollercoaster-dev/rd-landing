@@ -48,10 +48,7 @@ emailRoutes.post(
 
       // If the email doesn't match the user's email, update it
       if (dbUser.email !== email) {
-        await db
-          .update(users)
-          .set({ email })
-          .where(eq(users.id, user.sub));
+        await db.update(users).set({ email }).where(eq(users.id, user.sub));
       }
 
       // Send the verification email
@@ -66,7 +63,7 @@ emailRoutes.post(
       console.error("[Email] Error sending verification email:", error);
       return c.json({ error: "Failed to send verification email" }, 500);
     }
-  }
+  },
 );
 
 // Verify email
@@ -86,7 +83,7 @@ emailRoutes.post(
       const verification = await EmailService.verifyToken(
         userId,
         token,
-        "email"
+        "email",
       );
 
       if (!verification.valid) {
@@ -104,7 +101,7 @@ emailRoutes.post(
       console.error("[Email] Error verifying email:", error);
       return c.json({ error: "Failed to verify email" }, 500);
     }
-  }
+  },
 );
 
 // Request password reset
@@ -142,7 +139,7 @@ emailRoutes.post(
       // For security reasons, don't reveal that an error occurred
       return c.json({ success: true });
     }
-  }
+  },
 );
 
 // Reset password
@@ -164,7 +161,7 @@ emailRoutes.post(
       const verification = await EmailService.verifyToken(
         userId,
         token,
-        "password-reset"
+        "password-reset",
       );
 
       if (!verification.valid) {
@@ -179,5 +176,5 @@ emailRoutes.post(
       console.error("[Email] Error resetting password:", error);
       return c.json({ error: "Failed to reset password" }, 500);
     }
-  }
+  },
 );
