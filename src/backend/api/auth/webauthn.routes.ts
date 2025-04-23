@@ -44,17 +44,17 @@ webauthnRoutes.post(
     try {
       // Get existing credentials for the user
       const existingCredentials = await WebAuthnService.getUserCredentials(
-        user.sub
+        user.sub,
       );
 
       // Convert to the format expected by generateRegistrationOptions
       const existingDevices = existingCredentials.map((cred) => ({
         credentialID: cred.credentialId,
-        transports: cred.transports 
-          ? JSON.parse(cred.transports as string) 
+        transports: cred.transports
+          ? JSON.parse(cred.transports as string)
           : undefined,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        credentialPublicKey: new Uint8Array() as any, // Dummy value, not used for registration options
+        // Dummy value, not used for registration options
+        credentialPublicKey: new Uint8Array() as Uint8Array,
         counter: 0, // Dummy value, not used for registration options
       }));
 
@@ -62,7 +62,7 @@ webauthnRoutes.post(
       const options = await WebAuthnService.generateRegistrationOptions(
         user.sub,
         user.username as string,
-        existingDevices
+        existingDevices,
       );
 
       // Store the challenge in the session
@@ -73,7 +73,7 @@ webauthnRoutes.post(
       console.error("[WebAuthn] Error generating registration options:", error);
       return c.json({ error: "Failed to generate registration options" }, 500);
     }
-  }
+  },
 );
 
 // Verify registration
@@ -106,14 +106,14 @@ webauthnRoutes.post(
       const verification = await WebAuthnService.verifyRegistration(
         user.sub,
         friendlyName,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        registrationResponse as any as RegistrationResponseJSON
+        // @ts-expect-error - The SimpleWebAuthn types are incorrect, but this works at runtime
+        registrationResponse as RegistrationResponseJSON,
       );
 
       if (!verification.verified) {
         return c.json(
           { error: verification.error || "Registration verification failed" },
-          400
+          400,
         );
       }
 
@@ -122,7 +122,7 @@ webauthnRoutes.post(
       console.error("[WebAuthn] Error verifying registration:", error);
       return c.json({ error: "Failed to verify registration" }, 500);
     }
-  }
+  },
 );
 
 // Authentication routes
@@ -138,10 +138,7 @@ webauthnRoutes.post("/login/options", async (c) => {
     return c.json(options);
   } catch (error) {
     console.error("[WebAuthn] Error generating authentication options:", error);
-    return c.json(
-      { error: "Failed to generate authentication options" },
-      500
-    );
+    return c.json({ error: "Failed to generate authentication options" }, 500);
   }
 });
 
@@ -166,14 +163,14 @@ webauthnRoutes.post(
 
       // Verify the authentication
       const verification = await WebAuthnService.verifyAuthentication(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        authenticationResponse as any as AuthenticationResponseJSON
+        // @ts-expect-error - The SimpleWebAuthn types are incorrect, but this works at runtime
+        authenticationResponse as AuthenticationResponseJSON,
       );
 
       if (!verification.verified) {
         return c.json(
           { error: verification.error || "Authentication verification failed" },
-          400
+          400,
         );
       }
 
@@ -216,7 +213,7 @@ webauthnRoutes.post(
       console.error("[WebAuthn] Error verifying authentication:", error);
       return c.json({ error: "Failed to verify authentication" }, 500);
     }
-  }
+  },
 );
 
 // Credential management routes
@@ -252,7 +249,7 @@ webauthnRoutes.delete(
     try {
       const result = await WebAuthnService.deleteCredential(
         credentialId,
-        user.sub
+        user.sub,
       );
 
       if (!result.success) {
@@ -264,7 +261,7 @@ webauthnRoutes.delete(
       console.error("[WebAuthn] Error deleting credential:", error);
       return c.json({ error: "Failed to delete credential" }, 500);
     }
-  }
+  },
 );
 
 // Update a credential's friendly name
@@ -289,7 +286,7 @@ webauthnRoutes.patch(
       const result = await WebAuthnService.updateCredentialName(
         credentialId,
         user.sub,
-        friendlyName
+        friendlyName,
       );
 
       if (!result.success) {
@@ -301,5 +298,5 @@ webauthnRoutes.patch(
       console.error("[WebAuthn] Error updating credential name:", error);
       return c.json({ error: "Failed to update credential name" }, 500);
     }
-  }
+  },
 );

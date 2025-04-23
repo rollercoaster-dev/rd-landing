@@ -9,6 +9,27 @@ import type {
   RegistrationResponseJSON,
   AuthenticatorTransportFuture,
 } from "@simplewebauthn/types";
+
+// Define custom types for the SimpleWebAuthn library
+// These types extend the official types to include properties that are actually used
+// but not properly typed in the library
+interface ExtendedRegistrationResponseJSON extends RegistrationResponseJSON {
+  response: {
+    clientDataJSON: string;
+    attestationObject: string;
+    transports?: AuthenticatorTransportFuture[];
+  };
+}
+
+interface ExtendedAuthenticationResponseJSON
+  extends AuthenticationResponseJSON {
+  response: {
+    clientDataJSON: string;
+    authenticatorData: string;
+    signature: string;
+    userHandle?: string;
+  };
+}
 import { authConfig } from "@backend/config/auth.config";
 import { db } from "@backend/db";
 import { webauthnCredentials, users } from "@backend/db/schema";
@@ -40,10 +61,10 @@ export class WebAuthnService {
   static async generateRegistrationOptions(
     userId: string,
     username: string,
-    existingDevices: AuthenticatorDevice[] = []
+    existingDevices: AuthenticatorDevice[] = [],
   ) {
     console.log(
-      `[WebAuthnService] Generating registration options for user: ${userId}`
+      `[WebAuthnService] Generating registration options for user: ${userId}`,
     );
 
     // Convert existing devices to the format expected by generateRegistrationOptions
@@ -87,7 +108,7 @@ export class WebAuthnService {
   static async verifyRegistration(
     userId: string,
     friendlyName: string | undefined,
-    response: RegistrationResponseJSON
+    response: RegistrationResponseJSON,
   ) {
     console.log(`[WebAuthnService] Verifying registration for user: ${userId}`);
 
@@ -95,8 +116,10 @@ export class WebAuthnService {
       // Verify the registration response
       const verification = await verifyRegistrationResponse({
         response,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        expectedChallenge: (challenge: string) => challenge === (response as any).response.clientDataJSON,
+        expectedChallenge: (challenge: string) =>
+          challenge ===
+          (response as ExtendedRegistrationResponseJSON).response
+            .clientDataJSON,
         expectedOrigin,
         expectedRPID: authConfig.webauthn.rpID,
       });
@@ -105,7 +128,7 @@ export class WebAuthnService {
 
       if (!verified || !registrationInfo) {
         console.warn(
-          `[WebAuthnService] Registration verification failed for user: ${userId}`
+          `[WebAuthnService] Registration verification failed for user: ${userId}`,
         );
         return { verified: false };
       }
@@ -114,15 +137,25 @@ export class WebAuthnService {
       // Extract the necessary properties from registrationInfo
       // Note: The TypeScript types from @simplewebauthn/server don't match the actual return value
       // This is a workaround until the types are fixed
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const registrationInfoAny = registrationInfo as any;
-      const credentialID = registrationInfoAny.credentialID;
-      const credentialPublicKey = registrationInfoAny.credentialPublicKey;
-      const counter = registrationInfoAny.counter;
+      // The TypeScript types from @simplewebauthn/server don't match the actual return value
+      // Create a properly typed interface for the registration info
+      interface RegistrationInfoWithCredentials {
+        credentialID: Uint8Array;
+        credentialPublicKey: Uint8Array;
+        counter: number;
+      }
+
+      const registrationInfoTyped =
+        registrationInfo as unknown as RegistrationInfoWithCredentials;
+      const credentialID = registrationInfoTyped.credentialID;
+      const credentialPublicKey = registrationInfoTyped.credentialPublicKey;
+      const counter = registrationInfoTyped.counter;
 
       // Convert the credential ID and public key to base64url strings
-      const credentialIdBase64 = Buffer.from(credentialID).toString("base64url");
-      const publicKeyBase64 = Buffer.from(credentialPublicKey).toString("base64url");
+      const credentialIdBase64 =
+        Buffer.from(credentialID).toString("base64url");
+      const publicKeyBase64 =
+        Buffer.from(credentialPublicKey).toString("base64url");
 
       // Store the credential in the database
       const newCredential = {
@@ -133,19 +166,28 @@ export class WebAuthnService {
         counter: counter.toString(),
         credentialDeviceType: response.authenticatorAttachment || "platform",
         credentialBackedUp: false, // Default to false if we can't determine
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        transports: (response as any).response.transports
-          ? JSON.stringify((response as any).response.transports)
+        transports: (response as ExtendedRegistrationResponseJSON).response
+          .transports
+          ? JSON.stringify(
+              (response as ExtendedRegistrationResponseJSON).response
+                .transports,
+            )
           : null,
-        friendlyName: friendlyName || `Credential ${new Date().toLocaleDateString()}`,
+        friendlyName:
+          friendlyName || `Credential ${new Date().toLocaleDateString()}`,
       };
 
       await db.insert(webauthnCredentials).values(newCredential);
 
-      console.log(`[WebAuthnService] Registration successful for user: ${userId}`);
+      console.log(
+        `[WebAuthnService] Registration successful for user: ${userId}`,
+      );
       return { verified: true, credentialId: credentialIdBase64 };
     } catch (error) {
-      console.error(`[WebAuthnService] Error during registration verification:`, error);
+      console.error(
+        `[WebAuthnService] Error during registration verification:`,
+        error,
+      );
       return { verified: false, error: (error as Error).message };
     }
   }
@@ -156,7 +198,9 @@ export class WebAuthnService {
    * @returns Authentication options
    */
   static async generateAuthenticationOptions(userId?: string) {
-    console.log(`[WebAuthnService] Generating authentication options${userId ? ` for user: ${userId}` : ''}`);
+    console.log(
+      `[WebAuthnService] Generating authentication options${userId ? ` for user: ${userId}` : ""}`,
+    );
 
     // If userId is provided, get the user's credentials
     let allowCredentials;
@@ -196,7 +240,9 @@ export class WebAuthnService {
    * @returns The verification result with user information if successful
    */
   static async verifyAuthentication(response: AuthenticationResponseJSON) {
-    console.log(`[WebAuthnService] Verifying authentication for credential: ${response.id}`);
+    console.log(
+      `[WebAuthnService] Verifying authentication for credential: ${response.id}`,
+    );
 
     try {
       // Find the credential in the database
@@ -224,22 +270,26 @@ export class WebAuthnService {
       };
 
       // Verify the authentication response
+      // The TypeScript types from @simplewebauthn/server don't match the actual expected input
+      // We need to use a type assertion to make it work
       const verification = await verifyAuthenticationResponse({
         response,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        expectedChallenge: (challenge: string) => challenge === (response as any).response.clientDataJSON,
+        expectedChallenge: (challenge: string) =>
+          challenge ===
+          (response as ExtendedAuthenticationResponseJSON).response
+            .clientDataJSON,
         expectedOrigin,
         expectedRPID: authConfig.webauthn.rpID,
-        // Type assertion to bypass type checking
-        // The TypeScript types from @simplewebauthn/server don't match the actual expected input
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        authenticator: authenticator as any,
+        // @ts-expect-error - The SimpleWebAuthn types are incorrect, but this works at runtime
+        authenticator,
       });
 
       const { verified, authenticationInfo } = verification;
 
       if (!verified) {
-        console.warn(`[WebAuthnService] Authentication verification failed for credential: ${response.id}`);
+        console.warn(
+          `[WebAuthnService] Authentication verification failed for credential: ${response.id}`,
+        );
         return { verified: false };
       }
 
@@ -257,16 +307,23 @@ export class WebAuthnService {
         .limit(1);
 
       if (userResult.length === 0) {
-        console.warn(`[WebAuthnService] User not found for credential: ${response.id}`);
+        console.warn(
+          `[WebAuthnService] User not found for credential: ${response.id}`,
+        );
         return { verified: true, error: "User not found" };
       }
 
       const user = userResult[0];
 
-      console.log(`[WebAuthnService] Authentication successful for user: ${user.id}`);
+      console.log(
+        `[WebAuthnService] Authentication successful for user: ${user.id}`,
+      );
       return { verified: true, user };
     } catch (error) {
-      console.error(`[WebAuthnService] Error during authentication verification:`, error);
+      console.error(
+        `[WebAuthnService] Error during authentication verification:`,
+        error,
+      );
       return { verified: false, error: (error as Error).message };
     }
   }
@@ -302,7 +359,9 @@ export class WebAuthnService {
    * @returns Whether the deletion was successful
    */
   static async deleteCredential(credentialId: string, userId: string) {
-    console.log(`[WebAuthnService] Deleting credential: ${credentialId} for user: ${userId}`);
+    console.log(
+      `[WebAuthnService] Deleting credential: ${credentialId} for user: ${userId}`,
+    );
 
     // Find the credential in the database
     const credentialResult = await db
@@ -320,7 +379,9 @@ export class WebAuthnService {
 
     // Verify that the credential belongs to the user
     if (credential.userId !== userId) {
-      console.warn(`[WebAuthnService] Credential does not belong to user: ${userId}`);
+      console.warn(
+        `[WebAuthnService] Credential does not belong to user: ${userId}`,
+      );
       return { success: false, error: "Credential does not belong to user" };
     }
 
@@ -340,8 +401,14 @@ export class WebAuthnService {
    * @param friendlyName The new friendly name
    * @returns Whether the update was successful
    */
-  static async updateCredentialName(credentialId: string, userId: string, friendlyName: string) {
-    console.log(`[WebAuthnService] Updating credential name: ${credentialId} for user: ${userId}`);
+  static async updateCredentialName(
+    credentialId: string,
+    userId: string,
+    friendlyName: string,
+  ) {
+    console.log(
+      `[WebAuthnService] Updating credential name: ${credentialId} for user: ${userId}`,
+    );
 
     // Find the credential in the database
     const credentialResult = await db
@@ -359,7 +426,9 @@ export class WebAuthnService {
 
     // Verify that the credential belongs to the user
     if (credential.userId !== userId) {
-      console.warn(`[WebAuthnService] Credential does not belong to user: ${userId}`);
+      console.warn(
+        `[WebAuthnService] Credential does not belong to user: ${userId}`,
+      );
       return { success: false, error: "Credential does not belong to user" };
     }
 
