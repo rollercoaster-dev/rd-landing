@@ -50,9 +50,14 @@ export class JwtService {
     additionalClaims: Record<string, unknown> = {},
   ): Promise<string> {
     try {
+      console.log(`[JWT] Generating token for user ID: ${userId}`);
+      console.log(`[JWT] Additional claims:`, additionalClaims);
+
       this.initialize(); // Ensure secret is encoded
       const issuedAt = Math.floor(Date.now() / 1000);
       const expiresAt = issuedAt + this.JWT_EXPIRY_SECONDS;
+
+      console.log(`[JWT] Token will expire in ${this.JWT_EXPIRY_SECONDS} seconds (at ${new Date(expiresAt * 1000).toISOString()})`);
 
       const token = await new SignJWT({ ...additionalClaims, sub: userId })
         .setProtectedHeader({ alg: this.ALGORITHM })
@@ -63,9 +68,10 @@ export class JwtService {
         .setExpirationTime(expiresAt)
         .sign(this.JWT_SECRET!); // Use the encoded secret (non-null asserted due to initialize)
 
+      console.log(`[JWT] Token generated successfully`);
       return token;
     } catch (error) {
-      console.error("Failed to generate JWT token:", error);
+      console.error("[JWT] Failed to generate JWT token:", error);
       throw new Error("Token generation failed");
     }
   }
