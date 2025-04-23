@@ -1,9 +1,4 @@
 import type { Config } from "drizzle-kit";
-import * as dotenv from "dotenv";
-
-dotenv.config({
-  path: ".env",
-});
 
 if (!process.env.RD_DATABASE_URL) {
   throw new Error("RD_DATABASE_URL environment variable is required.");

@@ -1,12 +1,9 @@
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 // Import the dedicated migration DB instance and the raw client for closing
 import { migrationDb, migrationClient } from "../src/backend/db";
-import * as dotenv from "dotenv";
-
-dotenv.config({ path: ".env" });
 
 if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL environment variable required for migration.");
+  throw new Error("DATABASE_URL environment variable is not set");
 }
 
 async function runMigrations() {

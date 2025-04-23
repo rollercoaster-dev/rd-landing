@@ -12,7 +12,7 @@ export const staticFilesMiddleware: MiddlewareHandler = async (c, next) => {
   try {
     // Try to serve the static file
     return await staticHandler(c, next);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (_) {
     // If the static handler fails, continue with our custom handling
     // Get the path from the request URL
