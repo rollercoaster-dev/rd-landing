@@ -5,7 +5,20 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
-    "types": ["node"]
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@frontend/*": ["src/frontend/*"],
+      "@backend/*": ["src/backend/*"],
+      "@shared/*": ["src/shared/*"],
+      "~/*": ["src/frontend/*"],
+      "#components": ["src/frontend/components"],
+      "#pages": ["src/frontend/pages"],
+      "#layouts": ["src/frontend/layouts"],
+      "#styles": ["src/frontend/styles"],
+      "#imports": ["src/frontend/composables"]
+    }
   },
   "include": ["vite.config.ts"]
 }

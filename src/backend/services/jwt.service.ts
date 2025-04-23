@@ -1,5 +1,4 @@
 import { SignJWT, jwtVerify, type JWTPayload } from "jose";
-import { env } from "bun";
 
 // Define the structure of our JWT payload
 export interface AppJwtPayload extends JWTPayload {
@@ -11,31 +10,31 @@ export interface AppJwtPayload extends JWTPayload {
  * Service for handling JWT generation and verification using 'jose'.
  */
 export class JwtService {
-  private static readonly JWT_SECRET_STRING = env.JWT_SECRET;
+  private static readonly JWT_SECRET_STRING = process.env.JWT_SECRET;
+  private static JWT_SECRET: Uint8Array | null = null;
+
   private static readonly JWT_EXPIRY_SECONDS = parseInt(
-    env.JWT_EXPIRY_SECONDS ?? "3600",
+    process.env.JWT_EXPIRY_SECONDS ?? "3600",
     10,
   ); // Default 1 hour
   private static readonly ALGORITHM = "HS256";
 
-  private static secretKeyPromise: Promise<Uint8Array> | null = null;
-
   /**
-   * Lazily initializes and returns the encoded secret key.
-   * Throws an error if JWT_SECRET is not set.
+   * Initializes the service by encoding the JWT secret.
+   * Throws an error if the JWT_SECRET environment variable is not set.
    */
-  private static getSecretKey(): Promise<Uint8Array> {
+  private static initialize() {
     if (!this.JWT_SECRET_STRING) {
-      console.error("FATAL: JWT_SECRET environment variable is not set.");
-      throw new Error("JWT secret is not configured.");
-    }
-    // Cache the promise to avoid re-encoding
-    if (!this.secretKeyPromise) {
-      this.secretKeyPromise = Promise.resolve(
-        new TextEncoder().encode(this.JWT_SECRET_STRING),
+      throw new Error(
+        "JWT_SECRET environment variable is not set or is empty.",
       );
     }
-    return this.secretKeyPromise;
+    if (!this.JWT_SECRET) {
+      console.log(`[DEBUG] Raw JWT_SECRET_STRING: '${this.JWT_SECRET_STRING}'`); // Log raw string
+      const encoder = new TextEncoder();
+      this.JWT_SECRET = encoder.encode(this.JWT_SECRET_STRING);
+      console.log(`[DEBUG] Encoded JWT_SECRET (Uint8Array):`, this.JWT_SECRET); // Log encoded array
+    }
   }
 
   /**
@@ -51,19 +50,18 @@ export class JwtService {
     additionalClaims: Record<string, unknown> = {},
   ): Promise<string> {
     try {
-      const secretKey = await this.getSecretKey();
+      this.initialize(); // Ensure secret is encoded
       const issuedAt = Math.floor(Date.now() / 1000);
       const expiresAt = issuedAt + this.JWT_EXPIRY_SECONDS;
 
-      const token = await new SignJWT({ ...additionalClaims })
+      const token = await new SignJWT({ ...additionalClaims, sub: userId })
         .setProtectedHeader({ alg: this.ALGORITHM })
-        .setSubject(userId)
         .setIssuedAt(issuedAt)
         // Consider adding issuer (iss) and audience (aud) claims for better security
         // .setIssuer('your_app_identifier')
         // .setAudience('your_app_audience')
         .setExpirationTime(expiresAt)
-        .sign(secretKey);
+        .sign(this.JWT_SECRET!); // Use the encoded secret (non-null asserted due to initialize)
 
       return token;
     } catch (error) {
@@ -81,13 +79,14 @@ export class JwtService {
    */
   static async verifyToken(token: string): Promise<AppJwtPayload> {
     try {
-      const secretKey = await this.getSecretKey();
-      const { payload } = await jwtVerify(token, secretKey, {
-        // Specify required algorithms, issuer, audience etc. for verification if set during generation
-        // algorithms: [this.ALGORITHM],
-        // issuer: 'your_app_identifier',
-        // audience: 'your_app_audience',
-      });
+      this.initialize(); // Ensure secret is encoded
+      const { payload } = await jwtVerify(
+        token,
+        this.JWT_SECRET!, // Use the encoded secret
+        {
+          algorithms: [this.ALGORITHM],
+        },
+      );
 
       // Basic check for subject claim (user ID)
       if (!payload.sub) {

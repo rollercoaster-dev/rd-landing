@@ -9,8 +9,8 @@ import { authConfig } from "@backend/config/auth.config";
  * and adds the decoded payload to the request context as `ctx.user`.
  * If the token is invalid or missing, `ctx.user` will be null.
  */
-export const authMiddleware = new Elysia({ name: "auth-middleware" }).derive(
-  async (ctx: Context): Promise<{ user: AppJwtPayload | null }> => {
+export const authMiddleware = new Elysia({ name: "auth-middleware" })
+  .derive(async (ctx: Context): Promise<{ user: AppJwtPayload | null }> => {
     const tokenCookie = ctx.cookie[authConfig.jwt.cookieName];
 
     if (!tokenCookie?.value) {
@@ -35,8 +35,15 @@ export const authMiddleware = new Elysia({ name: "auth-middleware" }).derive(
       }
       return { user: null };
     }
-  },
-);
+  })
+  .onBeforeHandle((ctx) => {
+    // This check assumes the middleware is used on routes that *require* auth.
+    // If applied globally, adjust logic or use separate middleware.
+    if (!ctx.user) {
+      // Throwing a standard error. Rely on global error handler to set 401 status.
+      throw new Error("Unauthorized");
+    }
+  });
 
 // Optional: Define a type for the context after this middleware is applied
 export type AuthenticatedContext = Context & {

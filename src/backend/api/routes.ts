@@ -1,8 +1,10 @@
-// No DecoratedAppInstance import needed here
-// Import route modules/functions
 import { badgesRoutes } from "./badges";
 import { authRoutes } from "./auth"; // Import the instance
 import userRoutes from "./users/users.routes"; // Import user routes
+import {
+  authMiddleware,
+  type AuthenticatedContext,
+} from "@backend/middleware/auth.middleware"; // Import auth middleware and type
 import { Elysia } from "elysia";
 
 // Create and export the main API routes instance
@@ -25,5 +27,22 @@ export const apiRoutes = new Elysia()
     message: "API is working properly",
     timestamp: new Date().toISOString(),
   }))
-  // Add a simple '/' GET handler
-  .get("/", () => ({ message: "API Root - Welcome!" })); // Example root API endpoint
+  // Group protected routes under /me and apply auth middleware
+  .group("/me", (app) =>
+    app
+      .use(authMiddleware) // Apply middleware to all routes in this group
+      .get(
+        "", // Path is relative to the group ('/me')
+        ({ user }: AuthenticatedContext) => {
+          // user is guaranteed non-null here due to the middleware's beforeHandle
+          return { user };
+        },
+        {
+          // Optional: Add response schema if needed
+          // response: t.Object({ user: YourUserSchema })
+        },
+      ),
+  );
+
+// Export the type for use in testing or other modules
+export type ApiRoutesType = typeof apiRoutes;

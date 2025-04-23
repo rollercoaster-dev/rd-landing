@@ -1,16 +1,7 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 import { useApi } from "./useApi"; // Assuming useApi composable exists for API calls
-
-// Define the user type based on what the /api/users/me endpoint returns
-// and what we store in the JWT payload (excluding sensitive data)
-interface User {
-  id: string;
-  username: string;
-  email: string; // Consider if email should be exposed to frontend
-  name: string | null;
-  avatarUrl: string | null;
-}
+import type { User } from "@shared/types"; // Import from shared location
 
 export const useAuthStore = defineStore("auth", () => {
   const user = ref<User | null>(null);

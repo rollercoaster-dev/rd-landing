@@ -4,7 +4,7 @@ import { authConfig } from "@backend/config/auth.config";
 import { parse, serialize, type SerializeOptions } from "cookie";
 
 export const githubRoutes = new Elysia()
-  .get("/login", async ({ set }) => {
+  .get("/login", async ({ set, redirect }) => {
     const stateCookieName = authConfig.github.stateCookie.name;
     try {
       const { url, state } = await GitHubAuthService.initiateGitHubLogin();
@@ -19,11 +19,9 @@ export const githubRoutes = new Elysia()
         `[LOGIN] Set ${stateCookieName} cookie via 'cookie' package: ${stateCookieString}`,
       );
 
-      set.redirect = url.toString();
-      set.status = 302;
+      return redirect(url.toString(), 302);
     } catch (error) {
       console.error("Error during GitHub login initiation:", error);
-      set.status = 500;
       return {
         error: "GitHub Login Initiation Failed",
         message: (error as Error).message,
@@ -32,7 +30,7 @@ export const githubRoutes = new Elysia()
   })
   .get(
     "/callback",
-    async ({ query, set, request }) => {
+    async ({ query, set, request, redirect }) => {
       console.log("[CALLBACK] Received request");
       const stateCookieName = authConfig.github.stateCookie.name;
       const jwtCookieName = authConfig.jwt.cookieName;
@@ -58,7 +56,6 @@ export const githubRoutes = new Elysia()
           storedState: !!storedState,
           match: receivedState === storedState,
         });
-        set.status = 400;
         return { error: "Invalid state or missing code." };
       }
 
@@ -80,7 +77,11 @@ export const githubRoutes = new Elysia()
           maxAge: 0,
         } as SerializeOptions);
 
-        set.headers["Set-Cookie"] = [authTokenCookie, clearStateCookie];
+        // Restore array assignment for multiple Set-Cookie headers
+        // Use 'as any' because Elysia's type definition (string | number)
+        // conflicts with the need to set multiple cookies (string[]).
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        set.headers["Set-Cookie"] = [authTokenCookie, clearStateCookie] as any;
         console.log(
           `[CALLBACK] Set ${jwtCookieName} cookie via 'cookie' package.`,
         );
@@ -88,20 +89,17 @@ export const githubRoutes = new Elysia()
           `[CALLBACK] Cleared ${stateCookieName} cookie via 'cookie' package.`,
         );
 
-        set.redirect = `${authConfig.frontendUrl}/auth/callback`;
-        console.log(`[CALLBACK] Redirecting to frontend: ${set.redirect}`);
-        set.status = 302;
-        return;
+        const redirectUrl = `${authConfig.frontendUrl}/auth/callback`;
+        console.log(`[CALLBACK] Redirecting to frontend: ${redirectUrl}`);
+        return redirect(redirectUrl, 302);
       } catch (error: unknown) {
         console.error("[CALLBACK] Error handling GitHub callback:", error);
         if (
           error instanceof Error &&
           error.message.includes("bad_verification_code")
         ) {
-          set.status = 400;
           return { error: "Invalid or expired authorization code." };
         }
-        set.status = 500;
         return { error: "Failed to handle GitHub callback." };
       }
     },

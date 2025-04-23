@@ -1,10 +1,8 @@
-import { env } from "bun";
-
 // Load environment variables safely
-const JWT_SECRET = env.JWT_SECRET;
-const RP_NAME = env.RP_NAME || "Rollercoaster.dev";
-const RP_ID = env.RP_ID || "localhost"; // Should match domain in production
-const ORIGIN = env.ORIGIN || `http://${RP_ID}:5173`; // Frontend origin
+const JWT_SECRET = process.env.JWT_SECRET;
+const RP_NAME = process.env.RP_NAME || "Rollercoaster.dev";
+const RP_ID = process.env.RP_ID || "localhost"; // Should match domain in production
+const ORIGIN = process.env.ORIGIN || `http://${RP_ID}:5173`; // Frontend origin
 
 if (!JWT_SECRET) {
   console.error("Error: JWT_SECRET environment variable is not set.");
@@ -20,7 +18,7 @@ export const authConfig = {
   cookie: {
     // General default cookie options
     httpOnly: true,
-    secure: env.NODE_ENV === "production", // Use secure cookies in production
+    secure: process.env.NODE_ENV === "production", // Use secure cookies in production
     path: "/",
     sameSite: "lax", // Or 'strict' or 'none' based on requirements
     maxAge: 7 * 24 * 60 * 60, // Cookie max age in seconds (e.g., 7 days for JWT)
@@ -32,7 +30,7 @@ export const authConfig = {
       options: {
         // Options specifically for the state cookie
         httpOnly: true,
-        secure: env.NODE_ENV === "production",
+        secure: process.env.NODE_ENV === "production",
         path: "/",
         sameSite: "lax", // Changed from "Lax" to "lax"
         maxAge: 10 * 60, // 10 minutes validity for state cookie
@@ -44,5 +42,5 @@ export const authConfig = {
     rpID: RP_ID, // Relying Party ID (Your domain name)
     origin: ORIGIN, // Expected origin of the frontend requests
   },
-  frontendUrl: env.FRONTEND_URL || "http://localhost:5173", // Frontend URL for redirects
+  frontendUrl: process.env.FRONTEND_URL || "http://localhost:5173", // Frontend URL for redirects
 } as const;
