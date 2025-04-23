@@ -94,7 +94,33 @@ bun run test
 
 ## Deployment
 
-The application is configured for deployment to [Fly.io](https://fly.io/). To deploy:
+### Automatic Deployment
+
+The application is configured for automatic deployment to [Fly.io](https://fly.io/) using GitHub Actions:
+
+1. All pull requests and pushes to the `main` branch are automatically tested
+2. When a new version is ready for release, create and push a tag with the format `v*` (e.g., `v1.0.0`)
+3. The release workflow will automatically deploy the tagged version to production
+
+### Creating a Release
+
+To create a new release:
+
+```bash
+# Ensure you're on the main branch with the latest changes
+git checkout main
+git pull
+
+# Create a new tag (replace 1.0.0 with the appropriate version)
+git tag v1.0.0
+
+# Push the tag to GitHub
+git push origin v1.0.0
+```
+
+### Manual Deployment
+
+If needed, you can also deploy manually:
 
 1. Install the Fly CLI
 2. Authenticate with Fly
