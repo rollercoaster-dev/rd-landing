@@ -2,8 +2,8 @@ import { migrate } from "drizzle-orm/postgres-js/migrator";
 // Import the dedicated migration DB instance and the raw client for closing
 import { migrationDb, migrationClient } from "../src/backend/db";
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL environment variable is not set");
+if (!process.env.RD_DATABASE_URL) {
+  throw new Error("RD_DATABASE_URL environment variable is not set");
 }
 
 async function runMigrations() {
