@@ -396,9 +396,11 @@ Our authentication system prioritizes user privacy through these measures:
 
 3. **Data Storage**: Storing binary data (credential IDs and public keys) as base64url strings simplifies database operations while maintaining data integrity.
 
-4. **Challenge Management**: Storing and verifying challenges is crucial for security. The implementation uses the Hono context to store challenges between requests.
+4. **Challenge Management**: Storing and verifying challenges is crucial for security. The implementation uses session middleware to persist challenges between requests, as the Hono context is request-scoped and cannot store data across multiple requests.
 
 5. **Error Handling**: Detailed logging is essential for debugging WebAuthn issues. The implementation includes comprehensive error handling and logging.
+
+6. **Session Management**: In Hono applications, context (c) is request-scoped, so data like WebAuthn challenges must be persisted in a session store between separate requests. We implemented proper session middleware using `hono-sessions` to address this issue.
 
 ### Email Authentication Implementation
 
