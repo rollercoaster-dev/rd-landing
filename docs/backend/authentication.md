@@ -18,7 +18,7 @@ The backend uses JSON Web Tokens (JWT) for managing user authentication. The flo
   - Verifies the token using `JwtService`.
   - Attaches the validated user payload (`AppJwtPayload`) to the request context (`ctx.user`).
 - **GitHub OAuth (`src/backend/api/auth/github.routes.ts`):**
-  - Uses the `arctic` library to manage the GitHub OAuth2 flow.
+  - Uses a custom `GitHubAuthService` to manage the GitHub OAuth2 flow.
   - Handles the `/login/github` redirect and the `/login/github/callback` handler.
   - Upon successful authentication:
     - Retrieves user info from GitHub API (`/user` and `/user/emails`).
