@@ -26,15 +26,8 @@ This document outlines feature branches and PRs for building the Admin area and 
 - [x] Issue JWT tokens (Specifically for GitHub flow)
 - [x] Set HttpOnly cookies (`rd_auth_token` via `Set-Cookie` header in GitHub callback) - _Note: Had to bypass `@elysiajs/cookie` due to instability; using standard `cookie` package directly with headers._
 - [x] Redirect to frontend `/auth/callback` from backend callback
-- [ ] Add middleware for protecting routes (TODO)
-- [ ] Write unit tests for auth flows (TODO)
-
-## Branch: feature/auth-frontend
-
-**PR: Implement frontend authentication**
-
-- [ ] Create `Login.vue` and `Register.vue` pages (or integrate into existing UI)
-- [x] Add OAuth buttons (specifically GitHub login initiation logic)
+- [/] Add middleware for protecting routes (Initial Elysia middleware file created, integration pending)
+- [/] Write unit tests for auth flows (Initial tests written, blocked by env/config issues)
 - [x] Create frontend callback page/route (`/auth/callback`): This page loads after successful backend GitHub OAuth callback, verifies auth status (checks cookie/fetches user data), and navigates user to the main app (`/`).
 - [ ] Integrate WebAuthn client-side via `@simplewebauthn/browser` (TODO)
 - [ ] Handle JWT cookies and session persistence (e.g., Pinia, composables) - _Note: Confirmed working with GitHub flow via `useAuth`._
