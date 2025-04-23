@@ -1,9 +1,9 @@
 import { GitHub } from "arctic";
 
 // Ensure environment variables are set
-if (!process.env.GITHUB_CLIENT_ID || !process.env.GITHUB_CLIENT_SECRET) {
+if (!process.env.RD_GITHUB_CLIENT_ID || !process.env.RD_GITHUB_CLIENT_SECRET) {
   throw new Error(
-    "Missing GitHub OAuth environment variables (GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET)",
+    "Missing GitHub OAuth environment variables (RD_GITHUB_CLIENT_ID, RD_GITHUB_CLIENT_SECRET)",
   );
 }
 
@@ -16,8 +16,8 @@ const githubCallbackUrl = `${callbackUrlBase}/api/auth/github/callback`;
 
 // Initialize the Arctic GitHub provider
 export const githubAuth = new GitHub(
-  process.env.GITHUB_CLIENT_ID,
-  process.env.GITHUB_CLIENT_SECRET,
+  process.env.RD_GITHUB_CLIENT_ID,
+  process.env.RD_GITHUB_CLIENT_SECRET,
   githubCallbackUrl, // Pass the callback URL string directly
 );
 

@@ -10,11 +10,11 @@ export interface AppJwtPayload extends JWTPayload {
  * Service for handling JWT generation and verification using 'jose'.
  */
 export class JwtService {
-  private static readonly JWT_SECRET_STRING = process.env.JWT_SECRET;
+  private static readonly JWT_SECRET_STRING = process.env.RD_JWT_SECRET;
   private static JWT_SECRET: Uint8Array | null = null;
 
   private static readonly JWT_EXPIRY_SECONDS = parseInt(
-    process.env.JWT_EXPIRY_SECONDS ?? "3600",
+    process.env.RD_JWT_EXPIRY_SECONDS ?? "3600",
     10,
   ); // Default 1 hour
   private static readonly ALGORITHM = "HS256";
@@ -26,7 +26,7 @@ export class JwtService {
   private static initialize() {
     if (!this.JWT_SECRET_STRING) {
       throw new Error(
-        "JWT_SECRET environment variable is not set or is empty.",
+        "RD_JWT_SECRET environment variable is not set or is empty.",
       );
     }
     if (!this.JWT_SECRET) {
@@ -57,7 +57,9 @@ export class JwtService {
       const issuedAt = Math.floor(Date.now() / 1000);
       const expiresAt = issuedAt + this.JWT_EXPIRY_SECONDS;
 
-      console.log(`[JWT] Token will expire in ${this.JWT_EXPIRY_SECONDS} seconds (at ${new Date(expiresAt * 1000).toISOString()})`);
+      console.log(
+        `[JWT] Token will expire in ${this.JWT_EXPIRY_SECONDS} seconds (at ${new Date(expiresAt * 1000).toISOString()})`,
+      );
 
       const token = await new SignJWT({ ...additionalClaims, sub: userId })
         .setProtectedHeader({ alg: this.ALGORITHM })

@@ -1,11 +1,11 @@
 // Load environment variables safely
-const JWT_SECRET = process.env.JWT_SECRET;
-const RP_NAME = process.env.RP_NAME || "Rollercoaster.dev";
-const RP_ID = process.env.RP_ID || "localhost"; // Should match domain in production
-const ORIGIN = process.env.ORIGIN || `http://${RP_ID}:5173`; // Frontend origin
+const JWT_SECRET = process.env.RD_JWT_SECRET;
+const RP_NAME = process.env.RD_RP_NAME || "Rollercoaster.dev";
+const RP_ID = process.env.RD_RP_ID || "localhost"; // Should match domain in production
+const ORIGIN = process.env.RD_ORIGIN || `http://${RP_ID}:5173`; // Frontend origin
 
 if (!JWT_SECRET) {
-  console.error("Error: JWT_SECRET environment variable is not set.");
+  console.error("Error: RD_JWT_SECRET environment variable is not set.");
   process.exit(1);
 }
 
@@ -42,5 +42,5 @@ export const authConfig = {
     rpID: RP_ID, // Relying Party ID (Your domain name)
     origin: ORIGIN, // Expected origin of the frontend requests
   },
-  frontendUrl: process.env.FRONTEND_URL || "http://localhost:5173", // Frontend URL for redirects
+  frontendUrl: process.env.RD_FRONTEND_URL || "http://localhost:5173", // Frontend URL for redirects
 } as const;

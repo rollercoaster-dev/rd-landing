@@ -5,8 +5,8 @@ dotenv.config({
   path: ".env",
 });
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL environment variable is required.");
+if (!process.env.RD_DATABASE_URL) {
+  throw new Error("RD_DATABASE_URL environment variable is required.");
 }
 
 export default {
@@ -14,7 +14,7 @@ export default {
   out: "./drizzle/migrations",
   dialect: "postgresql", // Specify the SQL dialect
   dbCredentials: {
-    url: process.env.DATABASE_URL, // Use 'url' instead of 'connectionString'
+    url: process.env.RD_DATABASE_URL, // Use 'url' instead of 'connectionString'
   },
   verbose: true,
   strict: true,
