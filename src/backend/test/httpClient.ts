@@ -75,13 +75,52 @@ export class TestHttpClient {
       headers?: Record<string, string>;
     } = {},
   ) {
+    return this.makeRequest(path, "POST", options);
+  }
+
+  /**
+   * Make a DELETE request to the specified path
+   */
+  async delete(
+    path: string,
+    options: {
+      headers?: Record<string, string>;
+    } = {},
+  ) {
+    return this.makeRequest(path, "DELETE", options);
+  }
+
+  /**
+   * Make a PATCH request to the specified path
+   */
+  async patch(
+    path: string,
+    options: {
+      body?: Record<string, unknown>;
+      headers?: Record<string, string>;
+    } = {},
+  ) {
+    return this.makeRequest(path, "PATCH", options);
+  }
+
+  /**
+   * Make a request with the specified method
+   */
+  private async makeRequest(
+    path: string,
+    method: string,
+    options: {
+      body?: Record<string, unknown>;
+      headers?: Record<string, string>;
+    } = {},
+  ) {
     const headers = {
       "Content-Type": "application/json",
       ...options.headers,
     };
 
     const request = new Request(`http://localhost${path}`, {
-      method: "POST",
+      method,
       headers,
       body: options.body ? JSON.stringify(options.body) : undefined,
     });
