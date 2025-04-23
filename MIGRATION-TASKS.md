@@ -33,8 +33,8 @@ The migration involves converting the current Elysia-based backend to use Hono w
 
 - [x] Migrate main API routes (`src/backend/api/routes.hono.ts`)
 - [x] Migrate auth routes (`src/backend/api/auth/index.hono.ts`)
-- [ ] Migrate user routes
-- [ ] Migrate badge routes
+- [x] Migrate user routes (`src/backend/api/users/users.routes.hono.ts`)
+- [x] Migrate badge routes (`src/backend/api/badges.hono.ts`)
 - [x] Update protected routes
 
 ### 5. Validation
@@ -72,9 +72,8 @@ The migration involves converting the current Elysia-based backend to use Hono w
 
 ### In Progress
 
-- Migrate user routes
-- Migrate badge routes
 - Update test setup for Hono
+- Test all routes with Hono implementation
 
 ### Blocked
 

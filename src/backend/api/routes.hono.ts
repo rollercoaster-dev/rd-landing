@@ -1,5 +1,7 @@
 import { Hono } from "hono";
 import { authRoutes } from "./auth/index.hono";
+import { badgesRoutes } from "./badges.hono";
+import { userRoutes } from "./users/users.routes.hono";
 import {
   authMiddleware,
   type Variables as AuthVariables,
@@ -13,13 +15,11 @@ export const apiRoutes = new Hono<{
 // Mount auth routes
 apiRoutes.route("/auth", authRoutes);
 
-// We'll need to create Hono versions of these routes
-// For now, we'll add placeholders
-// TODO: Implement badge routes
-// apiRoutes.route("/badges", badgesRoutes);
+// Mount badge routes
+apiRoutes.route("/badges", badgesRoutes);
 
-// TODO: Implement user routes
-// apiRoutes.route("/users", userRoutes);
+// Mount user routes
+apiRoutes.route("/users", userRoutes);
 
 // Root API endpoint
 apiRoutes.get("/", (c) =>

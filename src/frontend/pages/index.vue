@@ -49,7 +49,7 @@
           <RdBaseLink href="#what-we-build" icon="arrow-down" internal>
             Learn More
           </RdBaseLink>
-          <!-- Duplicate link removed -->
+
           <RdBaseLink
             href="https://github.com/rollercoaster-dev"
             variant="secondary"

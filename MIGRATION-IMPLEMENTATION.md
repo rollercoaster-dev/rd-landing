@@ -678,14 +678,14 @@ export class TestHttpClient {
 3. ✅ Implemented the auth middleware (`src/backend/middleware/auth.middleware.hono.ts`)
 4. ✅ Migrated the GitHub OAuth routes (`src/backend/api/auth/github.routes.hono.ts`)
 5. ✅ Updated the main API routes (`src/backend/api/routes.hono.ts`)
-6. ✅ Created a test HTTP client for Hono (`src/backend/test/httpClient.hono.ts`)
-7. ✅ Added scripts to run the Hono version of the backend
+6. ✅ Migrated the user routes (`src/backend/api/users/users.routes.hono.ts`)
+7. ✅ Migrated the badge routes (`src/backend/api/badges.hono.ts`)
+8. ✅ Created a test HTTP client for Hono (`src/backend/test/httpClient.hono.ts`)
+9. ✅ Added scripts to run the Hono version of the backend
 
 ## Next Steps
 
-1. Migrate the user routes to Hono
-2. Migrate the badge routes to Hono
-3. Update test setup to work with Hono
-4. Run tests to ensure all functionality works correctly
-5. Update documentation to reflect the migration
-6. Consider replacing the Elysia implementation with Hono completely
+1. Update test setup to work with Hono
+2. Run tests to ensure all functionality works correctly
+3. Update documentation to reflect the migration
+4. Consider replacing the Elysia implementation with Hono completely
