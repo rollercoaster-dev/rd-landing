@@ -30,10 +30,10 @@ export class JwtService {
       );
     }
     if (!this.JWT_SECRET) {
-      console.log(`[DEBUG] Raw JWT_SECRET_STRING: '${this.JWT_SECRET_STRING}'`); // Log raw string
+      // Initialize the JWT secret without logging it
       const encoder = new TextEncoder();
       this.JWT_SECRET = encoder.encode(this.JWT_SECRET_STRING);
-      console.log(`[DEBUG] Encoded JWT_SECRET (Uint8Array):`, this.JWT_SECRET); // Log encoded array
+      console.debug(`[JWT] Secret initialized successfully`);
     }
   }
 
@@ -50,14 +50,16 @@ export class JwtService {
     additionalClaims: Record<string, unknown> = {},
   ): Promise<string> {
     try {
-      console.log(`[JWT] Generating token for user ID: ${userId}`);
-      console.log(`[JWT] Additional claims:`, additionalClaims);
+      console.debug(`[JWT] Generating token for user ID: ${userId}`);
+      // Don't log the full claims object which may contain sensitive information
+      const claimKeys = Object.keys(additionalClaims);
+      console.debug(`[JWT] Including claims: ${claimKeys.join(", ")}`);
 
       this.initialize(); // Ensure secret is encoded
       const issuedAt = Math.floor(Date.now() / 1000);
       const expiresAt = issuedAt + this.JWT_EXPIRY_SECONDS;
 
-      console.log(
+      console.debug(
         `[JWT] Token will expire in ${this.JWT_EXPIRY_SECONDS} seconds (at ${new Date(expiresAt * 1000).toISOString()})`,
       );
 
@@ -70,10 +72,11 @@ export class JwtService {
         .setExpirationTime(expiresAt)
         .sign(this.JWT_SECRET!); // Use the encoded secret (non-null asserted due to initialize)
 
-      console.log(`[JWT] Token generated successfully`);
+      console.debug(`[JWT] Token generated successfully`);
       return token;
     } catch (error) {
-      console.error("[JWT] Failed to generate JWT token:", error);
+      // Log error without potentially sensitive details
+      console.error("[JWT] Failed to generate JWT token");
       throw new Error("Token generation failed");
     }
   }

@@ -37,10 +37,7 @@ export class GitHubAuthService {
   static async initiateGitHubLogin(): Promise<{ state: string; url: URL }> {
     const state = crypto.randomUUID().substring(0, 15);
     console.log(`[GitHubAuthService] Generated state: ${state}`);
-    const url: URL = await githubAuth.createAuthorizationURL(
-      state,
-      GITHUB_SCOPES,
-    );
+    const url: URL = githubAuth.createAuthorizationURL(state, GITHUB_SCOPES);
     return { state, url };
   }
 
@@ -121,9 +118,8 @@ export class GitHubAuthService {
           if (primary) {
             primaryEmail = primary.email;
             githubUser.email = primaryEmail; // Update the user object
-            console.log(
-              `[GitHubAuthService] Found primary email: ${primaryEmail}`,
-            );
+            // Log that we found an email without exposing the actual address
+            console.log(`[GitHubAuthService] Found primary email from GitHub`);
           }
         } else {
           console.warn(
@@ -153,10 +149,15 @@ export class GitHubAuthService {
     console.log(`[GitHubAuthService] User ${user.id} found/created.`);
 
     // 6. Generate JWT
+    // Create a sanitized email for GitHub users if needed
+    const sanitizedEmail = user.email
+      ? `${user.email.split("@")[0]}@github.placeholder.email`
+      : null;
+
     const jwtPayload = {
       // sub: user.id, // generateToken likely sets 'sub' internally
       username: user.username,
-      email: user.email, // Add necessary claims
+      email: sanitizedEmail, // Use sanitized email for JWT claims
       name: user.name,
       avatarUrl: user.avatarUrl,
       // Add other claims as needed from authConfig or user object
