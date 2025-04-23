@@ -20,16 +20,6 @@ interface ExtendedRegistrationResponseJSON extends RegistrationResponseJSON {
     transports?: AuthenticatorTransportFuture[];
   };
 }
-
-interface ExtendedAuthenticationResponseJSON
-  extends AuthenticationResponseJSON {
-  response: {
-    clientDataJSON: string;
-    authenticatorData: string;
-    signature: string;
-    userHandle?: string;
-  };
-}
 import { authConfig } from "@backend/config/auth.config";
 import { db } from "@backend/db";
 import { webauthnCredentials, users } from "@backend/db/schema";
@@ -103,12 +93,14 @@ export class WebAuthnService {
    * @param userId The user ID
    * @param friendlyName Optional friendly name for the credential
    * @param response The registration response from the client
+   * @param expectedChallenge The expected challenge from the session
    * @returns The verification result
    */
   static async verifyRegistration(
     userId: string,
     friendlyName: string | undefined,
     response: RegistrationResponseJSON,
+    expectedChallenge: string,
   ) {
     console.log(`[WebAuthnService] Verifying registration for user: ${userId}`);
 
@@ -116,10 +108,7 @@ export class WebAuthnService {
       // Verify the registration response
       const verification = await verifyRegistrationResponse({
         response,
-        expectedChallenge: (challenge: string) =>
-          challenge ===
-          (response as ExtendedRegistrationResponseJSON).response
-            .clientDataJSON,
+        expectedChallenge,
         expectedOrigin,
         expectedRPID: authConfig.webauthn.rpID,
       });
@@ -237,9 +226,13 @@ export class WebAuthnService {
   /**
    * Verify a WebAuthn authentication response
    * @param response The authentication response from the client
+   * @param expectedChallenge The expected challenge from the session
    * @returns The verification result with user information if successful
    */
-  static async verifyAuthentication(response: AuthenticationResponseJSON) {
+  static async verifyAuthentication(
+    response: AuthenticationResponseJSON,
+    expectedChallenge: string,
+  ) {
     console.log(
       `[WebAuthnService] Verifying authentication for credential: ${response.id}`,
     );
@@ -274,10 +267,7 @@ export class WebAuthnService {
       // We need to use a type assertion to make it work
       const verification = await verifyAuthenticationResponse({
         response,
-        expectedChallenge: (challenge: string) =>
-          challenge ===
-          (response as ExtendedAuthenticationResponseJSON).response
-            .clientDataJSON,
+        expectedChallenge,
         expectedOrigin,
         expectedRPID: authConfig.webauthn.rpID,
         // @ts-expect-error - The SimpleWebAuthn types are incorrect, but this works at runtime

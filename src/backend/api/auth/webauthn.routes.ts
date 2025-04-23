@@ -10,10 +10,11 @@ import type {
   RegistrationResponseJSON,
   AuthenticationResponseJSON,
 } from "@simplewebauthn/types";
+import type { Session } from "hono-sessions";
 
 // Define a custom type for the Hono context with our custom properties
 type WebAuthnContext = {
-  webauthnChallenge?: string;
+  session: Session;
 };
 
 // Create a new Hono app for WebAuthn routes
@@ -66,7 +67,8 @@ webauthnRoutes.post(
       );
 
       // Store the challenge in the session
-      c.set("webauthnChallenge", options.challenge);
+      const session = c.get("session");
+      session.set("webauthnChallenge", options.challenge);
 
       return c.json(options);
     } catch (error) {
@@ -96,7 +98,11 @@ webauthnRoutes.post(
 
     try {
       // Get the current challenge from the session
-      const expectedChallenge = c.get("webauthnChallenge");
+      const session = c.get("session");
+      const expectedChallenge = session.get("webauthnChallenge");
+
+      // Clear the challenge from the session after use
+      session.forget("webauthnChallenge");
 
       if (!expectedChallenge) {
         return c.json({ error: "Registration session expired" }, 400);
@@ -108,6 +114,7 @@ webauthnRoutes.post(
         friendlyName,
         // @ts-expect-error - The SimpleWebAuthn types are incorrect, but this works at runtime
         registrationResponse as RegistrationResponseJSON,
+        expectedChallenge,
       );
 
       if (!verification.verified) {
@@ -133,7 +140,8 @@ webauthnRoutes.post("/login/options", async (c) => {
     const options = await WebAuthnService.generateAuthenticationOptions();
 
     // Store the challenge in the session for verification
-    c.set("webauthnChallenge", options.challenge);
+    const session = c.get("session");
+    session.set("webauthnChallenge", options.challenge);
 
     return c.json(options);
   } catch (error) {
@@ -155,7 +163,11 @@ webauthnRoutes.post(
 
     try {
       // Get the current challenge from the session
-      const expectedChallenge = c.get("webauthnChallenge");
+      const session = c.get("session");
+      const expectedChallenge = session.get("webauthnChallenge");
+
+      // Clear the challenge from the session after use
+      session.forget("webauthnChallenge");
 
       if (!expectedChallenge) {
         return c.json({ error: "Authentication session expired" }, 400);
@@ -165,6 +177,7 @@ webauthnRoutes.post(
       const verification = await WebAuthnService.verifyAuthentication(
         // @ts-expect-error - The SimpleWebAuthn types are incorrect, but this works at runtime
         authenticationResponse as AuthenticationResponseJSON,
+        expectedChallenge,
       );
 
       if (!verification.verified) {
