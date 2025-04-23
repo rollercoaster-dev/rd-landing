@@ -6,7 +6,8 @@ on:
     # Don't run this workflow when a tag is pushed
     tags-ignore: [ 'v*' ]
   pull_request:
-    branches: [ main ]
+    # Run on all pull requests regardless of target branch
+    branches: [ '**' ]
 
 jobs:
   test:
