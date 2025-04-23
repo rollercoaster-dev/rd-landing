@@ -9,6 +9,7 @@ import SectionHeader from "./SectionHeader.vue";
         <SectionHeader
           title="Section Title"
           description="This is a default section header with center alignment and a description."
+          align="center"
         />
       </div>
     </Variant>
