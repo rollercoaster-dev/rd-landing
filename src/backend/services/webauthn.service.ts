@@ -106,9 +106,23 @@ export class WebAuthnService {
 
     try {
       // Verify the registration response
+      // The expectedChallenge parameter takes a callback function that compares the challenge
+      // extracted from the clientDataJSON with our stored challenge from the session
+      // This is a critical security check to prevent replay attacks
       const verification = await verifyRegistrationResponse({
         response,
-        expectedChallenge,
+        expectedChallenge: (clientChallenge) => {
+          console.log(
+            `[WebAuthnService] Comparing client challenge with expected challenge`,
+          );
+          console.log(
+            `[WebAuthnService] Client challenge: ${clientChallenge.substring(0, 10)}...`,
+          );
+          console.log(
+            `[WebAuthnService] Expected challenge: ${expectedChallenge.substring(0, 10)}...`,
+          );
+          return clientChallenge === expectedChallenge;
+        },
         expectedOrigin,
         expectedRPID: authConfig.webauthn.rpID,
       });
@@ -265,9 +279,23 @@ export class WebAuthnService {
       // Verify the authentication response
       // The TypeScript types from @simplewebauthn/server don't match the actual expected input
       // We need to use a type assertion to make it work
+      // The expectedChallenge parameter takes a callback function that compares the challenge
+      // extracted from the clientDataJSON with our stored challenge from the session
+      // This is a critical security check to prevent replay attacks
       const verification = await verifyAuthenticationResponse({
         response,
-        expectedChallenge,
+        expectedChallenge: (clientChallenge) => {
+          console.log(
+            `[WebAuthnService] Comparing client challenge with expected challenge`,
+          );
+          console.log(
+            `[WebAuthnService] Client challenge: ${clientChallenge.substring(0, 10)}...`,
+          );
+          console.log(
+            `[WebAuthnService] Expected challenge: ${expectedChallenge.substring(0, 10)}...`,
+          );
+          return clientChallenge === expectedChallenge;
+        },
         expectedOrigin,
         expectedRPID: authConfig.webauthn.rpID,
         // @ts-expect-error - The SimpleWebAuthn types are incorrect, but this works at runtime

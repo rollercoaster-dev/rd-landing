@@ -402,6 +402,8 @@ Our authentication system prioritizes user privacy through these measures:
 
 6. **Session Management**: In Hono applications, context (c) is request-scoped, so data like WebAuthn challenges must be persisted in a session store between separate requests. We implemented proper session middleware using `hono-sessions` to address this issue.
 
+7. **Challenge Verification**: The SimpleWebAuthn library expects a callback function for `expectedChallenge` that compares the challenge extracted from the clientDataJSON with our stored challenge. This is a critical security check to prevent replay attacks. The callback should return a boolean indicating whether the challenges match.
+
 ### Email Authentication Implementation
 
 1. **Token Security**: Hashing tokens in the database adds an important security layer. The implementation uses SHA-256 for token hashing.
