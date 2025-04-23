@@ -1,48 +1,49 @@
+import { Hono } from "hono";
+import { authRoutes } from "./auth";
 import { badgesRoutes } from "./badges";
-import { authRoutes } from "./auth"; // Import the instance
-import userRoutes from "./users/users.routes"; // Import user routes
+import { userRoutes } from "./users/users.routes";
 import {
   authMiddleware,
-  type AuthenticatedContext,
-} from "@backend/middleware/auth.middleware"; // Import auth middleware and type
-import { Elysia } from "elysia";
+  type Variables as AuthVariables,
+} from "@backend/middleware/auth.middleware";
 
-// Create and export the main API routes instance
-export const apiRoutes = new Elysia()
-  // Mount badge-related routes (-> /api/badges/*)
-  .use(badgesRoutes)
-  // Mount authentication routes under '/auth' using group()
-  .group("/auth", (app) => app.use(authRoutes))
-  // Mount user routes (-> /api/users/*)
-  .use(userRoutes)
-  // Add a simple root endpoint for the API (-> /api/)
-  .get("/", () => ({
+// Create a new Hono app for API routes
+export const apiRoutes = new Hono<{
+  Variables: AuthVariables;
+}>();
+
+// Mount auth routes
+apiRoutes.route("/auth", authRoutes);
+
+// Mount badge routes
+apiRoutes.route("/badges", badgesRoutes);
+
+// Mount user routes
+apiRoutes.route("/users", userRoutes);
+
+// Root API endpoint
+apiRoutes.get("/", (c) =>
+  c.json({
     name: "Rollercoaster.dev API",
     version: "0.1.0",
-    documentation: "/api/docs", // Assuming docs might be added later
-  }))
-  // Add a test endpoint for the API (-> /api/test)
-  .get("/test", () => ({
+    documentation: "/api/docs",
+  }),
+);
+
+// Test endpoint
+apiRoutes.get("/test", (c) =>
+  c.json({
     status: "ok",
     message: "API is working properly",
     timestamp: new Date().toISOString(),
-  }))
-  // Group protected routes under /me and apply auth middleware
-  .group("/me", (app) =>
-    app
-      .use(authMiddleware) // Apply middleware to all routes in this group
-      .get(
-        "", // Path is relative to the group ('/me')
-        ({ user }: AuthenticatedContext) => {
-          // user is guaranteed non-null here due to the middleware's beforeHandle
-          return { user };
-        },
-        {
-          // Optional: Add response schema if needed
-          // response: t.Object({ user: YourUserSchema })
-        },
-      ),
-  );
+  }),
+);
 
-// Export the type for use in testing or other modules
+// Protected routes
+apiRoutes.get("/me", authMiddleware, (c) => {
+  const user = c.get("user");
+  return c.json({ user });
+});
+
+// Export the type
 export type ApiRoutesType = typeof apiRoutes;

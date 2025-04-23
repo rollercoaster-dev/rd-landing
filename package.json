@@ -7,11 +7,11 @@
     "dev": "concurrently \"bun run dev:frontend\" \"bun run dev:backend\"",
     "dev:frontend": "vite",
     "dev:backend": "bun --watch src/backend/index.ts",
-    "dev:backend:hono": "bun --watch src/backend/index.hono.ts",
+    "dev:backend:elysia": "bun --watch src/backend/index.elysia.ts",
     "build": "vite-ssg build && bun build src/backend/index.ts --outdir dist/backend --target bun",
-    "build:hono": "vite-ssg build && bun build src/backend/index.hono.ts --outdir dist/backend --target bun",
+    "build:elysia": "vite-ssg build && bun build src/backend/index.elysia.ts --outdir dist/backend --target bun",
     "start": "bun dist/backend/index.js",
-    "start:hono": "bun dist/backend/index.hono.js",
+    "start:elysia": "bun dist/backend/index.elysia.js",
     "histoire": "histoire dev",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -25,9 +25,7 @@
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
-    "@elysiajs/cookie": "^0.8.0",
-    "@elysiajs/cors": "^1.2.0",
-    "@elysiajs/jwt": "^1.2.0",
+
     "@hono/zod-validator": "^0.4.3",
     "@paralleldrive/cuid2": "^2.2.2",
     "@pinia/nuxt": "^0.11.0",
@@ -43,7 +41,7 @@
     "cookie": "^1.0.2",
     "drizzle-kit": "^0.31.0",
     "drizzle-orm": "0.41.0",
-    "elysia": "^1.2.25",
+
     "hono": "^4.7.7",
     "jose": "^6.0.10",
     "jsdom": "^26.1.0",
@@ -60,7 +58,7 @@
     "zod": "^3.24.3"
   },
   "devDependencies": {
-    "@elysiajs/eden": "^1.2.0",
+
     "@eslint/js": "^9.25.1",
     "@histoire/plugin-vue": "^0.17.6",
     "@types/bun": "^1.2.10",

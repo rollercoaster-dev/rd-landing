@@ -1,27 +1,48 @@
-import { Elysia } from "elysia";
-import { jwt } from "@elysiajs/jwt";
-import { apiRoutes } from "@backend/api/routes";
-import { authConfig } from "@backend/config/auth.config";
-import { treaty } from "@elysiajs/eden";
+// No imports needed from vitest here
+import { createApp } from "../index";
+import { TestHttpClient } from "./httpClient";
 
 /**
- * Creates a test application instance that mirrors the production setup
- * with the API routes mounted under the /api path.
+ * Setup function for Hono tests
+ * Creates a test app and client for testing
  */
-export const createTestApp = () => {
-  return new Elysia()
-    .use(
-      jwt({
-        name: "jwt",
-        secret: authConfig.jwt.secret,
-        exp: authConfig.jwt.expiresIn,
-      }),
-    )
-    .group("/api", (app) => app.use(apiRoutes));
+export const setupHonoTest = () => {
+  const app = createApp();
+  const client = new TestHttpClient(app);
+
+  return { app, client };
 };
 
-// Create and export a typed Eden client for tests
-export const testClient = treaty(createTestApp());
+/**
+ * Helper function to create a test JWT token for testing protected routes
+ */
+export const createTestToken = async () => {
+  // Import the JWT service
+  const { JwtService } = await import("@backend/services/jwt.service");
 
-// Export the type of the test client
-export type TestClientType = typeof testClient;
+  // Create a test user ID
+  const userId = "test-user-id";
+
+  // Create additional claims
+  const additionalClaims = {
+    username: "testuser",
+  };
+
+  // Generate a token with the test user ID and additional claims
+  const token = await JwtService.generateToken(userId, additionalClaims);
+
+  console.log("Generated test token:", token);
+
+  return token;
+};
+
+/**
+ * Helper function to create test headers with authentication
+ */
+export const createAuthHeaders = async () => {
+  const token = await createTestToken();
+
+  return {
+    Cookie: `rd_auth_token=${token}`,
+  };
+};

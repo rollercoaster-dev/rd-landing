@@ -1,78 +1,94 @@
-import { Elysia } from "elysia";
+import { MiddlewareHandler } from "hono";
 import { resolve } from "path";
 import { readFile } from "fs/promises";
 import { existsSync } from "fs";
+import { serveStatic } from "hono/bun";
 
-// Create a plugin to serve static files from the dist directory
-export const staticFiles = new Elysia().get("*", async ({ request, set }) => {
-  // Get the path from the request URL
-  const url = new URL(request.url);
-  let path = url.pathname;
-
-  // If the path is the root, serve the index.html
-  if (path === "/") {
-    path = "/index.html";
-  }
-
-  // Resolve the path to the dist directory
-  const filePath = resolve(process.cwd(), "dist", path.slice(1));
-
-  // Check if the file exists
-  if (!existsSync(filePath)) {
-    // If the file doesn't exist, try to serve index.html for SPA routing
-    const indexPath = resolve(process.cwd(), "dist", "index.html");
-
-    if (existsSync(indexPath)) {
-      try {
-        const content = await readFile(indexPath);
-        set.headers["Content-Type"] = "text/html";
-        return content;
-      } catch (error) {
-        set.status = 500;
-        return `Internal Server Error: ${error instanceof Error ? error.message : "Unknown error"}`;
-      }
-    }
-
-    set.status = 404;
-    return "Not Found";
-  }
+// Create a middleware to serve static files from the dist directory
+export const staticFilesMiddleware: MiddlewareHandler = async (c, next) => {
+  // First try to serve using Hono's built-in static file handler
+  const staticHandler = serveStatic({ root: "./dist" });
 
   try {
-    // Read the file
-    const content = await readFile(filePath);
+    // Try to serve the static file
+    return await staticHandler(c, next);
+  } catch (error) {
+    // If the static handler fails, continue with our custom handling
+    // Get the path from the request URL
+    const url = new URL(c.req.url);
+    let path = url.pathname;
 
-    // Set the content type based on the file extension
-    const ext = filePath.split(".").pop();
-    switch (ext) {
-      case "html":
-        set.headers["Content-Type"] = "text/html";
-        break;
-      case "css":
-        set.headers["Content-Type"] = "text/css";
-        break;
-      case "js":
-        set.headers["Content-Type"] = "application/javascript";
-        break;
-      case "json":
-        set.headers["Content-Type"] = "application/json";
-        break;
-      case "png":
-        set.headers["Content-Type"] = "image/png";
-        break;
-      case "jpg":
-      case "jpeg":
-        set.headers["Content-Type"] = "image/jpeg";
-        break;
-      case "svg":
-        set.headers["Content-Type"] = "image/svg+xml";
-        break;
-      default:
-        set.headers["Content-Type"] = "application/octet-stream";
+    // If the path is the root, serve the index.html
+    if (path === "/") {
+      path = "/index.html";
     }
 
-    return content;
-  } catch (error) {
-    set.status = 500;
-    return `Internal Server Error: ${error instanceof Error ? error.message : "Unknown error"}`;
+    // Resolve the path to the dist directory
+    const filePath = resolve("./dist", path.substring(1));
+
+    // Check if the file exists
+    if (existsSync(filePath)) {
+      try {
+        // Read the file
+        const content = await readFile(filePath);
+
+        // Set the content type based on the file extension
+        const ext = path.split(".").pop()?.toLowerCase();
+        let contentType = "text/plain";
+
+        switch (ext) {
+          case "html":
+            contentType = "text/html";
+            break;
+          case "css":
+            contentType = "text/css";
+            break;
+          case "js":
+            contentType = "application/javascript";
+            break;
+          case "json":
+            contentType = "application/json";
+            break;
+          case "png":
+            contentType = "image/png";
+            break;
+          case "jpg":
+          case "jpeg":
+            contentType = "image/jpeg";
+            break;
+          case "svg":
+            contentType = "image/svg+xml";
+            break;
+          case "webp":
+            contentType = "image/webp";
+            break;
+          // Add more content types as needed
+        }
+
+        // Return the file content with the appropriate content type
+        return c.body(content, 200, {
+          "Content-Type": contentType,
+        });
+      } catch (error) {
+        console.error(`Error reading file ${filePath}:`, error);
+        await next();
+      }
+    } else {
+      // If the file doesn't exist, try to serve index.html for SPA routing
+      if (!path.startsWith("/api") && !path.includes(".")) {
+        const indexPath = resolve("./dist", "index.html");
+        if (existsSync(indexPath)) {
+          try {
+            const content = await readFile(indexPath);
+            return c.html(content.toString());
+          } catch (error) {
+            console.error(`Error reading index.html:`, error);
+          }
+        }
+      }
+
+      // If we get here, proceed to the next middleware
+      await next();
+    }
   }
-});
+};

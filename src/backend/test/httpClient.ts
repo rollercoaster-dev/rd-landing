@@ -1,21 +1,16 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Elysia } from "elysia";
+import type { Hono } from "hono";
 
 /**
- * A simple HTTP client for testing Elysia applications.
- * This provides a more reliable alternative to using treaty when type issues occur.
- *
- * This test client doesn't require any external dependencies and works directly with
- * Bun's built-in fetch implementation, making it ideal for testing Elysia apps.
+ * A simple HTTP client for testing Hono applications.
+ * This provides a similar interface to the Elysia test client for easier migration.
  */
 export class TestHttpClient {
   // Store the passed app instance
-  // Using 'any' for flexibility, as precise Elysia types can be complex.
-  private app: Elysia<any>;
+  private app: Hono;
 
-  // Accept an Elysia instance in the constructor
-  constructor(elysiaApp: Elysia<any>) {
-    this.app = elysiaApp;
+  // Accept a Hono instance in the constructor
+  constructor(honoApp: Hono) {
+    this.app = honoApp;
   }
 
   /**
@@ -32,7 +27,7 @@ export class TestHttpClient {
       headers: options.headers,
     });
 
-    const response = await this.app.handle(request);
+    const response = await this.app.fetch(request);
     const status = response.status;
 
     // Parse response body based on content type
@@ -91,7 +86,7 @@ export class TestHttpClient {
       body: options.body ? JSON.stringify(options.body) : undefined,
     });
 
-    const response = await this.app.handle(request);
+    const response = await this.app.fetch(request);
     const status = response.status;
 
     let data = null;

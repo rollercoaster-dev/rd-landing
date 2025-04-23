@@ -1,152 +1,114 @@
-import { describe, it, expect, beforeAll } from "vitest";
-import { authConfig } from "@backend/config/auth.config";
-import { JwtService } from "@backend/services/jwt.service";
-import type { User } from "@shared/types";
-import { Elysia } from "elysia";
-import { cookie } from "@elysiajs/cookie";
-import { jwt } from "@elysiajs/jwt";
+import { describe, expect, it } from "vitest";
+import { setupHonoTest, createAuthHeaders } from "../test/setup";
 
-describe("API Routes - /api (Isolated Test)", () => {
-  // Define the app instance
-  let app: ReturnType<typeof createTestApp>;
+describe("API Routes - /api", () => {
+  const { client } = setupHonoTest();
 
-  // Helper function to create a properly typed test app
-  function createTestApp() {
-    return new Elysia()
-      .use(cookie())
-      .use(
-        jwt({
-          name: "jwt",
-          secret: authConfig.jwt.secret,
-        }),
-      )
-      .get("/test", () => ({ status: "ok" }))
-      .get("/me", async ({ request, set, jwt }) => {
-        // Simplified auth middleware logic for tests
-        // Parse cookie manually from the request headers instead of relying on the cookie plugin
-        const cookieHeader = request.headers.get("Cookie");
-        console.log("[Test] Cookie header:", cookieHeader);
+  describe("GET /test", () => {
+    it("should return status ok", async () => {
+      const { data, error, status } = await client.get("/api/test");
 
-        if (!cookieHeader) {
-          set.status = 401;
-          return { message: "Unauthorized" };
-        }
-
-        // Parse the cookie header to get the token
-        const cookies = cookieHeader.split(";").reduce(
-          (acc, cookie) => {
-            const [name, value] = cookie.trim().split("=");
-            acc[name] = value;
-            return acc;
-          },
-          {} as Record<string, string>,
-        );
-
-        const tokenValue = cookies[authConfig.jwt.cookieName];
-        console.log("[Test] Token found:", !!tokenValue);
-
-        if (!tokenValue) {
-          set.status = 401;
-          return { message: "Unauthorized" };
-        }
-
-        try {
-          console.log("[Test] Verifying token...");
-          const payload = await jwt.verify(tokenValue);
-          console.log("[Test] Token verification result:", payload);
-
-          if (!payload) {
-            set.status = 401;
-            return { message: "Invalid token" };
-          }
-
-          // Return the user data from the JWT payload
-          return { user: payload };
-        } catch (error) {
-          console.error("[Test] Token verification error:", error);
-          set.status = 401;
-          return { message: "Invalid token" };
-        }
-      });
-  }
-
-  beforeAll(() => {
-    // Create a test app using our helper function
-    app = createTestApp();
-  });
-
-  it("GET /test should return status ok", async () => {
-    const response = await app.handle(new Request("http://localhost/test"));
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data.status).toBe("ok");
+      expect(error).toBeNull();
+      expect(status).toBe(200);
+      expect(data).toHaveProperty("status", "ok");
+      expect(data).toHaveProperty("message", "API is working properly");
+      expect(data).toHaveProperty("timestamp");
+    });
   });
 
   describe("/me (Protected Route)", () => {
-    const testUser: Pick<User, "id" | "username" | "avatarUrl"> = {
-      id: "test-user-id",
-      username: "testuser",
-      avatarUrl: "https://example.com/avatar.png",
-    };
-
-    let validToken = "";
-
-    beforeAll(async () => {
-      try {
-        validToken = await JwtService.generateToken(testUser.id, {
-          username: testUser.username,
-        });
-        console.log("Generated test token:", validToken);
-      } catch (error) {
-        console.error("Error generating token in beforeAll:", error);
-        console.error(
-          `Check if process.env.JWT_SECRET is set correctly in test env. Expected based on authConfig: ${authConfig.jwt.secret ? "present" : "MISSING"}`,
-        );
-        throw error;
-      }
-    });
-
     it("should return 401 Unauthorized without a token", async () => {
-      const response = await app.handle(new Request("http://localhost/me"));
-      const error = await response.json();
+      const { error, status } = await client.get("/api/me");
 
-      expect(response.status).toBe(401);
-      expect(error.message).toBe("Unauthorized");
+      expect(error).not.toBeNull();
+      expect(status).toBe(401);
+      expect(error?.value).toHaveProperty("message", "Unauthorized");
     });
 
     it("should return 401 Unauthorized with an invalid token", async () => {
-      const invalidToken = "this.is.not.a.valid.token";
-      const request = new Request("http://localhost/me", {
+      const { error, status } = await client.get("/api/me", {
         headers: {
-          Cookie: `${authConfig.jwt.cookieName}=${invalidToken}`,
+          Cookie: "rd_auth_token=this.is.not.a.valid.token",
         },
       });
 
-      const response = await app.handle(request);
-      const error = await response.json();
-
-      expect(response.status).toBe(401);
-      expect(error.message).toBe("Invalid token");
+      expect(error).not.toBeNull();
+      expect(status).toBe(401);
+      expect(error?.value).toHaveProperty("message", "Unauthorized");
     });
 
     it("should return user data with a valid token", async () => {
-      const cookieName = authConfig.jwt.cookieName;
-      const request = new Request("http://localhost/me", {
-        headers: {
-          Cookie: `${cookieName}=${validToken}`,
-        },
+      const headers = await createAuthHeaders();
+      const { data, error, status } = await client.get("/api/me", { headers });
+
+      expect(error).toBeNull();
+      expect(status).toBe(200);
+      expect(data).toHaveProperty("user");
+      expect(data.user).toHaveProperty("sub", "test-user-id");
+      expect(data.user).toHaveProperty("username", "testuser");
+    });
+  });
+
+  describe("GET /badges", () => {
+    it("should return a list of badges", async () => {
+      const { data, error, status } = await client.get("/api/badges");
+
+      expect(error).toBeNull();
+      expect(status).toBe(200);
+      expect(Array.isArray(data)).toBe(true);
+      expect(data.length).toBeGreaterThan(0);
+      expect(data[0]).toHaveProperty("id");
+      expect(data[0]).toHaveProperty("name");
+    });
+  });
+
+  describe("GET /badges/:id", () => {
+    it("should return a badge by id", async () => {
+      const { data, error, status } = await client.get("/api/badges/1");
+
+      expect(error).toBeNull();
+      expect(status).toBe(200);
+      expect(data).toHaveProperty("id", "1");
+      expect(data).toHaveProperty("name");
+      expect(data).toHaveProperty("description");
+    });
+  });
+
+  describe("POST /badges", () => {
+    it("should create a new badge", async () => {
+      const newBadge = {
+        name: "Test Badge",
+        description: "A test badge",
+        image: "https://example.com/badges/test.png",
+        criteria: "Complete the test",
+        issuer: "Rollercoaster.dev",
+        tags: ["test", "badge"],
+      };
+
+      const { data, error, status } = await client.post("/api/badges", {
+        body: newBadge,
       });
 
-      const response = await app.handle(request);
-      const data = await response.json();
+      expect(error).toBeNull();
+      expect(status).toBe(201);
+      expect(data).toHaveProperty("id");
+      expect(data).toHaveProperty("name", newBadge.name);
+      expect(data).toHaveProperty("description", newBadge.description);
+      expect(data).toHaveProperty("createdAt");
+    });
 
-      expect(response.status).toBe(200);
-      expect(data).toBeDefined();
+    it("should return 400 for invalid badge data", async () => {
+      const invalidBadge = {
+        name: "Test Badge",
+        // Missing required fields
+      };
 
-      expect(data.user).toBeDefined();
-      expect(data.user.sub).toBe(testUser.id); // JWT puts the user ID in 'sub' claim
-      expect(data.user.username).toBe(testUser.username);
+      const { error, status } = await client.post("/api/badges", {
+        body: invalidBadge,
+      });
+
+      expect(error).not.toBeNull();
+      expect(status).toBe(400);
     });
   });
 });

@@ -1,112 +1,132 @@
-import { Elysia, t } from "elysia";
+import { Hono } from "hono";
 import { GitHubAuthService } from "@backend/services/githubAuth.service";
 import { authConfig } from "@backend/config/auth.config";
-import { parse, serialize, type SerializeOptions } from "cookie";
+import { setCookie, getCookie } from "hono/cookie";
+import { zValidator } from "@hono/zod-validator";
+import { z } from "zod";
 
-export const githubRoutes = new Elysia()
-  .get("/login", async ({ set, redirect }) => {
-    const stateCookieName = authConfig.github.stateCookie.name;
-    try {
-      const { url, state } = await GitHubAuthService.initiateGitHubLogin();
+// Create a new Hono app for GitHub routes
+export const githubRoutes = new Hono();
 
-      const stateCookieString = serialize(
-        stateCookieName,
-        state,
-        authConfig.github.stateCookie.options as SerializeOptions,
-      );
-      set.headers["Set-Cookie"] = stateCookieString;
-      console.log(
-        `[LOGIN] Set ${stateCookieName} cookie via 'cookie' package: ${stateCookieString}`,
-      );
+// Login route
+githubRoutes.get("/login", async (c) => {
+  const stateCookieName = authConfig.github.stateCookie.name;
+  try {
+    const { url, state } = await GitHubAuthService.initiateGitHubLogin();
 
-      return redirect(url.toString(), 302);
-    } catch (error) {
-      console.error("Error during GitHub login initiation:", error);
-      return {
+    // Set the state cookie
+    setCookie(c, stateCookieName, state, {
+      httpOnly: authConfig.github.stateCookie.options.httpOnly,
+      secure: authConfig.github.stateCookie.options.secure,
+      path: authConfig.github.stateCookie.options.path,
+      sameSite: authConfig.github.stateCookie.options.sameSite,
+      maxAge: authConfig.github.stateCookie.options.maxAge,
+    });
+
+    console.log(`[LOGIN] Set ${stateCookieName} cookie: ${state}`);
+
+    // Redirect to GitHub
+    return c.redirect(url.toString());
+  } catch (error) {
+    console.error("Error during GitHub login initiation:", error);
+    return c.json(
+      {
         error: "GitHub Login Initiation Failed",
-        message: (error as Error).message,
-      };
+        message: error instanceof Error ? error.message : String(error),
+      },
+      500,
+    );
+  }
+});
+
+// Callback route with validation
+const callbackSchema = z.object({
+  code: z.string().optional(),
+  state: z.string().optional(),
+});
+
+githubRoutes.get(
+  "/callback",
+  zValidator("query", callbackSchema),
+  async (c) => {
+    console.log("[CALLBACK] Received request");
+    const stateCookieName = authConfig.github.stateCookie.name;
+    const jwtCookieName = authConfig.jwt.cookieName;
+
+    // Get query parameters
+    const { code, state: receivedState } = c.req.valid("query");
+
+    // Get the stored state from cookie
+    const storedState = getCookie(c, stateCookieName);
+
+    console.log(
+      `[CALLBACK] Query params: code=${code}, state=${receivedState}`,
+    );
+    console.log(`[CALLBACK] Cookie state value: ${storedState}`);
+
+    // Validate state and code
+    if (
+      !code ||
+      !receivedState ||
+      !storedState ||
+      receivedState !== storedState
+    ) {
+      console.error("[CALLBACK] State or Code validation failed.", {
+        code: !!code,
+        receivedState: !!receivedState,
+        storedState: !!storedState,
+        match: receivedState === storedState,
+      });
+      return c.json({ error: "Invalid state or missing code." }, 400);
     }
-  })
-  .get(
-    "/callback",
-    async ({ query, set, request, redirect }) => {
-      console.log("[CALLBACK] Received request");
-      const stateCookieName = authConfig.github.stateCookie.name;
-      const jwtCookieName = authConfig.jwt.cookieName;
-      const { code, state: receivedState } = query;
-      const rawCookies = request.headers.get("Cookie") || "";
-      const cookies = parse(rawCookies);
-      const storedState = cookies[stateCookieName];
+
+    try {
+      // Handle the callback
+      const { jwt: generatedJwt } =
+        await GitHubAuthService.handleGitHubCallback(
+          code,
+          storedState,
+          receivedState,
+        );
+
+      // Set the JWT cookie
+      setCookie(c, jwtCookieName, generatedJwt, {
+        httpOnly: authConfig.cookie.httpOnly,
+        secure: authConfig.cookie.secure,
+        path: authConfig.cookie.path,
+        sameSite: authConfig.cookie.sameSite,
+        maxAge: authConfig.cookie.maxAge,
+      });
+
+      // Clear the state cookie
+      setCookie(c, stateCookieName, "", {
+        httpOnly: authConfig.github.stateCookie.options.httpOnly,
+        secure: authConfig.github.stateCookie.options.secure,
+        path: authConfig.github.stateCookie.options.path,
+        sameSite: authConfig.github.stateCookie.options.sameSite,
+        maxAge: 0,
+      });
 
       console.log(
-        `[CALLBACK] Query params: code=${code}, state=${receivedState}`,
+        `[CALLBACK] Set ${jwtCookieName} cookie via Hono cookie helper.`,
       );
-      console.log(`[CALLBACK] Cookie state value: ${storedState}`);
+      console.log(
+        `[CALLBACK] Cleared ${stateCookieName} cookie via Hono cookie helper.`,
+      );
 
+      // Redirect to frontend
+      const redirectUrl = `${authConfig.frontendUrl}/auth/callback`;
+      console.log(`[CALLBACK] Redirecting to frontend: ${redirectUrl}`);
+      return c.redirect(redirectUrl);
+    } catch (error: unknown) {
+      console.error("[CALLBACK] Error handling GitHub callback:", error);
       if (
-        !code ||
-        !receivedState ||
-        !storedState ||
-        receivedState !== storedState
+        error instanceof Error &&
+        error.message.includes("bad_verification_code")
       ) {
-        console.error("[CALLBACK] State or Code validation failed.", {
-          code: !!code,
-          receivedState: !!receivedState,
-          storedState: !!storedState,
-          match: receivedState === storedState,
-        });
-        return { error: "Invalid state or missing code." };
+        return c.json({ error: "Invalid or expired authorization code." }, 400);
       }
-
-      try {
-        const { jwt: generatedJwt } =
-          await GitHubAuthService.handleGitHubCallback(
-            code,
-            storedState,
-            receivedState,
-          );
-
-        const authTokenCookie = serialize(
-          jwtCookieName,
-          generatedJwt,
-          authConfig.cookie as SerializeOptions,
-        );
-        const clearStateCookie = serialize(stateCookieName, "", {
-          ...authConfig.github.stateCookie.options,
-          maxAge: 0,
-        } as SerializeOptions);
-
-        // Restore array assignment for multiple Set-Cookie headers
-        // Use 'as any' because Elysia's type definition (string | number)
-        // conflicts with the need to set multiple cookies (string[]).
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        set.headers["Set-Cookie"] = [authTokenCookie, clearStateCookie] as any;
-        console.log(
-          `[CALLBACK] Set ${jwtCookieName} cookie via 'cookie' package.`,
-        );
-        console.log(
-          `[CALLBACK] Cleared ${stateCookieName} cookie via 'cookie' package.`,
-        );
-
-        const redirectUrl = `${authConfig.frontendUrl}/auth/callback`;
-        console.log(`[CALLBACK] Redirecting to frontend: ${redirectUrl}`);
-        return redirect(redirectUrl, 302);
-      } catch (error: unknown) {
-        console.error("[CALLBACK] Error handling GitHub callback:", error);
-        if (
-          error instanceof Error &&
-          error.message.includes("bad_verification_code")
-        ) {
-          return { error: "Invalid or expired authorization code." };
-        }
-        return { error: "Failed to handle GitHub callback." };
-      }
-    },
-    {
-      query: t.Object({
-        code: t.Optional(t.String()),
-        state: t.Optional(t.String()),
-      }),
-    },
-  );
+      return c.json({ error: "Failed to handle GitHub callback." }, 500);
+    }
+  },
+);
