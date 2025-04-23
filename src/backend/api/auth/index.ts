@@ -1,5 +1,7 @@
 import { Hono } from "hono";
 import { githubRoutes } from "./github.routes";
+import { webauthnRoutes } from "./webauthn.routes";
+import { emailRoutes } from "./email.routes";
 import { authConfig } from "@backend/config/auth.config";
 import { getCookie, deleteCookie } from "hono/cookie";
 
@@ -8,6 +10,12 @@ export const authRoutes = new Hono();
 
 // Mount GitHub routes
 authRoutes.route("/github", githubRoutes);
+
+// Mount WebAuthn routes
+authRoutes.route("/webauthn", webauthnRoutes);
+
+// Mount Email routes
+authRoutes.route("/email", emailRoutes);
 
 // Logout route
 authRoutes.post("/logout", async (c) => {
