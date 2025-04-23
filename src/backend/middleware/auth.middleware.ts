@@ -25,9 +25,12 @@ export const authMiddleware: MiddlewareHandler<{
   }
 
   try {
-    console.debug("Auth Middleware: Verifying token:", tokenCookie);
+    // Only log that we're verifying a token, not the token itself
+    console.debug("Auth Middleware: Verifying token");
     const payload = await JwtService.verifyToken(tokenCookie);
-    console.debug("Auth Middleware: Token verified, payload:", payload);
+
+    // Log successful verification without exposing the full payload
+    console.debug(`Auth Middleware: Token verified for user: ${payload.sub}`);
 
     // Set the user in the context
     c.set("user", payload);
@@ -39,7 +42,8 @@ export const authMiddleware: MiddlewareHandler<{
     if (error instanceof Error && error.message.includes("expired")) {
       console.info("Auth Middleware: Expired token detected.");
     } else {
-      console.warn("Auth Middleware: Invalid token detected.", error);
+      // Log error without including the full error object which might contain sensitive data
+      console.warn("Auth Middleware: Invalid token detected.");
     }
 
     // Set user to null and throw unauthorized error

@@ -1,5 +1,10 @@
 <script setup lang="ts">
-defineProps<{ title: string; description?: string; class?: string }>();
+defineProps<{
+  title: string;
+  description?: string;
+  class?: string;
+  align?: "left" | "center" | "right";
+}>();
 </script>
 
 <template>
@@ -7,7 +12,7 @@ defineProps<{ title: string; description?: string; class?: string }>();
     class="space-y-4"
     :class="{
       'text-left': align === 'left',
-      'text-center': align === 'center',
+      'text-center': align === 'center' || !align, // Default to center if not specified
       'text-right': align === 'right',
     }"
   >
