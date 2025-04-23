@@ -13,11 +13,22 @@ import type {
 // Define custom types for the SimpleWebAuthn library
 // These types extend the official types to include properties that are actually used
 // but not properly typed in the library
-interface ExtendedRegistrationResponseJSON extends RegistrationResponseJSON {
+export interface ExtendedRegistrationResponseJSON
+  extends RegistrationResponseJSON {
   response: {
     clientDataJSON: string;
     attestationObject: string;
     transports?: AuthenticatorTransportFuture[];
+  };
+}
+
+export interface ExtendedAuthenticationResponseJSON
+  extends AuthenticationResponseJSON {
+  response: {
+    clientDataJSON: string;
+    authenticatorData: string;
+    signature: string;
+    userHandle?: string;
   };
 }
 import { authConfig } from "@backend/config/auth.config";
@@ -27,11 +38,23 @@ import { eq } from "drizzle-orm";
 import { createId } from "@paralleldrive/cuid2";
 
 // Define our own AuthenticatorDevice type based on what we need
-interface AuthenticatorDevice {
+export interface AuthenticatorDevice {
   credentialID: string;
   credentialPublicKey: Uint8Array;
   counter: number;
   transports?: AuthenticatorTransportFuture[];
+}
+
+// Define a custom type for the verification parameters
+// This extends the official type to include the authenticator property
+export interface VerifyAuthenticationResponseOpts {
+  response: AuthenticationResponseJSON;
+  expectedChallenge:
+    | string
+    | ((challenge: string) => boolean | Promise<boolean>);
+  expectedOrigin: string | string[];
+  expectedRPID: string;
+  authenticator: AuthenticatorDevice;
 }
 
 // Define the expected origin based on the environment
@@ -278,13 +301,15 @@ export class WebAuthnService {
 
       // Verify the authentication response
       // The TypeScript types from @simplewebauthn/server don't match the actual expected input
-      // We need to use a type assertion to make it work
+      // We need to use a properly typed interface to make it work
       // The expectedChallenge parameter takes a callback function that compares the challenge
       // extracted from the clientDataJSON with our stored challenge from the session
       // This is a critical security check to prevent replay attacks
-      const verification = await verifyAuthenticationResponse({
+      // Use our custom type to properly type the verification parameters
+      // This ensures type safety while allowing the authenticator property
+      const verificationParams: VerifyAuthenticationResponseOpts = {
         response,
-        expectedChallenge: (clientChallenge) => {
+        expectedChallenge: (clientChallenge: string) => {
           console.log(
             `[WebAuthnService] Comparing client challenge with expected challenge`,
           );
@@ -298,9 +323,14 @@ export class WebAuthnService {
         },
         expectedOrigin,
         expectedRPID: authConfig.webauthn.rpID,
-        // @ts-expect-error - The SimpleWebAuthn types are incorrect, but this works at runtime
         authenticator,
-      });
+      };
+
+      const verification = await verifyAuthenticationResponse(
+        verificationParams as unknown as Parameters<
+          typeof verifyAuthenticationResponse
+        >[0],
+      );
 
       const { verified, authenticationInfo } = verification;
 

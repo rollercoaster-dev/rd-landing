@@ -1,15 +1,15 @@
 import { Hono } from "hono";
-import { WebAuthnService } from "@backend/services/webauthn.service";
+import {
+  WebAuthnService,
+  ExtendedRegistrationResponseJSON,
+  ExtendedAuthenticationResponseJSON,
+} from "@backend/services/webauthn.service";
 import { JwtService } from "@backend/services/jwt.service";
 import { authConfig } from "@backend/config/auth.config";
 import { setCookie } from "hono/cookie";
 import { authMiddleware } from "@backend/middleware/auth.middleware";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
-import type {
-  RegistrationResponseJSON,
-  AuthenticationResponseJSON,
-} from "@simplewebauthn/types";
 import type { Session } from "hono-sessions";
 
 // Define a custom type for the Hono context with our custom properties
@@ -109,11 +109,11 @@ webauthnRoutes.post(
       }
 
       // Verify the registration
+      // First convert to unknown to avoid type errors, then to the expected type
       const verification = await WebAuthnService.verifyRegistration(
         user.sub,
         friendlyName,
-        // @ts-expect-error - The SimpleWebAuthn types are incorrect, but this works at runtime
-        registrationResponse as RegistrationResponseJSON,
+        registrationResponse as unknown as ExtendedRegistrationResponseJSON,
         expectedChallenge,
       );
 
@@ -174,9 +174,9 @@ webauthnRoutes.post(
       }
 
       // Verify the authentication
+      // First convert to unknown to avoid type errors, then to the expected type
       const verification = await WebAuthnService.verifyAuthentication(
-        // @ts-expect-error - The SimpleWebAuthn types are incorrect, but this works at runtime
-        authenticationResponse as AuthenticationResponseJSON,
+        authenticationResponse as unknown as ExtendedAuthenticationResponseJSON,
         expectedChallenge,
       );
 
