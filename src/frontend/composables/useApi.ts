@@ -30,14 +30,20 @@ export function useApi() {
     error.value = null;
 
     try {
-      const response = await fetch(`${baseUrl}${endpoint}`, {
+      const fullUrl = `${baseUrl}${endpoint}`;
+      console.log(`API Request: ${options?.method || "GET"} ${fullUrl}`);
+
+      const response = await fetch(fullUrl, {
         // Use credentials to include cookies
         credentials: "include",
         ...options,
       });
 
+      console.log(`API Response: ${response.status} ${response.statusText}`);
+
       // Handle 401 Unauthorized silently before the general !response.ok check
       if (response.status === 401) {
+        console.log("API Response: 401 Unauthorized - returning null");
         return null;
       }
 

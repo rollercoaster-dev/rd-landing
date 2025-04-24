@@ -275,6 +275,7 @@ declare global {
   const useVibrate: (typeof import("@vueuse/core"))["useVibrate"];
   const useVirtualList: (typeof import("@vueuse/core"))["useVirtualList"];
   const useWakeLock: (typeof import("@vueuse/core"))["useWakeLock"];
+  const useWebAuthn: (typeof import("./src/frontend/composables/useWebAuthn"))["useWebAuthn"];
   const useWebNotification: (typeof import("@vueuse/core"))["useWebNotification"];
   const useWebSocket: (typeof import("@vueuse/core"))["useWebSocket"];
   const useWebWorker: (typeof import("@vueuse/core"))["useWebWorker"];
@@ -330,6 +331,12 @@ declare global {
     ThemeIntensity,
   } from "./src/frontend/composables/useTheme";
   import("./src/frontend/composables/useTheme");
+  // @ts-ignore
+  export type {
+    WebAuthnCredential,
+    UseWebAuthnReturnType,
+  } from "./src/frontend/composables/useWebAuthn";
+  import("./src/frontend/composables/useWebAuthn");
 }
 
 // for vue template auto import
@@ -1007,6 +1014,9 @@ declare module "vue" {
     >;
     readonly useWakeLock: UnwrapRef<
       (typeof import("@vueuse/core"))["useWakeLock"]
+    >;
+    readonly useWebAuthn: UnwrapRef<
+      (typeof import("./src/frontend/composables/useWebAuthn"))["useWebAuthn"]
     >;
     readonly useWebNotification: UnwrapRef<
       (typeof import("@vueuse/core"))["useWebNotification"]

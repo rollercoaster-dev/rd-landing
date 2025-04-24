@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Sun, Moon, Paintbrush, LogIn, LogOut } from "lucide-vue-next";
+import { Sun, Moon, Paintbrush, LogIn, LayoutDashboard } from "lucide-vue-next";
 import { useTheme } from "@/frontend/composables/useTheme";
 import { useAuth } from "@/frontend/composables/useAuth";
 import { ref, onMounted } from "vue";
@@ -90,15 +90,26 @@ const navigation: Array<{ name: string; href: string }> = [
             class="h-8 w-8 rounded-full border"
           />
           <!-- Add fallback avatar if needed -->
-          <UiButtonButton
+
+          <!-- Admin Link -->
+          <RouterLink
+            to="/admin"
+            :class="cn(buttonVariants({ variant: 'ghost', size: 'sm' }))"
+          >
+            <LayoutDashboard class="mr-1 h-4 w-4" />
+            Admin
+          </RouterLink>
+
+          <LogoutButton
             variant="ghost"
             size="icon"
-            class="rounded-full"
-            @click="auth.logout"
-          >
-            <LogOut class="h-5 w-5" />
-            <span class="sr-only">Logout</span>
-          </UiButtonButton>
+            button-class="rounded-full"
+            :show-text="false"
+            icon-class="h-5 w-5"
+            @logout:error="
+              (error: Error | string) => console.error('Logout error:', error)
+            "
+          />
         </div>
         <RouterLink
           v-else

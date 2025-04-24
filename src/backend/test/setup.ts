@@ -1,6 +1,68 @@
-// No imports needed from vitest here
+// Ensure essential environment variables are set *before* any application code is imported
+console.log("Setting up Hono test environment: Initializing env vars");
+
+// Check/set JWT Secret
+if (!process.env.RD_JWT_SECRET) {
+  console.warn(
+    "WARNING: RD_JWT_SECRET environment variable is not set. Setting a default for testing.",
+  );
+  // Use a longer, more secure-looking default secret for testing
+  process.env.RD_JWT_SECRET =
+    "default_test_secret_32_chars_long_for_hs256_!@#$%^&*";
+} else {
+  console.log("RD_JWT_SECRET environment variable is set");
+}
+
+// Check/set GitHub OAuth credentials
+if (!process.env.RD_GITHUB_CLIENT_ID) {
+  console.warn(
+    "WARNING: RD_GITHUB_CLIENT_ID environment variable is not set. Setting a default for testing.",
+  );
+  process.env.RD_GITHUB_CLIENT_ID = "test-client-id";
+}
+if (!process.env.RD_GITHUB_CLIENT_SECRET) {
+  console.warn(
+    "WARNING: RD_GITHUB_CLIENT_SECRET environment variable is not set. Setting a default for testing.",
+  );
+  process.env.RD_GITHUB_CLIENT_SECRET = "test-client-secret";
+}
+
+// Import vitest for mocking
+import { vi } from "vitest";
 import { createApp } from "../index";
 import { TestHttpClient } from "./httpClient";
+
+// Mock the database module
+vi.mock("../db/index", () => {
+  return {
+    db: {
+      query: vi.fn(),
+      select: vi.fn().mockReturnThis(),
+      from: vi.fn().mockReturnThis(),
+      where: vi.fn().mockReturnThis(),
+      execute: vi.fn().mockResolvedValue([]),
+    },
+    migrationDb: {
+      query: vi.fn(),
+    },
+  };
+});
+
+// Mock the static service module
+vi.mock("../services/static", () => {
+  return {
+    staticFilesMiddleware: vi.fn().mockImplementation((_c, next) => next()),
+  };
+});
+
+// Mock Bun-specific modules
+vi.mock("hono/bun", () => {
+  return {
+    serveStatic: vi.fn().mockImplementation(() => {
+      return vi.fn().mockImplementation((_c, next) => next());
+    }),
+  };
+});
 
 /**
  * Setup function for Hono tests
@@ -8,31 +70,6 @@ import { TestHttpClient } from "./httpClient";
  */
 export const setupHonoTest = () => {
   console.log("Setting up Hono test environment");
-
-  // Check for required environment variables
-  if (!process.env.RD_JWT_SECRET) {
-    console.warn(
-      "WARNING: RD_JWT_SECRET environment variable is not set. Setting a default for testing.",
-    );
-    process.env.RD_JWT_SECRET = "Im-a-little-teapot_short_and_stout";
-  } else {
-    console.log("RD_JWT_SECRET environment variable is set");
-  }
-
-  // Set GitHub OAuth environment variables for testing if not already set
-  if (!process.env.RD_GITHUB_CLIENT_ID) {
-    console.warn(
-      "WARNING: RD_GITHUB_CLIENT_ID environment variable is not set. Setting a default for testing.",
-    );
-    process.env.RD_GITHUB_CLIENT_ID = "test-client-id";
-  }
-
-  if (!process.env.RD_GITHUB_CLIENT_SECRET) {
-    console.warn(
-      "WARNING: RD_GITHUB_CLIENT_SECRET environment variable is not set. Setting a default for testing.",
-    );
-    process.env.RD_GITHUB_CLIENT_SECRET = "test-client-secret";
-  }
 
   const app = createApp();
   const client = new TestHttpClient(app);

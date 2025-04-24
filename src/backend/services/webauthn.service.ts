@@ -12,7 +12,12 @@ import type {
 
 // Define custom types for the SimpleWebAuthn library
 // These types extend the official types to include properties that are actually used
-// but not properly typed in the library
+// or structured differently at runtime than indicated by the @simplewebauthn/types definitions.
+// This is necessary due to discrepancies in the upstream library's typings.
+/**
+ * Custom interface extending the base RegistrationResponseJSON type from @simplewebauthn/types.
+ * This accurately reflects the structure received from the client and expected by certain parts of the verification logic.
+ */
 export interface ExtendedRegistrationResponseJSON
   extends RegistrationResponseJSON {
   response: {
@@ -22,6 +27,10 @@ export interface ExtendedRegistrationResponseJSON
   };
 }
 
+/**
+ * Custom interface extending the base AuthenticationResponseJSON type from @simplewebauthn/types.
+ * This accurately reflects the structure received from the client and expected by certain parts of the verification logic.
+ */
 export interface ExtendedAuthenticationResponseJSON
   extends AuthenticationResponseJSON {
   response: {
@@ -31,13 +40,17 @@ export interface ExtendedAuthenticationResponseJSON
     userHandle?: string;
   };
 }
+
 import { authConfig } from "@backend/config/auth.config";
 import { db } from "@backend/db";
 import { webauthnCredentials, users } from "@backend/db/schema";
 import { eq } from "drizzle-orm";
 import { createId } from "@paralleldrive/cuid2";
 
-// Define our own AuthenticatorDevice type based on what we need
+// Define our own AuthenticatorDevice type based on what we need for database storage
+// and passing to the verification functions. This aligns with the structure
+// expected by @simplewebauthn/server verification functions, despite potential
+// type mismatches in the library's own definitions.
 export interface AuthenticatorDevice {
   credentialID: string;
   credentialPublicKey: Uint8Array;
@@ -45,8 +58,10 @@ export interface AuthenticatorDevice {
   transports?: AuthenticatorTransportFuture[];
 }
 
-// Define a custom type for the verification parameters
-// This extends the official type to include the authenticator property
+// Define a custom type for the verification parameters passed to verifyAuthenticationResponse.
+// This is necessary because the official types for @simplewebauthn/server's
+// verifyAuthenticationResponse may not accurately reflect the expected shape, particularly
+// regarding the 'authenticator' property. This interface ensures our internal type safety.
 export interface VerifyAuthenticationResponseOpts {
   response: AuthenticationResponseJSON;
   expectedChallenge:
@@ -116,8 +131,13 @@ export class WebAuthnService {
    * @param userId The user ID
    * @param friendlyName Optional friendly name for the credential
    * @param response The registration response from the client
-   * @param expectedChallenge The expected challenge from the session
-   * @returns The verification result
+   * @param expectedChallenge The expected challenge string retrieved from the user's session.
+   * @returns The verification result, including the credential ID if successful.
+   * @remarks
+   * This method uses a type assertion (`as unknown as RegistrationInfoWithCredentials`)
+   * when handling the `registrationInfo` returned by `verifyRegistrationResponse`.
+   * This is a workaround for inaccuracies in the `@simplewebauthn/server` library's return types.
+   * The local `RegistrationInfoWithCredentials` interface defines the expected structure based on runtime behavior.
    */
   static async verifyRegistration(
     userId: string,
@@ -263,8 +283,14 @@ export class WebAuthnService {
   /**
    * Verify a WebAuthn authentication response
    * @param response The authentication response from the client
-   * @param expectedChallenge The expected challenge from the session
-   * @returns The verification result with user information if successful
+   * @param expectedChallenge The expected challenge string retrieved from the user's session.
+   * @returns The verification result, including user information if successful.
+   * @remarks
+   * This method uses a type assertion (`as unknown as Parameters<typeof verifyAuthenticationResponse>[0]`)
+   * when calling `verifyAuthenticationResponse` with the `verificationParams` object.
+   * This is necessary because the structure defined in our local `VerifyAuthenticationResponseOpts`,
+   * particularly the inclusion of the `authenticator` object, aligns with the runtime requirements
+   * but may not match the library's potentially inaccurate compile-time type definitions.
    */
   static async verifyAuthentication(
     response: AuthenticationResponseJSON,
@@ -377,9 +403,9 @@ export class WebAuthnService {
   }
 
   /**
-   * Get all WebAuthn credentials for a user
-   * @param userId The user ID
-   * @returns Array of credentials
+   * Get all WebAuthn credentials registered for a specific user.
+   * @param userId The ID of the user whose credentials are to be retrieved.
+   * @returns A promise that resolves to an array of credential objects, containing selected fields safe for client display.
    */
   static async getUserCredentials(userId: string) {
     console.log(`[WebAuthnService] Getting credentials for user: ${userId}`);

@@ -1,4 +1,13 @@
 // Load environment variables safely
+// Check if we're in a test environment
+const isTestEnv = process.env.NODE_ENV === "test" || process.env.VITEST;
+
+// Set default values for test environment
+if (isTestEnv && !process.env.RD_JWT_SECRET) {
+  process.env.RD_JWT_SECRET = "test-jwt-secret-for-testing-only";
+  console.log("Using test JWT secret for testing");
+}
+
 const JWT_SECRET = process.env.RD_JWT_SECRET;
 const RP_NAME = process.env.RD_RP_NAME || "Rollercoaster.dev";
 const RP_ID = process.env.RD_RP_ID || "localhost"; // Should match domain in production
@@ -6,7 +15,10 @@ const ORIGIN = process.env.RD_ORIGIN || `http://${RP_ID}:5173`; // Frontend orig
 
 if (!JWT_SECRET) {
   console.error("Error: RD_JWT_SECRET environment variable is not set.");
-  process.exit(1);
+  // Don't exit in test environment
+  if (!isTestEnv) {
+    process.exit(1);
+  }
 }
 
 export const authConfig = {
