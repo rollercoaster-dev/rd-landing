@@ -5,4 +5,4 @@ npx lint-staged
 bun format
 bun lint-staged
 bun type-check
-bun test
+bun run test

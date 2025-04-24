@@ -10,7 +10,6 @@ export interface AppJwtPayload extends JWTPayload {
  * Service for handling JWT generation and verification using 'jose'.
  */
 export class JwtService {
-  private static readonly JWT_SECRET_STRING = process.env.RD_JWT_SECRET;
   private static JWT_SECRET: Uint8Array | null = null;
 
   private static readonly JWT_EXPIRY_SECONDS = parseInt(
@@ -24,16 +23,36 @@ export class JwtService {
    * Throws an error if the JWT_SECRET environment variable is not set.
    */
   private static initialize() {
-    if (!this.JWT_SECRET_STRING) {
+    // Only initialize if needed
+    if (this.JWT_SECRET) {
+      return;
+    }
+
+    // Read the secret directly from process.env *when* initialization is needed
+    const secretString = process.env.RD_JWT_SECRET;
+    if (!secretString) {
+      console.error(
+        "[JWT] RD_JWT_SECRET environment variable is not set or is empty during initialization.",
+      );
       throw new Error(
         "RD_JWT_SECRET environment variable is not set or is empty.",
       );
     }
-    if (!this.JWT_SECRET) {
-      // Initialize the JWT secret without logging it
+
+    try {
       const encoder = new TextEncoder();
-      this.JWT_SECRET = encoder.encode(this.JWT_SECRET_STRING);
+      this.JWT_SECRET = encoder.encode(secretString);
       console.debug(`[JWT] Secret initialized successfully`);
+    } catch (error) {
+      console.error("[JWT] Error encoding JWT secret string:", error);
+      throw new Error("Failed to encode JWT secret");
+    }
+
+    // Final check
+    if (!this.JWT_SECRET) {
+      // This case should be unlikely if encode doesn't throw, but good practice
+      console.error("[JWT] Failed to set JWT_SECRET during initialization.");
+      throw new Error("JWT Secret could not be processed.");
     }
   }
 
@@ -55,7 +74,17 @@ export class JwtService {
       const claimKeys = Object.keys(additionalClaims);
       console.debug(`[JWT] Including claims: ${claimKeys.join(", ")}`);
 
-      this.initialize(); // Ensure secret is encoded
+      this.initialize(); // Ensure secret is read and encoded if needed
+
+      // Explicitly check JWT_SECRET before signing
+      const secret = this.JWT_SECRET;
+      if (!secret) {
+        console.error(
+          "[JWT] Cannot sign token: JWT secret is not available after initialization.",
+        );
+        throw new Error("Token generation failed due to missing secret.");
+      }
+
       const issuedAt = Math.floor(Date.now() / 1000);
       const expiresAt = issuedAt + this.JWT_EXPIRY_SECONDS;
 
@@ -70,14 +99,27 @@ export class JwtService {
         // .setIssuer('your_app_identifier')
         // .setAudience('your_app_audience')
         .setExpirationTime(expiresAt)
-        .sign(this.JWT_SECRET!); // Use the encoded secret (non-null asserted due to initialize)
+        .sign(secret); // Use the validated secret
 
       console.debug(`[JWT] Token generated successfully`);
       return token;
-    } catch (error) {
-      // Log error without potentially sensitive details
-      console.error("[JWT] Failed to generate JWT token");
-      throw new Error("Token generation failed");
+    } catch (error: unknown) {
+      // Catch specific error
+      console.error(
+        "[JWT] Failed to generate JWT token:",
+        error instanceof Error ? error.message : error,
+      );
+      // Check if it's one of the specific errors we throw
+      if (
+        error instanceof Error &&
+        (error.message.includes("missing secret") ||
+          error.message.includes("RD_JWT_SECRET") ||
+          error.message.includes("encode JWT secret"))
+      ) {
+        throw error; // Propagate specific initialization/secret errors
+      }
+      // Otherwise, assume it's a signing error or other issue from jose
+      throw new Error("Token generation failed during signing process");
     }
   }
 
@@ -90,10 +132,20 @@ export class JwtService {
    */
   static async verifyToken(token: string): Promise<AppJwtPayload> {
     try {
-      this.initialize(); // Ensure secret is encoded
+      this.initialize(); // Ensure secret is read and encoded if needed
+
+      // Explicitly check JWT_SECRET before verifying
+      const secret = this.JWT_SECRET;
+      if (!secret) {
+        console.error(
+          "[JWT] Cannot verify token: JWT secret is not available after initialization.",
+        );
+        throw new Error("Token verification failed due to missing secret.");
+      }
+
       const { payload } = await jwtVerify(
         token,
-        this.JWT_SECRET!, // Use the encoded secret
+        secret, // Use the validated secret
         {
           algorithms: [this.ALGORITHM],
         },
@@ -106,15 +158,25 @@ export class JwtService {
 
       // Cast to our specific payload type (add more checks if needed)
       return payload as AppJwtPayload;
-    } catch (error: unknown) {
+    } catch (_error) {
+      // Propagate specific initialization/secret errors first
+      if (
+        _error instanceof Error &&
+        (_error.message.includes("missing secret") ||
+          _error.message.includes("RD_JWT_SECRET") ||
+          _error.message.includes("encode JWT secret"))
+      ) {
+        throw _error;
+      }
+
       // Log specific jose errors differently if needed
       let errorMessage = "Invalid or expired token";
-      if (error instanceof Error) {
+      if (_error instanceof Error) {
         // Check jose error codes if available
         // Safer check for the 'code' property
         const joseErrorCode =
-          typeof error === "object" && error !== null && "code" in error
-            ? error.code
+          typeof _error === "object" && _error !== null && "code" in _error
+            ? _error.code
             : undefined;
         if (joseErrorCode === "ERR_JWT_EXPIRED") {
           console.info("JWT verification failed: Token expired");
@@ -126,12 +188,12 @@ export class JwtService {
           console.warn("JWT verification failed: Invalid signature or format");
           errorMessage = "Invalid token signature or format";
         } else {
-          console.error("JWT verification failed:", error.message);
+          console.error("JWT verification failed:", _error.message);
           errorMessage = "Token verification failed";
         }
       } else {
         // Handle non-Error throws if necessary
-        console.error("JWT verification failed with non-Error:", error);
+        console.error("JWT verification failed with non-Error:", _error);
         errorMessage = "An unexpected error occurred during token verification";
       }
       // Re-throw a specific error message

@@ -1,22 +1,17 @@
 import { Hono } from "hono";
 import { authRoutes } from "./auth";
-import { badgesRoutes } from "./badges";
+// Remove unused badge routes import
 import { userRoutes } from "./users/users.routes";
-import {
-  authMiddleware,
-  type Variables as AuthVariables,
-} from "@backend/middleware/auth.middleware";
 
 // Create a new Hono app for API routes
-export const apiRoutes = new Hono<{
-  Variables: AuthVariables;
-}>();
+export const apiRoutes = new Hono();
 
 // Mount auth routes
 apiRoutes.route("/auth", authRoutes);
 
-// Mount badge routes
-apiRoutes.route("/badges", badgesRoutes);
+// Mount badge routes - Apply middleware before the route group
+// apiRoutes.use("/badges/*", authMiddleware); // Protect all /badges/* routes
+// Remove mounting of badge routes
 
 // Mount user routes
 apiRoutes.route("/users", userRoutes);
@@ -38,12 +33,6 @@ apiRoutes.get("/test", (c) =>
     timestamp: new Date().toISOString(),
   }),
 );
-
-// Protected routes
-apiRoutes.get("/me", authMiddleware, (c) => {
-  const user = c.get("user");
-  return c.json({ user });
-});
 
 // Export the type
 export type ApiRoutesType = typeof apiRoutes;

@@ -14,6 +14,8 @@ interface Badge {
   createdAt: string;
 }
 
+import { ref } from "vue";
+
 export function useApi() {
   const baseUrl = "http://localhost:3000/api";
   const loading = ref(false);
@@ -30,14 +32,20 @@ export function useApi() {
     error.value = null;
 
     try {
-      const response = await fetch(`${baseUrl}${endpoint}`, {
+      const fullUrl = `${baseUrl}${endpoint}`;
+      console.log(`API Request: ${options?.method || "GET"} ${fullUrl}`);
+
+      const response = await fetch(fullUrl, {
         // Use credentials to include cookies
         credentials: "include",
         ...options,
       });
 
+      console.log(`API Response: ${response.status} ${response.statusText}`);
+
       // Handle 401 Unauthorized silently before the general !response.ok check
       if (response.status === 401) {
+        console.log("API Response: 401 Unauthorized - returning null");
         return null;
       }
 
@@ -87,6 +95,16 @@ export function useApi() {
   }
 
   /**
+   * Wrapper for DELETE requests
+   */
+  async function deleteData<T>(
+    endpoint: string,
+    options?: RequestInit,
+  ): Promise<T | null> {
+    return fetchData<T>(endpoint, { method: "DELETE", ...options });
+  }
+
+  /**
    * Test the API connection
    */
   async function testConnection() {
@@ -116,6 +134,7 @@ export function useApi() {
     getBadges,
     getBadge,
     fetchData,
+    deleteData,
   };
 }
 

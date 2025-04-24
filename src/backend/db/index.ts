@@ -2,8 +2,17 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as schema from "./schema"; // Import your schema
 
+// Check for database URL environment variable
 if (!process.env.RD_DATABASE_URL) {
-  throw new Error("RD_DATABASE_URL environment variable is not set");
+  // Check if we're in a test environment
+  if (process.env.NODE_ENV !== "test" && !process.env.VITEST) {
+    throw new Error("RD_DATABASE_URL environment variable is not set");
+  } else {
+    // In test environment, use an in-memory SQLite database URL
+    process.env.RD_DATABASE_URL =
+      "postgres://postgres:postgres@localhost:5432/test";
+    console.log("Using test database URL for testing");
+  }
 }
 
 // Client for standard query operations (includes schema)

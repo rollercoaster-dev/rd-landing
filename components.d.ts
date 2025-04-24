@@ -9,6 +9,14 @@ export {};
 declare module 'vue' {
   export interface GlobalComponents {
     ApiTest: typeof import('./src/frontend/components/ApiTest.vue')['default']
+    AuthLogoutButton: typeof import('./src/frontend/components/auth/LogoutButton.vue')['default']
+    'AuthLogoutButton.story': typeof import('./src/frontend/components/auth/LogoutButton.story.vue')['default']
+    AuthWebAuthnCredentials: typeof import('./src/frontend/components/auth/WebAuthnCredentials.vue')['default']
+    'AuthWebAuthnCredentials.story': typeof import('./src/frontend/components/auth/WebAuthnCredentials.story.vue')['default']
+    AuthWebAuthnLogin: typeof import('./src/frontend/components/auth/WebAuthnLogin.vue')['default']
+    'AuthWebAuthnLogin.story': typeof import('./src/frontend/components/auth/WebAuthnLogin.story.vue')['default']
+    AuthWebAuthnRegister: typeof import('./src/frontend/components/auth/WebAuthnRegister.vue')['default']
+    'AuthWebAuthnRegister.story': typeof import('./src/frontend/components/auth/WebAuthnRegister.story.vue')['default']
     HelloWorld: typeof import('./src/frontend/components/HelloWorld.vue')['default']
     RdBaseActionCard: typeof import('./src/frontend/components/rd/Base/ActionCard/index.vue')['default']
     'RdBaseActionCardActionCard.story': typeof import('./src/frontend/components/rd/Base/ActionCard/ActionCard.story.vue')['default']
@@ -24,6 +32,7 @@ declare module 'vue' {
     'RdBaseSectionHeader.story': typeof import('./src/frontend/components/rd/Base/SectionHeader.story.vue')['default']
     RdHeadlineGradient: typeof import('./src/frontend/components/rd/HeadlineGradient/index.vue')['default']
     'RdHeadlineGradientHeadlineGradient.story': typeof import('./src/frontend/components/rd/HeadlineGradient/HeadlineGradient.story.vue')['default']
+    RdLayoutAdminLayout: typeof import('./src/frontend/components/rd/layout/AdminLayout.vue')['default']
     RdLayoutHeader: typeof import('./src/frontend/components/rd/layout/Header.vue')['default']
     'RdLayoutHeader.story': typeof import('./src/frontend/components/rd/layout/Header.story.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

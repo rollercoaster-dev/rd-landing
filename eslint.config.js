@@ -14,6 +14,7 @@ export default tseslint.config(
       "**/.vitepress/dist/*",
       "node_modules",
       "src/frontend/components/ui/**", // Ignore shadcn/ui components
+      "**/*.story.vue", // Ignore Histoire story files
     ],
   },
 
@@ -73,7 +74,7 @@ export default tseslint.config(
       // Your specific rule overrides/additions
       "no-unused-vars": "off", // Use TS version
       "@typescript-eslint/no-unused-vars": [
-        "warn",
+        "error",
         { argsIgnorePattern: "^_" },
       ],
       "@typescript-eslint/no-explicit-any": "error",
