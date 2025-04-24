@@ -1,9 +1,10 @@
 import nodemailer from "nodemailer";
 import { createId } from "@paralleldrive/cuid2";
-import { db } from "@backend/db";
-import { verificationTokens } from "@backend/db/schema";
+import { db } from "../db";
+import { verificationTokens } from "../db/schema";
 import { eq, and } from "drizzle-orm";
 import crypto from "crypto";
+import { logger } from "./logger.service";
 
 // Email configuration
 const EMAIL_FROM = process.env.RD_EMAIL_FROM || "noreply@rollercoaster.dev";
@@ -58,7 +59,10 @@ export class EmailService {
    * @returns The generated token
    */
   static async generateToken(userId: string, type: string) {
-    console.log(`[EmailService] Generating ${type} token for user: ${userId}`);
+    logger.debug(`Generating ${type} token for user: ${userId}`, {
+      userId,
+      tokenType: type,
+    });
 
     // Generate a random token
     const tokenValue = crypto.randomBytes(32).toString("hex");
@@ -106,7 +110,10 @@ export class EmailService {
    * @returns Whether the token is valid
    */
   static async verifyToken(userId: string, token: string, type: string) {
-    console.log(`[EmailService] Verifying ${type} token for user: ${userId}`);
+    logger.debug(`Verifying ${type} token for user: ${userId}`, {
+      userId,
+      tokenType: type,
+    });
 
     // Hash the token for comparison
     const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
@@ -125,7 +132,10 @@ export class EmailService {
       .limit(1);
 
     if (tokenResult.length === 0) {
-      console.warn(`[EmailService] Token not found for user: ${userId}`);
+      logger.warn(`Token not found for user: ${userId}`, {
+        userId,
+        tokenType: type,
+      });
       return { valid: false, error: "Token not found" };
     }
 
@@ -133,7 +143,10 @@ export class EmailService {
 
     // Check if the token has expired
     if (new Date() > storedToken.expiresAt) {
-      console.warn(`[EmailService] Token expired for user: ${userId}`);
+      logger.warn(`Token expired for user: ${userId}`, {
+        userId,
+        tokenType: type,
+      });
       return { valid: false, error: "Token expired" };
     }
 
@@ -152,7 +165,7 @@ export class EmailService {
    * @returns Whether the email was sent successfully
    */
   static async sendVerificationEmail(to: string, userId: string) {
-    console.log(`[EmailService] Sending verification email to: ${to}`);
+    logger.info(`Sending verification email to: ${to}`, { userId, email: to });
 
     try {
       // Generate a verification token
@@ -243,10 +256,18 @@ The Rollercoaster.dev Team
       const transporter = createTransporter();
       const info = await transporter.sendMail(emailContent);
 
-      console.log(`[EmailService] Email sent: ${info.messageId}`);
+      logger.info(`Email sent: ${info.messageId}`, {
+        userId,
+        email: to,
+        messageId: info.messageId,
+      });
       return { success: true, messageId: info.messageId };
     } catch (error) {
-      console.error(`[EmailService] Error sending verification email:`, error);
+      logger.error(
+        `Error sending verification email:`,
+        error instanceof Error ? error : new Error(String(error)),
+        { userId, email: to },
+      );
       return { success: false, error: (error as Error).message };
     }
   }
@@ -258,7 +279,10 @@ The Rollercoaster.dev Team
    * @returns Whether the email was sent successfully
    */
   static async sendPasswordResetEmail(to: string, userId: string) {
-    console.log(`[EmailService] Sending password reset email to: ${to}`);
+    logger.info(`Sending password reset email to: ${to}`, {
+      userId,
+      email: to,
+    });
 
     try {
       // Generate a password reset token
@@ -349,12 +373,17 @@ The Rollercoaster.dev Team
       const transporter = createTransporter();
       const info = await transporter.sendMail(emailContent);
 
-      console.log(`[EmailService] Email sent: ${info.messageId}`);
+      logger.info(`Email sent: ${info.messageId}`, {
+        userId,
+        email: to,
+        messageId: info.messageId,
+      });
       return { success: true, messageId: info.messageId };
     } catch (error) {
-      console.error(
-        `[EmailService] Error sending password reset email:`,
-        error,
+      logger.error(
+        `Error sending password reset email:`,
+        error instanceof Error ? error : new Error(String(error)),
+        { userId, email: to },
       );
       return { success: false, error: (error as Error).message };
     }

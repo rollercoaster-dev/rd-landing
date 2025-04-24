@@ -1,10 +1,11 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { logger } from "hono/logger";
 import { apiRoutes } from "./api/routes";
 import { staticFilesMiddleware } from "./services/static";
 import { authConfig } from "./config/auth.config"; // Import auth config
 import { sessionMiddleware, CookieStore } from "hono-sessions";
+import { logger } from "./services/logger.service";
+import { loggerMiddleware } from "./middleware/logger.middleware";
 
 // Create a session secret key
 const SESSION_SECRET =
@@ -16,8 +17,8 @@ export const createApp = () => {
   // Create the main Hono app
   const app = new Hono();
 
-  // Add logger middleware
-  app.use("*", logger());
+  // Add custom logger middleware
+  app.use("*", loggerMiddleware);
 
   // Add CORS middleware
   app.use(
@@ -73,7 +74,10 @@ export const createApp = () => {
 
   // Error handling
   app.onError((err, c) => {
-    console.error(`[ERR] Error:`, err);
+    logger.error(
+      `Error handling request:`,
+      err instanceof Error ? err : new Error(String(err)),
+    );
 
     if (err.message === "Unauthorized") {
       return c.json({ message: "Unauthorized" }, 401);
@@ -105,14 +109,14 @@ export type AppType = ReturnType<typeof createApp>;
 // Keep the server start logic separate, only run if file is executed directly
 if (import.meta.main) {
   const appInstance = createApp();
-  const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+  const port = process.env.PORT ? parseInt(process.env.PORT) : 3001;
 
-  console.log(`🔥 Hono server starting on port ${port}...`);
+  logger.info(`Hono server starting on port ${port}...`);
 
   Bun.serve({
     port,
     fetch: appInstance.fetch,
   });
 
-  console.log(`🔥 Hono is running at http://localhost:${port}`);
+  logger.info(`Hono is running at http://localhost:${port}`);
 }
