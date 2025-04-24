@@ -14,6 +14,8 @@ interface Badge {
   createdAt: string;
 }
 
+import { ref } from "vue";
+
 export function useApi() {
   const baseUrl = "http://localhost:3000/api";
   const loading = ref(false);
@@ -93,6 +95,16 @@ export function useApi() {
   }
 
   /**
+   * Wrapper for DELETE requests
+   */
+  async function deleteData<T>(
+    endpoint: string,
+    options?: RequestInit,
+  ): Promise<T | null> {
+    return fetchData<T>(endpoint, { method: "DELETE", ...options });
+  }
+
+  /**
    * Test the API connection
    */
   async function testConnection() {
@@ -122,6 +134,7 @@ export function useApi() {
     getBadges,
     getBadge,
     fetchData,
+    deleteData,
   };
 }
 

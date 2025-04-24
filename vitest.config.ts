@@ -17,6 +17,7 @@ export default defineConfig({
       ["**/backend/**/*.test.ts", "node"],
     ],
     globals: true,
+    setupFiles: ["src/frontend/vitest.setup.ts"],
     deps: {
       inline: ["@vue"],
     },

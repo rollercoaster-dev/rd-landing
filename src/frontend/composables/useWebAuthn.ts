@@ -2,7 +2,7 @@
  * WebAuthn composable for client-side WebAuthn operations
  * Uses @simplewebauthn/browser for WebAuthn functionality
  */
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import {
   startRegistration,
   startAuthentication,
@@ -40,6 +40,9 @@ export function useWebAuthn() {
   const error = ref<string | null>(null);
   const credentials = ref<WebAuthnCredential[]>([]);
   const isLoading = ref(false);
+  const isWebAuthnSupported = ref<boolean>(false);
+  // Track when the check for WebAuthn support is complete
+  const webAuthnSupportPromise = ref<Promise<boolean>>(Promise.resolve(false));
 
   /**
    * Start the WebAuthn registration process
@@ -52,62 +55,68 @@ export function useWebAuthn() {
     isRegistering.value = true;
     error.value = null;
 
+    // 1. Fetch registration options
+    let optionsResponse: PublicKeyCredentialCreationOptionsJSON | null;
     try {
-      // 1. Request registration options from the server
-      const optionsResponse =
+      optionsResponse =
         await api.fetchData<PublicKeyCredentialCreationOptionsJSON>(
           "/auth/webauthn/register/options",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ friendlyName }),
-          },
+          { method: "POST" },
         );
-
-      console.log("Registration options response:", optionsResponse);
-
-      if (!optionsResponse) {
-        throw new Error("Failed to get registration options");
-      }
-
-      // 2. Start the registration process in the browser
-      const registrationResponse = await startRegistration({
-        optionsJSON: optionsResponse,
-      });
-
-      // 3. Send the response to the server for verification
-      const verificationResponse = await api.fetchData<{ success: boolean }>(
-        "/auth/webauthn/register/verify",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            registrationResponse,
-            friendlyName,
-          }),
-        },
-      );
-
-      if (!verificationResponse || !verificationResponse.success) {
-        throw new Error("Failed to verify registration");
-      }
-
-      // 4. Refresh the credentials list
-      await fetchCredentials();
-
-      return true;
     } catch (err) {
       console.error("WebAuthn registration error:", err);
-      error.value =
-        err instanceof Error ? err.message : "Unknown registration error";
-      return false;
-    } finally {
+      error.value = "Failed to fetch registration options";
       isRegistering.value = false;
+      return false;
     }
+    if (!optionsResponse) {
+      error.value = "Failed to fetch registration options";
+      isRegistering.value = false;
+      return false;
+    }
+
+    // 2. Registration ceremony
+    let registrationResponse;
+    try {
+      registrationResponse = await startRegistration({
+        optionsJSON: optionsResponse,
+      });
+    } catch (err) {
+      console.error("WebAuthn registration error:", err);
+      error.value = "Registration ceremony failed";
+      isRegistering.value = false;
+      return false;
+    }
+
+    // 3. Verify registration
+    let verificationResponse: { success: boolean; message?: string } | null;
+    try {
+      verificationResponse = await api.fetchData<{
+        success: boolean;
+        message?: string;
+      }>("/auth/webauthn/register/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ registrationResponse, friendlyName }),
+      });
+    } catch (err) {
+      console.error("WebAuthn registration error:", err);
+      error.value = "Failed to verify registration";
+      isRegistering.value = false;
+      return false;
+    }
+    if (!verificationResponse || !verificationResponse.success) {
+      const msg = verificationResponse?.message
+        ? `: ${verificationResponse.message}`
+        : "";
+      error.value = `Failed to verify registration${msg}`;
+      isRegistering.value = false;
+      return false;
+    }
+
+    // 4. Registration completed (credentials refresh handled separately)
+    isRegistering.value = false;
+    return true;
   }
 
   /**
@@ -118,71 +127,83 @@ export function useWebAuthn() {
     isAuthenticating.value = true;
     error.value = null;
 
+    // 1. Fetch authentication options
+    let optionsResponse: PublicKeyCredentialRequestOptionsJSON | null;
     try {
-      // 1. Request authentication options from the server
-      const optionsResponse =
+      optionsResponse =
         await api.fetchData<PublicKeyCredentialRequestOptionsJSON>(
           "/auth/webauthn/login/options",
-          {
-            method: "POST",
-          },
+          { method: "POST" },
         );
-
-      console.log("Authentication options response:", optionsResponse);
-
-      if (!optionsResponse) {
-        throw new Error("Failed to get authentication options");
-      }
-
-      // 2. Start the authentication process in the browser
-      const authenticationResponse = await startAuthentication({
-        optionsJSON: optionsResponse,
-      });
-
-      // 3. Send the response to the server for verification
-      const verificationResponse = await api.fetchData<{
-        success: boolean;
-        user?: User;
-      }>("/auth/webauthn/login/verify", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          authenticationResponse,
-        }),
-      });
-
-      console.log(
-        "Authentication verification response:",
-        verificationResponse,
-      );
-
-      if (!verificationResponse || !verificationResponse.success) {
-        throw new Error("Failed to verify authentication");
-      }
-
-      // 4. Update the auth state
-      await auth.fetchUser();
-
-      return true;
     } catch (err) {
       console.error("WebAuthn authentication error:", err);
-      error.value =
-        err instanceof Error ? err.message : "Unknown authentication error";
-      return false;
-    } finally {
+      error.value = "Failed to fetch authentication options";
       isAuthenticating.value = false;
+      return false;
     }
+    if (!optionsResponse) {
+      error.value = "Failed to fetch authentication options";
+      isAuthenticating.value = false;
+      return false;
+    }
+
+    // 2. Authentication ceremony
+    let authenticationResponse;
+    try {
+      authenticationResponse = await startAuthentication({
+        optionsJSON: optionsResponse,
+      });
+    } catch (err) {
+      console.error("WebAuthn authentication error:", err);
+      error.value = "Authentication ceremony failed";
+      isAuthenticating.value = false;
+      return false;
+    }
+
+    // 3. Verify authentication
+    let verificationResponse: {
+      success: boolean;
+      user?: User;
+      message?: string;
+    } | null;
+    try {
+      verificationResponse = await api.fetchData<{
+        success: boolean;
+        user?: User;
+        message?: string;
+      }>("/auth/webauthn/login/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ authenticationResponse }),
+      });
+    } catch (err) {
+      console.error("WebAuthn authentication error:", err);
+      error.value = "Failed to verify authentication";
+      isAuthenticating.value = false;
+      return false;
+    }
+    if (!verificationResponse || !verificationResponse.success) {
+      const msg = verificationResponse?.message
+        ? `: ${verificationResponse.message}`
+        : "";
+      error.value = `WebAuthn verification failed on server${msg}`;
+      isAuthenticating.value = false;
+      return false;
+    }
+
+    // 4. Update auth state
+    await auth.fetchUser();
+    isAuthenticating.value = false;
+    return true;
   }
 
   /**
    * Fetch the user's WebAuthn credentials
    */
-  async function fetchCredentials() {
+  async function fetchCredentials(): Promise<boolean> {
     if (!auth.isAuthenticated) {
       credentials.value = [];
-      return;
+      return false;
     }
 
     isLoading.value = true;
@@ -192,19 +213,32 @@ export function useWebAuthn() {
       const response = await api.fetchData<WebAuthnCredential[]>(
         "/auth/webauthn/credentials",
       );
+      console.log(
+        `[DEBUG fetchCredentials ${auth.user?.id}] Received response:`,
+        JSON.stringify(response),
+      );
 
       if (response) {
         credentials.value = response;
+        console.log(
+          `[DEBUG fetchCredentials ${auth.user?.id}] Credentials after assignment:`,
+          JSON.stringify(credentials.value),
+        );
       } else {
         credentials.value = [];
+        console.log(
+          `[DEBUG fetchCredentials ${auth.user?.id}] Response was null/undefined, cleared credentials.`,
+        );
       }
+      return true;
     } catch (err) {
       console.error("Error fetching WebAuthn credentials:", err);
       error.value =
         err instanceof Error
-          ? err.message
-          : "Unknown error fetching credentials";
+          ? `Failed to fetch credentials: ${err.message}`
+          : "Failed to fetch credentials";
       credentials.value = [];
+      return false;
     } finally {
       isLoading.value = false;
     }
@@ -219,63 +253,76 @@ export function useWebAuthn() {
     error.value = null; // Clear previous errors
 
     try {
-      // 1. Send DELETE request to the server using api.fetchData
-      const response = await api.fetchData<{
+      const response = await api.deleteData<{
         success: boolean;
         message?: string;
       }>(`/auth/webauthn/credentials/${credentialId}`, { method: "DELETE" });
-
-      // console.log(`Delete credential ${credentialId} response:`, response);
 
       if (!response || !response.success) {
         const serverMessage = response?.message ? `: ${response.message}` : "";
         throw new Error(`Server failed to delete credential${serverMessage}`);
       }
 
-      // 2. Refresh the credentials list on success
-      try {
-        await fetchCredentials();
-        return true; // Explicitly return true on success
-      } catch (refreshErr) {
-        console.error(
-          `Error refreshing credentials after deletion:`,
-          refreshErr,
-        );
-        error.value =
-          refreshErr instanceof Error
-            ? refreshErr.message
-            : "Failed to fetch updated credentials";
-        credentials.value = []; // Clear credentials on refresh error
-        return false;
+      // Deletion successful, now refresh the list
+      const fetchSuccess = await fetchCredentials();
+      if (!fetchSuccess) {
+        // If fetching fails after a successful delete, the operation overall is problematic.
+        console.warn("Credential deleted, but failed to refresh the list.");
+        error.value = "Credential deleted, but failed to refresh the list."; // Optionally set an error
+        return false; // Return false as the overall operation didn't complete cleanly
       }
+
+      // If delete succeeded AND fetch succeeded
+      return true;
+    } catch (err: unknown) {
+      console.error("Failed to delete credential:", err);
+
+      // Set the error message based on the error type
+      if (err instanceof Error) {
+        error.value = err.message;
+      } else {
+        error.value = "An unknown error occurred during credential deletion.";
+      }
+
+      credentials.value = []; // Clear credentials on error
+      return false; // Return false on error
+    }
+  }
+
+  // Function to check WebAuthn support that returns a promise
+  async function checkWebAuthnSupport(): Promise<boolean> {
+    if (
+      !window?.PublicKeyCredential ||
+      typeof window.PublicKeyCredential
+        .isUserVerifyingPlatformAuthenticatorAvailable !== "function"
+    ) {
+      console.warn("WebAuthn is not supported in this browser");
+      error.value = "WebAuthn is not supported in this browser";
+      return false;
+    }
+
+    try {
+      const supported =
+        await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+      isWebAuthnSupported.value = supported;
+
+      if (supported) {
+        console.log("WebAuthn is supported in this browser");
+      } else {
+        console.warn("WebAuthn is not supported in this browser");
+        error.value = "WebAuthn is not supported in this browser";
+      }
+
+      return supported;
     } catch (err) {
-      console.error(`Error deleting credential ${credentialId}:`, err);
-      error.value =
-        err instanceof Error
-          ? err.message
-          : "Unknown error deleting credential";
+      console.warn("Error checking WebAuthn support:", err);
+      error.value = "WebAuthn is not supported in this browser";
       return false;
     }
   }
 
-  /**
-   * Check if WebAuthn is supported in the current browser
-   */
-  const isWebAuthnSupported = computed(() => {
-    return (
-      window &&
-      window.PublicKeyCredential !== undefined &&
-      typeof window.PublicKeyCredential === "function"
-    );
-  });
-
-  // Initialize by checking if WebAuthn is supported
-  if (isWebAuthnSupported.value) {
-    console.log("WebAuthn is supported in this browser");
-  } else {
-    console.warn("WebAuthn is not supported in this browser");
-    error.value = "WebAuthn is not supported in this browser";
-  }
+  // Start the check immediately
+  webAuthnSupportPromise.value = checkWebAuthnSupport();
 
   return {
     // State
@@ -285,6 +332,7 @@ export function useWebAuthn() {
     credentials,
     isLoading,
     isWebAuthnSupported,
+    webAuthnSupportPromise, // Expose for testing
 
     // Methods
     registerWebAuthnDevice,

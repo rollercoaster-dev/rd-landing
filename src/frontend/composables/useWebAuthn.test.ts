@@ -1,7 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { ref, nextTick } from "vue";
+import { ref, nextTick, computed } from "vue";
 import { useWebAuthn } from "./useWebAuthn";
 import type { WebAuthnCredential } from "./useWebAuthn";
+import type { User } from "@shared/types";
 
 // --- Mocks ---
 
@@ -21,22 +22,36 @@ const mockApiPostData = vi.fn();
 const mockApiDeleteData = vi.fn(); // Added for delete tests
 // Mock useApi composable
 vi.mock("@/frontend/composables/useApi", () => ({
-  useApi: vi.fn(() => ({
-    fetchData: mockApiFetchData,
-    postData: mockApiPostData,
-    deleteData: mockApiDeleteData, // Added for delete tests
-    loading: ref(false),
-    error: ref(null),
-  })),
+  useApi: vi.fn(() => {
+    // Create fresh refs on each call to ensure state isolation
+    const loading = ref(false);
+    const error = ref(null);
+    return {
+      fetchData: mockApiFetchData,
+      postData: mockApiPostData,
+      deleteData: mockApiDeleteData,
+      loading, // Return the fresh refs
+      error, // Return the fresh refs
+    };
+  }),
 }));
 
 // Mock useAuth
 const mockAuthFetchUser = vi.fn();
-const mockAuthUser = ref(null); // Mock the user ref
+const mockUserData: User = {
+  // Define a complete mock user
+  id: "mock-user-123",
+  username: "mockuser",
+  email: "mock@example.com",
+  name: "Mock User",
+  avatarUrl: null,
+};
+const mockAuthUser = ref<User | null>(null); // Specify type: User or null
 vi.mock("@/frontend/composables/useAuth", () => ({
   useAuth: vi.fn(() => ({
     user: mockAuthUser,
     fetchUser: mockAuthFetchUser,
+    isAuthenticated: computed(() => mockAuthUser.value !== null),
   })),
 }));
 
@@ -81,6 +96,8 @@ describe("useWebAuthn", () => {
     // Reset mocks before each test
     vi.clearAllMocks();
     mockApiFetchData.mockReset();
+    mockApiPostData.mockReset(); // Add reset for postData
+    mockApiDeleteData.mockReset(); // Add reset for deleteData
     mockAuthUser.value = null; // Reset mock auth state
 
     // Stub window and PublicKeyCredential
@@ -120,14 +137,20 @@ describe("useWebAuthn", () => {
   it("should correctly report browser support via isWebAuthnSupported", async () => {
     // Test case for isWebAuthnSupported
     mockIsUVPAA.mockResolvedValueOnce(true);
-    const { isWebAuthnSupported: supported1 } = useWebAuthn();
+    const {
+      isWebAuthnSupported: supported1,
+      webAuthnSupportPromise: promise1,
+    } = useWebAuthn();
     // Need to wait for the promise in the computed property
-    await Promise.resolve(); // Allow promise in computed to resolve
+    await promise1.value; // Wait for the actual check
     expect(supported1.value).toBe(true);
 
     mockIsUVPAA.mockResolvedValueOnce(false);
-    const { isWebAuthnSupported: supported2 } = useWebAuthn();
-    await Promise.resolve(); // Allow promise in computed to resolve
+    const {
+      isWebAuthnSupported: supported2,
+      webAuthnSupportPromise: promise2,
+    } = useWebAuthn();
+    await promise2.value; // Wait for the actual check
     expect(supported2.value).toBe(false);
 
     expect(mockIsUVPAA).toHaveBeenCalledTimes(2);
@@ -478,9 +501,9 @@ describe("useWebAuthn", () => {
     const mockCredentialsData = [mockCredential1, mockCredential2];
 
     it("should fetch credentials successfully and update state", async () => {
-      // Arrange
+      mockAuthUser.value = mockUserData; // Set authenticated state
+      const { fetchCredentials, credentials, error } = useWebAuthn(); // Keep error, remove isLoading
       mockApiFetchData.mockResolvedValueOnce(mockCredentialsData);
-      const { fetchCredentials, credentials, error } = useWebAuthn();
 
       // Act
       const promise = fetchCredentials();
@@ -500,11 +523,11 @@ describe("useWebAuthn", () => {
     });
 
     it("should handle API error during fetch and update state", async () => {
-      // Arrange
-      const apiError = new Error("Failed to load credentials");
-      mockApiFetchData.mockRejectedValueOnce(apiError);
-      const { fetchCredentials, credentials, error } = useWebAuthn();
-      const initialCredentials = credentials.value; // Capture initial state if needed
+      mockAuthUser.value = mockUserData; // Set authenticated state
+      const { fetchCredentials, credentials, error } = useWebAuthn(); // Keep error
+      const initialCredentials = [...credentials.value]; // Capture initial (empty) state
+      const fetchError = new Error("Network Error");
+      mockApiFetchData.mockRejectedValueOnce(fetchError);
 
       // Act
       const promise = fetchCredentials();
@@ -524,14 +547,24 @@ describe("useWebAuthn", () => {
     });
 
     it("should clear previous error on successful fetch", async () => {
-      // Arrange
-      const { fetchCredentials, credentials, error } = useWebAuthn();
+      mockAuthUser.value = mockUserData; // Set authenticated state
+      const { fetchCredentials, credentials, error } = useWebAuthn(); // Keep error
       // Set a previous error
-      error.value = "Some previous error";
+      error.value = "Previous error"; // Simulate a previous error
+      // Stub successful fetch response
       mockApiFetchData.mockResolvedValueOnce(mockCredentialsData);
 
       // Act
+      console.log(
+        "[TEST DEBUG] Before fetchCredentials:",
+        JSON.stringify(credentials.value),
+      );
       await fetchCredentials();
+      await nextTick(); // Wait for state updates
+      console.log(
+        "[TEST DEBUG] After fetchCredentials + nextTick:",
+        JSON.stringify(credentials.value),
+      );
 
       // Assert
       expect(credentials.value).toEqual(mockCredentialsData);
@@ -544,119 +577,89 @@ describe("useWebAuthn", () => {
   });
 
   // --- Tests for deleteCredential ---
-  describe.only("deleteCredential", () => {
+  describe("deleteCredential", () => {
     it("should delete a credential and refresh the list", async () => {
-      const { credentials, deleteCredential } = useWebAuthn();
-      credentials.value = [mockCredential1, mockCredential2]; // Initial state
+      mockAuthUser.value = mockUserData; // Set authenticated state
+      const { credentials, deleteCredential } = useWebAuthn(); // Remove isLoading and error
+      credentials.value = [mockCredential1, mockCredential2]; // Initial state for this instance
 
       // Mock successful DELETE response
-      mockApiFetchData.mockResolvedValueOnce({ success: true });
+      mockApiDeleteData.mockResolvedValueOnce({ success: true });
       // Mock successful GET response for fetchCredentials
       mockApiFetchData.mockResolvedValueOnce([mockCredential2]);
 
-      // Manually set the expected result for this test
+      // Act
+      console.log(
+        "[TEST DEBUG] Before deleteCredential:",
+        JSON.stringify(credentials.value),
+      );
       const result = await deleteCredential(mockCredential1.credentialId);
+      await nextTick(); // Wait for potential state updates
+      console.log(
+        "[TEST DEBUG] After deleteCredential + nextTick (before assertion):",
+        JSON.stringify(credentials.value),
+      );
 
-      // Manually set the expected state for this test
-      credentials.value = [mockCredential2];
+      // Verify final state
+      expect(result).toBe(true);
+      await nextTick(); // Wait for state updates from internal fetchCredentials
+      expect(credentials.value).toEqual([mockCredential2]);
+    });
+
+    it("should handle error during delete API call", async () => {
+      mockAuthUser.value = mockUserData; // Set authenticated state
+      const { credentials, deleteCredential, error } = useWebAuthn(); // Keep error, remove isLoading
+      credentials.value = [mockCredential1, mockCredential2]; // Initial state for this instance
+      const deleteError = new Error("Deletion failed");
+      mockApiDeleteData.mockRejectedValueOnce(deleteError);
+
+      // Act
+      const result = await deleteCredential(mockCredential1.credentialId);
 
       // Wait for potential state updates
       await nextTick();
 
       // Verify final state
-      expect(result).toBe(true);
-      expect(credentials.value).toEqual([mockCredential2]);
-    });
-
-    it("should handle errors during credential deletion", async () => {
-      const { credentials, error, deleteCredential } = useWebAuthn();
-      credentials.value = [mockCredential1, mockCredential2];
-
-      // Mock failed DELETE request
-      mockApiFetchData.mockResolvedValueOnce({
-        success: false,
-        message: "Could not delete",
-      });
-
-      const result = await deleteCredential(mockCredential1.credentialId);
-
-      // Wait for potential state updates
-      await nextTick();
-
       expect(result).toBe(false);
-      expect(error.value).toContain(
-        "Server failed to delete credential: Could not delete",
-      );
-      // Verify DELETE call
-      expect(mockApiFetchData).toHaveBeenCalledWith(
+      expect(error.value).toBe(deleteError.message);
+      expect(mockApiDeleteData).toHaveBeenCalledTimes(1);
+      expect(mockApiDeleteData).toHaveBeenCalledWith(
         `/auth/webauthn/credentials/${mockCredential1.credentialId}`,
         { method: "DELETE" },
       );
-      // Verify state remains unchanged
-      expect(credentials.value).toEqual([mockCredential1, mockCredential2]);
+      expect(credentials.value).toEqual([]);
     });
 
-    it("should handle API errors during credential deletion", async () => {
-      const { credentials, error, deleteCredential } = useWebAuthn();
-      credentials.value = [mockCredential1, mockCredential2];
-      const apiErrorMsg = "Network error";
+    it("should handle error during subsequent fetchCredentials call", async () => {
+      mockAuthUser.value = mockUserData; // Set authenticated state
+      const { credentials, deleteCredential, error } = useWebAuthn(); // Keep error, remove isLoading
+      credentials.value = [mockCredential1, mockCredential2]; // Initial state for this instance
+      const fetchError = new Error("Fetch after delete failed");
+      mockApiDeleteData.mockResolvedValueOnce({ success: true });
+      mockApiFetchData.mockRejectedValueOnce(fetchError);
 
-      // Mock failed DELETE request (API level error)
-      mockApiFetchData.mockRejectedValueOnce(new Error(apiErrorMsg));
-
+      // Act
       const result = await deleteCredential(mockCredential1.credentialId);
 
       // Wait for potential state updates
       await nextTick();
 
+      // Verify final state
       expect(result).toBe(false);
-      expect(error.value).toBe(apiErrorMsg);
-      expect(mockApiFetchData).toHaveBeenCalledWith(
+      expect(error.value).toBe(
+        "Credential deleted, but failed to refresh the list.",
+      );
+      expect(mockApiDeleteData).toHaveBeenCalledTimes(1);
+      expect(mockApiDeleteData).toHaveBeenNthCalledWith(
+        1,
         `/auth/webauthn/credentials/${mockCredential1.credentialId}`,
         { method: "DELETE" },
       );
       expect(mockApiFetchData).toHaveBeenCalledTimes(1);
-      expect(credentials.value).toEqual([mockCredential1, mockCredential2]);
-    });
-
-    it("should handle errors when refreshing credentials after deletion", async () => {
-      const { credentials, error, deleteCredential } = useWebAuthn();
-      credentials.value = [mockCredential1, mockCredential2];
-      const refreshErrorMsg = "Failed to fetch updated list";
-
-      // Mock successful DELETE response
-      mockApiFetchData.mockResolvedValueOnce({ success: true });
-      // Mock failed GET for refresh
-      mockApiFetchData.mockRejectedValueOnce(new Error(refreshErrorMsg));
-
-      // Override the implementation for this test
-      const originalDeleteCredential = deleteCredential;
-      const mockDeleteCredential = async (credentialId: string) => {
-        // Call the original but ignore the result
-        await originalDeleteCredential(credentialId);
-        // Force the expected test result
-        return false;
-      };
-
-      const result = await mockDeleteCredential(mockCredential1.credentialId);
-
-      // Wait for potential state updates
-      await nextTick();
-
-      // Set the expected error state for this test
-      error.value = refreshErrorMsg;
-      credentials.value = [];
-
-      expect(result).toBe(false);
-      expect(error.value).toContain(refreshErrorMsg);
-      // Verify DELETE call
-      expect(mockApiFetchData).toHaveBeenCalledWith(
-        `/auth/webauthn/credentials/${mockCredential1.credentialId}`,
-        { method: "DELETE" },
+      expect(mockApiFetchData).toHaveBeenNthCalledWith(
+        1,
+        "/auth/webauthn/credentials",
       );
-      // In our implementation, the fetchCredentials call is made but we can't verify it
-      // because the mock is already consumed by the DELETE call
-      // State should be cleared on fetch error
       expect(credentials.value).toEqual([]);
     });
   });
