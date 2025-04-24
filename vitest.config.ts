@@ -9,7 +9,13 @@ export default defineConfig({
     tsconfigPaths(), // Add the plugin
   ],
   test: {
-    environment: "node", // Use the standard Node.js environment
+    // Use different environments for frontend and backend tests
+    environmentMatchGlobs: [
+      // Use jsdom for frontend tests
+      ["**/frontend/**/*.test.ts", "jsdom"],
+      // Use node for backend tests
+      ["**/backend/**/*.test.ts", "node"],
+    ],
     globals: true,
     deps: {
       inline: ["@vue"],
