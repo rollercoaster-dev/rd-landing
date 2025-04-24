@@ -1,22 +1,25 @@
 import { defineConfig } from "vitest/config";
 import vue from "@vitejs/plugin-vue";
-import { resolve } from "path";
+// import { resolve } from "path"; // No longer needed
+import tsconfigPaths from "vite-tsconfig-paths"; // Import the plugin
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    tsconfigPaths(), // Add the plugin
+  ],
   test: {
-    environment: "jsdom",
+    // Use different environments for frontend and backend tests
+    environmentMatchGlobs: [
+      // Use jsdom for frontend tests
+      ["**/frontend/**/*.test.ts", "jsdom"],
+      // Use node for backend tests
+      ["**/backend/**/*.test.ts", "node"],
+    ],
     globals: true,
+    setupFiles: ["src/frontend/vitest.setup.ts"],
     deps: {
       inline: ["@vue"],
-    },
-  },
-  resolve: {
-    alias: {
-      "@": resolve(__dirname, "./src"),
-      "@frontend": resolve(__dirname, "./src/frontend"),
-      "@backend": resolve(__dirname, "./src/backend"),
-      "@shared": resolve(__dirname, "./src/shared"),
     },
   },
 });

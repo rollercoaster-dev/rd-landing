@@ -1,52 +1,118 @@
-import { Elysia } from "elysia";
-import { cors } from "@elysiajs/cors";
+import { Hono } from "hono";
+import { cors } from "hono/cors";
+import { logger } from "hono/logger";
 import { apiRoutes } from "./api/routes";
-import { staticFiles } from "./services/static";
+import { staticFilesMiddleware } from "./services/static";
+import { authConfig } from "./config/auth.config"; // Import auth config
+import { sessionMiddleware, CookieStore } from "hono-sessions";
 
-// Create the main Elysia app
-export const app = new Elysia()
+// Create a session secret key
+const SESSION_SECRET =
+  process.env.RD_SESSION_SECRET ||
+  "rollercoaster-dev-session-secret-key-change-in-production";
+
+// Define the factory function
+export const createApp = () => {
+  // Create the main Hono app
+  const app = new Hono();
+
+  // Add logger middleware
+  app.use("*", logger());
+
   // Add CORS middleware
-  .use(
+  app.use(
+    "*",
     cors({
-      origin: ["http://localhost:5173"],
-      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-      allowedHeaders: ["Content-Type", "Authorization"],
+      origin: [authConfig.webauthn.origin, "http://localhost:5173"],
+      allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+      allowHeaders: ["Content-Type", "Authorization"],
+      credentials: true,
     }),
-  )
-  // Serve static files from the dist directory (built frontend)
-  .use(staticFiles)
-  // Mount API routes
-  .use(apiRoutes)
-  // Add a simple health check endpoint
-  .get("/health", () => ({ status: "ok", timestamp: new Date().toISOString() }))
-  // Global error handler
-  .onError(({ code, error, set }) => {
-    console.error(`Error [${code}]:`, error);
+  );
 
-    if (code === "NOT_FOUND") {
-      set.status = 404;
-      return {
-        error: "Not Found",
-        message: "The requested resource was not found",
-      };
+  // Add session middleware
+  app.use(
+    "*",
+    sessionMiddleware({
+      store: new CookieStore(),
+      encryptionKey: SESSION_SECRET, // Required for CookieStore
+      expireAfterSeconds: 60 * 60 * 24, // 24 hours
+      cookieOptions: {
+        path: "/", // Required for this library to work properly
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "Lax",
+      },
+      sessionCookieName: "rd_session",
+    }),
+  );
+
+  // We'll handle database access differently in Hono
+
+  // Mount API routes
+  app.route("/api", apiRoutes);
+
+  // Serve static files
+  app.use("*", staticFilesMiddleware);
+
+  // Root endpoint
+  app.get("/", (c) =>
+    c.json({
+      status: "ok",
+      message: "Welcome to Rollercoaster.dev Backend!",
+    }),
+  );
+
+  // Health check endpoint
+  app.get("/health", (c) =>
+    c.json({
+      status: "ok",
+      timestamp: new Date().toISOString(),
+    }),
+  );
+
+  // Error handling
+  app.onError((err, c) => {
+    console.error(`[ERR] Error:`, err);
+
+    if (err.message === "Unauthorized") {
+      return c.json({ message: "Unauthorized" }, 401);
     }
 
-    set.status = 500;
-    return {
-      error: "Internal Server Error",
-      message: error.message || "An unexpected error occurred",
-    };
+    if (err.message.includes("Not Found")) {
+      return c.json({ message: "Not Found" }, 404);
+    }
+
+    if (err.message.includes("Validation")) {
+      return c.json(
+        {
+          message: "Validation Error",
+          errors: err.message,
+        },
+        400,
+      );
+    }
+
+    return c.json({ message: "Internal Server Error" }, 500);
   });
 
-// Start the server if this file is run directly
-// @ts-expect-error - Bun-specific property not recognized by TypeScript
+  return app;
+};
+
+// Export the type based on the return type of the factory
+export type AppType = ReturnType<typeof createApp>;
+
+// Keep the server start logic separate, only run if file is executed directly
 if (import.meta.main) {
+  const appInstance = createApp();
   const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
-  app.listen(port, () => {
-    console.log(`🚀 Server running at http://localhost:${port}`);
-  });
-}
+  console.log(`🔥 Hono server starting on port ${port}...`);
 
-// Export the app for testing and importing in other files
-export type App = typeof app;
+  Bun.serve({
+    port,
+    fetch: appInstance.fetch,
+  });
+
+  console.log(`🔥 Hono is running at http://localhost:${port}`);
+}

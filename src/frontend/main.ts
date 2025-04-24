@@ -1,7 +1,9 @@
 import { ViteSSG } from "vite-ssg";
+import { createPinia } from "pinia";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate"; // Import the plugin
 import App from "./App.vue";
-// Import the routes directly from the generated file
-import { routes } from "vue-router/auto-routes";
+// Import our custom router configuration
+import { routes, scrollBehavior } from "./router";
 // Import Tailwind CSS
 import "./styles/main.css";
 
@@ -9,10 +11,15 @@ import "./styles/main.css";
 export const createApp = ViteSSG(
   // the root component
   App,
-  // vue-router options - using the auto-generated routes
-  { routes },
+  // vue-router options - using our custom routes with authentication guards
+  { routes, scrollBehavior },
   // function to have custom setups
-  ({ initialState }) => {
+  ({ app, initialState }) => {
+    // Create and use Pinia instance
+    const pinia = createPinia();
+    pinia.use(piniaPluginPersistedstate); // Use the plugin
+    app.use(pinia);
+
     // install plugins etc.
     if (import.meta.env.SSR) {
       // Set initial state during server side

@@ -1,14 +1,10 @@
 <script setup lang="ts">
-export type SectionHeaderProps = {
+defineProps<{
   title: string;
   description?: string;
+  class?: string;
   align?: "left" | "center" | "right";
-};
-
-const props = withDefaults(defineProps<SectionHeaderProps>(), {
-  description: "",
-  align: "center",
-});
+}>();
 </script>
 
 <template>
@@ -16,7 +12,7 @@ const props = withDefaults(defineProps<SectionHeaderProps>(), {
     class="space-y-4"
     :class="{
       'text-left': align === 'left',
-      'text-center': align === 'center',
+      'text-center': align === 'center' || !align, // Default to center if not specified
       'text-right': align === 'right',
     }"
   >
