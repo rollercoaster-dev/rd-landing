@@ -42,7 +42,7 @@ jobs:
         env:
           RD_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/openbadges
       - name: Run tests
-        run: bun test
+        run: bun run test
         env:
           RD_GITHUB_CLIENT_ID: ${{ secrets.RD_GITHUB_CLIENT_ID }}
           RD_GITHUB_CLIENT_SECRET: ${{ secrets.RD_GITHUB_CLIENT_SECRET }}
