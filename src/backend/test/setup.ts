@@ -64,6 +64,47 @@ vi.mock("hono/bun", () => {
   };
 });
 
+// Mock the logger service
+vi.mock("@rollercoaster-dev/rd-logger", () => {
+  const mockLogger = {
+    debug: vi.fn(),
+    info: vi.fn(),
+    warn: vi.fn(),
+    error: vi.fn(),
+    fatal: vi.fn(),
+  };
+
+  const mockQueryLogger = {
+    logQuery: vi.fn(),
+    getStats: vi.fn().mockReturnValue({}),
+  };
+
+  return {
+    Logger: vi.fn().mockImplementation(() => mockLogger),
+    QueryLogger: vi.fn().mockImplementation(() => mockQueryLogger),
+  };
+});
+
+// Mock the logger service
+vi.mock("../services/logger.service", () => {
+  const mockLogger = {
+    debug: vi.fn(),
+    info: vi.fn(),
+    warn: vi.fn(),
+    error: vi.fn(),
+    fatal: vi.fn(),
+    logQuery: vi.fn(),
+    getQueryStats: vi.fn().mockReturnValue({}),
+  };
+
+  return {
+    logger: mockLogger,
+    LoggerService: {
+      getInstance: vi.fn().mockReturnValue(mockLogger),
+    },
+  };
+});
+
 /**
  * Setup function for Hono tests
  * Creates a test app and client for testing

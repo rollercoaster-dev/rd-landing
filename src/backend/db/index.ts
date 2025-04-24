@@ -1,6 +1,7 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as schema from "./schema"; // Import your schema
+import { logger } from "../services/logger.service";
 
 // Check for database URL environment variable
 if (!process.env.RD_DATABASE_URL) {
@@ -17,11 +18,26 @@ if (!process.env.RD_DATABASE_URL) {
 
 // Client for standard query operations (includes schema)
 const queryClient = postgres(process.env.RD_DATABASE_URL);
-export const db = drizzle(queryClient, { schema, logger: true }); // Added logger for potential insights
+
+// Custom query logging function
+const customLogger = {
+  logQuery: (query: string, params: unknown[]) => {
+    const startTime = Date.now();
+    return {
+      queryEnd: (result: unknown) => {
+        const duration = Date.now() - startTime;
+        logger.logQuery(query, params as unknown[], duration);
+        return result;
+      },
+    };
+  },
+};
+
+export const db = drizzle(queryClient, { schema, logger: customLogger });
 
 // Client specifically for migrations
 export const migrationClient = postgres(process.env.RD_DATABASE_URL, {
   max: 1,
 });
 // Drizzle instance for migration runner (WITHOUT schema, relying on migrator internals)
-export const migrationDb = drizzle(migrationClient, { logger: true }); // Reverted: Removed schema
+export const migrationDb = drizzle(migrationClient, { logger: customLogger }); // Using our custom logger
