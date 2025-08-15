@@ -19,50 +19,26 @@
   <div class="min-h-screen bg-background text-foreground font-sans">
     <main class="container mx-auto max-w-4xl px-4 py-12 space-y-12">
       <!-- 1. Headline / Hero Section -->
-      <section class="relative text-center space-y-8 py-8">
-        <!-- Decorative background elements -->
-        <div
-          class="absolute inset-0 overflow-hidden pointer-events-none opacity-50"
-        >
-          <div
-            class="absolute -top-24 -left-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl"
-          ></div>
-          <div
-            class="absolute -bottom-24 -right-24 w-64 h-64 bg-accent/5 rounded-full blur-3xl"
-          ></div>
-        </div>
-
-        <h1
-          class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight max-w-3xl mx-auto"
-        >
-          <RdHeadlineGradient>Rollercoaster.dev</RdHeadlineGradient>
-          <span
-            class="mt-6 block text-2xl md:text-3xl font-medium text-foreground/90"
-          >
-            is a space where neurodivergent minds create and discover tools
-            designed for the way we think.
-          </span>
-        </h1>
-
-        <!-- Quick action buttons -->
-        <div class="flex flex-wrap justify-center gap-4">
-          <RdBaseLink href="#what-we-build" icon="arrow-down" internal>
-            Learn More
-          </RdBaseLink>
-
-          <RdBaseLink
-            href="https://github.com/rollercoaster-dev"
-            variant="secondary"
-          >
-            View on GitHub
-          </RdBaseLink>
-        </div>
-      </section>
-
-      <UiSeparatorSeparator class="my-12" />
+      <RdHeroSection
+        title="Rollercoaster.dev"
+        subtitle="is a space where neurodivergent minds create and discover tools designed for the way we think."
+        :actions="[
+          {
+            text: 'Learn More',
+            href: '#what-we-build',
+            icon: 'arrow-down',
+            internal: true,
+          },
+          {
+            text: 'View on GitHub',
+            href: 'https://github.com/rollercoaster-dev',
+            variant: 'secondary',
+          },
+        ]"
+      />
 
       <!-- 2. "What We're Building" Section -->
-      <section id="what-we-build" class="space-y-8 scroll-mt-16">
+      <RdSection id="what-we-build" with-separator>
         <RdBaseSectionHeader
           title="What We're Building"
           description="At Rollercoaster.dev, we're crafting a unique platform centered around"
@@ -82,7 +58,7 @@
           </template>
         </RdBaseSectionHeader>
 
-        <div class="grid md:grid-cols-2 gap-6">
+        <RdGrid :cols="2">
           <!-- Feature 1: Track Progress -->
           <RdBaseFeatureCard
             title="Track and Showcase Progress"
@@ -130,7 +106,7 @@
               'Mutual support',
             ]"
           />
-        </div>
+        </RdGrid>
 
         <p
           class="text-lg text-card-foreground/90 text-center max-w-3xl mx-auto italic"
@@ -139,223 +115,117 @@
           navigate their goals, document their unique paths, and build
           confidence along the way.
         </p>
-      </section>
-
-      <UiSeparatorSeparator class="my-12" />
+      </RdSection>
 
       <!-- 3. "Our Vision & Goals" Section -->
-      <section class="space-y-8">
+      <RdSection with-separator>
         <RdBaseSectionHeader
           title="Our Vision: Tools Built From Lived Experience"
           description="Standard productivity tools often fall short for neurodivergent individuals."
         />
 
         <!-- Vision Cards -->
-        <div class="grid md:grid-cols-2 gap-6">
-          <UiCardCard class="overflow-hidden">
-            <UiCardCardHeader>
-              <UiCardCardTitle class="text-xl font-medium text-primary"
-                >The Challenge</UiCardCardTitle
-              >
-            </UiCardCardHeader>
-            <UiCardCardContent class="space-y-4">
-              <p class="text-card-foreground/90">
-                Rigid schedules and linear lists don't always align with how our
-                minds work best. We understand that neurodivergent strengths are
-                different, and navigating goals requires tools that offer
-                flexibility, clear steps, and genuine understanding – not just
-                another calendar.
-              </p>
-            </UiCardCardContent>
-          </UiCardCard>
+        <RdGrid :cols="2">
+          <RdContentBlock
+            title="The Challenge"
+            content="Rigid schedules and linear lists don't always align with how our minds work best. We understand that neurodivergent strengths are different, and navigating goals requires tools that offer flexibility, clear steps, and genuine understanding – not just another calendar."
+          />
 
-          <UiCardCard
-            class="overflow-hidden bg-gradient-to-br from-accent/10 to-transparent"
-          >
-            <UiCardCardHeader>
-              <UiCardCardTitle class="text-xl font-medium text-primary"
-                >Our Solution</UiCardCardTitle
-              >
-            </UiCardCardHeader>
-            <UiCardCardContent class="space-y-4">
-              <p class="text-card-foreground/90">
-                At Rollercoaster.dev, our vision is simple:
-                <strong class="block mt-2 text-xl text-accent"
-                  >Create the tools we wish existed, built <em>by</em> and
-                  <em>for</em> the neurodivergent community.</strong
-                >
-              </p>
-            </UiCardCardContent>
-          </UiCardCard>
-        </div>
+          <RdContentBlock
+            title="Our Solution"
+            variant="accent"
+            content="At Rollercoaster.dev, our vision is simple: <strong class='block mt-2 text-xl text-accent'>Create the tools we wish existed, built <em>by</em> and <em>for</em> the neurodivergent community.</strong>"
+          />
+        </RdGrid>
 
         <!-- Goals Section -->
-        <div class="space-y-6">
-          <h3 class="text-2xl font-semibold text-center text-primary/90">
-            Our Guiding Principles
-          </h3>
-          <ul class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <li
-              class="bg-card p-6 rounded-lg shadow-sm border border-border/50"
-            >
-              <h4 class="font-semibold text-lg mb-2">Flexibility First</h4>
-              <p class="text-sm text-card-foreground/80">
-                Adaptable to diverse thinking styles and changing needs.
-              </p>
-            </li>
-            <li
-              class="bg-card p-6 rounded-lg shadow-sm border border-border/50"
-            >
-              <h4 class="font-semibold text-lg mb-2">Community Driven</h4>
-              <p class="text-sm text-card-foreground/80">
-                Developed with continuous input from the neurodivergent
-                community.
-              </p>
-            </li>
-            <li
-              class="bg-card p-6 rounded-lg shadow-sm border border-border/50"
-            >
-              <h4 class="font-semibold text-lg mb-2">Open & Transparent</h4>
-              <p class="text-sm text-card-foreground/80">
-                Built on open standards (like Open Badges) and open source.
-              </p>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <UiSeparatorSeparator class="my-12" />
+        <RdPrincipleGrid
+          :principles="[
+            {
+              title: 'Flexibility First',
+              description:
+                'Adaptable to diverse thinking styles and changing needs.',
+            },
+            {
+              title: 'Community Driven',
+              description:
+                'Developed with continuous input from the neurodivergent community.',
+            },
+            {
+              title: 'Open & Transparent',
+              description:
+                'Built on open standards (like Open Badges) and open source.',
+            },
+          ]"
+        />
+      </RdSection>
 
       <!-- 4. Current State / Roadmap -->
-      <section class="space-y-8">
+      <RdSection with-separator>
         <RdBaseSectionHeader
           title="Where We Are & Where We're Going"
           description="Our journey is underway! Here's a glimpse of our progress and planned next steps:"
         />
         <!-- Status Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <RdGrid :cols="2">
           <!-- Item 1: Core Engine -->
-          <UiCardCard
-            class="group overflow-hidden hover:shadow-lg transition-all relative before:absolute before:inset-0 before:bg-gradient-to-br before:from-primary/5 before:to-transparent before:-z-10"
-          >
-            <UiCardCardHeader>
-              <UiCardCardTitle class="flex items-center gap-2">
-                <span class="text-2xl">⚙️</span>
-                <span>Core Badge Engine</span>
-              </UiCardCardTitle>
-            </UiCardCardHeader>
-            <UiCardCardContent class="space-y-2">
-              <p class="text-sm text-card-foreground/90">
-                The foundational system for creating, managing, and issuing Open
-                Badges is operational.
-              </p>
-              <RdBaseFeatureItem
-                icon="✅"
-                text="Basic Badge creation and issuance"
-              />
-              <RdBaseFeatureItem
-                icon="⏳"
-                text="Integration with external identity providers"
-              />
-            </UiCardCardContent>
-            <UiCardCardFooter>
-              <UiBadgeBadge variant="secondary">In Progress</UiBadgeBadge>
-            </UiCardCardFooter>
-          </UiCardCard>
+          <RdStatusCard
+            title="Core Badge Engine"
+            icon="⚙️"
+            description="The foundational system for creating, managing, and issuing Open Badges is operational."
+            :features="[
+              { icon: '✅', text: 'Basic Badge creation and issuance' },
+              {
+                icon: '⏳',
+                text: 'Integration with external identity providers',
+              },
+            ]"
+            status="in-progress"
+            gradient-from="primary"
+          />
 
           <!-- Item 2: Frontend UI -->
-          <UiCardCard
-            class="group overflow-hidden hover:shadow-lg transition-all relative before:absolute before:inset-0 before:bg-gradient-to-br before:from-accent/5 before:to-transparent before:-z-10"
-          >
-            <UiCardCardHeader>
-              <UiCardCardTitle class="flex items-center gap-2">
-                <span class="text-2xl">🖥️</span>
-                <span>User Interface (Vue)</span>
-              </UiCardCardTitle>
-            </UiCardCardHeader>
-            <UiCardCardContent class="space-y-2">
-              <p class="text-sm text-card-foreground/90">
-                Developing an intuitive and accessible frontend using Vue.js and
-                modern UI components.
-              </p>
-              <RdBaseFeatureItem
-                icon="✅"
-                text="Initial component library setup"
-              />
-              <RdBaseFeatureItem
-                icon="✅"
-                text="Basic layout and navigation structures"
-              />
-              <RdBaseFeatureItem
-                icon="⏳"
-                text="Goal tracking interface design"
-              />
-            </UiCardCardContent>
-            <UiCardCardFooter>
-              <UiBadgeBadge variant="secondary">In Progress</UiBadgeBadge>
-            </UiCardCardFooter>
-          </UiCardCard>
+          <RdStatusCard
+            title="User Interface (Vue)"
+            icon="🖥️"
+            description="Developing an intuitive and accessible frontend using Vue.js and modern UI components."
+            :features="[
+              { icon: '✅', text: 'Initial component library setup' },
+              { icon: '✅', text: 'Basic layout and navigation structures' },
+              { icon: '⏳', text: 'Goal tracking interface design' },
+            ]"
+            status="in-progress"
+            gradient-from="accent"
+          />
 
           <!-- Item 3: Backend API -->
-          <UiCardCard
-            class="group overflow-hidden hover:shadow-lg transition-all relative before:absolute before:inset-0 before:bg-gradient-to-br before:from-secondary/5 before:to-transparent before:-z-10"
-          >
-            <UiCardCardHeader>
-              <UiCardCardTitle class="flex items-center gap-2">
-                <span class="text-2xl">💾</span>
-                <span>Backend API (Elysia)</span>
-              </UiCardCardTitle>
-            </UiCardCardHeader>
-            <UiCardCardContent class="space-y-2">
-              <p class="text-sm text-card-foreground/90">
-                Building a robust and efficient backend API using ElysiaJS for
-                fast performance.
-              </p>
-              <RdBaseFeatureItem
-                icon="✅"
-                text="Core authentication endpoints"
-              />
-              <RdBaseFeatureItem icon="✅" text="Badge data management APIs" />
-              <RdBaseFeatureItem icon="⏳" text="Real-time progress updates" />
-            </UiCardCardContent>
-            <UiCardCardFooter>
-              <UiBadgeBadge variant="secondary">In Progress</UiBadgeBadge>
-            </UiCardCardFooter>
-          </UiCardCard>
+          <RdStatusCard
+            title="Backend API (Elysia)"
+            icon="💾"
+            description="Building a robust and efficient backend API using ElysiaJS for fast performance."
+            :features="[
+              { icon: '✅', text: 'Core authentication endpoints' },
+              { icon: '✅', text: 'Badge data management APIs' },
+              { icon: '⏳', text: 'Real-time progress updates' },
+            ]"
+            status="in-progress"
+            gradient-from="secondary"
+          />
 
           <!-- Item 4: Community Features -->
-          <UiCardCard
-            class="group overflow-hidden hover:shadow-lg transition-all relative before:absolute before:inset-0 before:bg-gradient-to-br before:from-primary/5 before:to-transparent before:-z-10"
-          >
-            <UiCardCardHeader>
-              <UiCardCardTitle class="flex items-center gap-2">
-                <span class="text-2xl">💬</span>
-                <span>Community & Collaboration</span>
-              </UiCardCardTitle>
-            </UiCardCardHeader>
-            <UiCardCardContent class="space-y-2">
-              <p class="text-sm text-card-foreground/90">
-                Planning features to foster connection and shared learning
-                within the platform.
-              </p>
-              <RdBaseFeatureItem
-                icon="💡"
-                text="Shared goal templates (Planned)"
-              />
-              <RdBaseFeatureItem
-                icon="💡"
-                text="Peer support forums (Planned)"
-              />
-              <RdBaseFeatureItem
-                icon="💡"
-                text="Collaborative projects (Planned)"
-              />
-            </UiCardCardContent>
-            <UiCardCardFooter>
-              <UiBadgeBadge variant="outline">Planned</UiBadgeBadge>
-            </UiCardCardFooter>
-          </UiCardCard>
-        </div>
+          <RdStatusCard
+            title="Community & Collaboration"
+            icon="💬"
+            description="Planning features to foster connection and shared learning within the platform."
+            :features="[
+              { icon: '💡', text: 'Shared goal templates (Planned)' },
+              { icon: '💡', text: 'Peer support forums (Planned)' },
+              { icon: '💡', text: 'Collaborative projects (Planned)' },
+            ]"
+            status="planned"
+            gradient-from="primary"
+          />
+        </RdGrid>
 
         <p
           class="text-lg text-card-foreground/90 text-center max-w-3xl mx-auto italic"
@@ -363,24 +233,17 @@
           Our focus is on building a solid foundation first, then expanding
           features based on community feedback and needs.
         </p>
-      </section>
-
-      <UiSeparatorSeparator class="my-12" />
+      </RdSection>
 
       <!-- 5. "Get Involved" Section -->
-      <section class="text-center space-y-8">
-        <RdBaseSectionHeader
-          title="Get Involved & Shape the Future"
-          description="Rollercoaster.dev is an open, community-driven project. Your voice matters!"
-        />
-
-        <p class="text-lg max-w-3xl mx-auto text-foreground/90">
-          Whether you're neurodivergent, an ally, a developer, a designer, or
-          just interested in what we're building, there are many ways to
-          contribute:
-        </p>
-
-        <div class="grid md:grid-cols-3 gap-6">
+      <RdCallToAction
+        title="Get Involved & Shape the Future"
+        description="Rollercoaster.dev is an open, community-driven project. Your voice matters!"
+        subtitle="Whether you're neurodivergent, an ally, a developer, a designer, or just interested in what we're building, there are many ways to contribute:"
+        footer-text="We're excited to build this together!"
+        with-separator
+      >
+        <RdGrid :cols="3">
           <!-- GitHub Card -->
           <RdBaseActionCard
             title="Contribute on GitHub"
@@ -411,12 +274,8 @@
             link="mailto:feedback@rollercoaster.dev"
             link-text="Send Email"
           />
-        </div>
-
-        <p class="text-base text-muted-foreground italic">
-          We're excited to build this together!
-        </p>
-      </section>
+        </RdGrid>
+      </RdCallToAction>
     </main>
   </div>
 </template>
