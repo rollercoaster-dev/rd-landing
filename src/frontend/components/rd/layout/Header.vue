@@ -56,72 +56,50 @@ const navigation: Array<{ name: string; href: string }> = [
         <UiTooltipTooltipProvider :delay-duration="200">
           <div v-if="isMounted" class="flex items-center space-x-1">
             <!-- Mode Toggle -->
-            <UiTooltipTooltip content="">
-              <UiTooltipTooltipTrigger as-child>
-                <UiButtonButton
-                  variant="ghost"
-                  size="icon"
-                  class="rounded-full"
-                  @click="toggleMode"
-                >
-                  <Sun v-if="mode === 'dark'" class="h-5 w-5" />
-                  <Moon v-else class="h-5 w-5" />
-                  <span class="sr-only">
-                    {{
-                      mode === "dark"
-                        ? "Switch to light mode"
-                        : "Switch to dark mode"
-                    }}
-                  </span>
-                </UiButtonButton>
-              </UiTooltipTooltipTrigger>
-              <UiTooltipTooltipContent side="bottom">
-                <p>
+            <UiTooltipTooltip
+              :content="`${mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}\nShortcut: Cmd + D`"
+              side="bottom"
+              :delay-duration="200"
+            >
+              <UiButtonButton
+                variant="ghost"
+                size="icon"
+                class="rounded-full"
+                @click="toggleMode"
+              >
+                <Sun v-if="mode === 'dark'" class="h-5 w-5" />
+                <Moon v-else class="h-5 w-5" />
+                <span class="sr-only">
                   {{
                     mode === "dark"
                       ? "Switch to light mode"
                       : "Switch to dark mode"
                   }}
-                  <br />
-                  <span class="text-xs text-muted-foreground"
-                    >Shortcut: Cmd + D</span
-                  >
-                </p>
-              </UiTooltipTooltipContent>
+                </span>
+              </UiButtonButton>
             </UiTooltipTooltip>
 
             <!-- Intensity Toggle -->
-            <UiTooltipTooltip content="">
-              <UiTooltipTooltipTrigger as-child>
-                <UiButtonButton
-                  variant="ghost"
-                  size="icon"
-                  class="rounded-full"
-                  @click="toggleIntensity"
-                >
-                  <Paintbrush class="h-5 w-5" />
-                  <span class="sr-only">
-                    {{
-                      intensity === "vibrant"
-                        ? "Switch to calm intensity"
-                        : "Switch to vibrant intensity"
-                    }}
-                  </span>
-                </UiButtonButton>
-              </UiTooltipTooltipTrigger>
-              <UiTooltipTooltipContent side="bottom">
-                <p>
+            <UiTooltipTooltip
+              :content="`${intensity === 'vibrant' ? 'Switch to calm intensity' : 'Switch to vibrant intensity'}\nShortcut: Cmd + I`"
+              side="bottom"
+              :delay-duration="200"
+            >
+              <UiButtonButton
+                variant="ghost"
+                size="icon"
+                class="rounded-full"
+                @click="toggleIntensity"
+              >
+                <Paintbrush class="h-5 w-5" />
+                <span class="sr-only">
                   {{
                     intensity === "vibrant"
                       ? "Switch to calm intensity"
                       : "Switch to vibrant intensity"
                   }}
-                  <br />
-                  <span class="text-xs text-muted-foreground"
-                    >Shortcut: Cmd + I</span
-                  >
-                </p>
-              </UiTooltipTooltipContent>
+                </span>
+              </UiButtonButton>
             </UiTooltipTooltip>
           </div>
         </UiTooltipTooltipProvider>
