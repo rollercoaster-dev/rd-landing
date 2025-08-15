@@ -1,20 +1,11 @@
 import { Hono } from "hono";
-import { authRoutes } from "./auth";
-// Remove unused badge routes import
-import { userRoutes } from "./users/users.routes";
+import { githubRoutes } from "./github/github.routes";
 
 // Create a new Hono app for API routes
 export const apiRoutes = new Hono();
 
-// Mount auth routes
-apiRoutes.route("/auth", authRoutes);
-
-// Mount badge routes - Apply middleware before the route group
-// apiRoutes.use("/badges/*", authMiddleware); // Protect all /badges/* routes
-// Remove mounting of badge routes
-
-// Mount user routes
-apiRoutes.route("/users", userRoutes);
+// Mount github routes
+apiRoutes.route("/github", githubRoutes);
 
 // Root API endpoint
 apiRoutes.get("/", (c) =>

@@ -1,16 +1,10 @@
 <script setup lang="ts">
-import { Sun, Moon, Paintbrush, LogIn, LayoutDashboard } from "lucide-vue-next";
+import { Sun, Moon, Paintbrush } from "lucide-vue-next";
 import { useTheme } from "@/frontend/composables/useTheme";
-import { useAuth } from "@/frontend/composables/useAuth";
 import { ref, onMounted } from "vue";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/frontend/components/ui/button";
 
 // Theme composable
 const { mode, intensity, toggleIntensity } = useTheme();
-
-// Auth composable
-const auth = useAuth();
 
 // Toggle mode function (replaces toggleDarkMode)
 const toggleMode = () => {
@@ -21,25 +15,6 @@ const toggleMode = () => {
 const isMounted = ref(false);
 onMounted(() => {
   isMounted.value = true;
-
-  const handleKeydown = (e: KeyboardEvent) => {
-    // Check if Cmd/Ctrl is pressed
-    if (e.metaKey || e.ctrlKey) {
-      switch (e.key.toLowerCase()) {
-        case "d": // Toggle Dark/Light Mode
-          e.preventDefault();
-          toggleMode();
-          break;
-        case "i": // Toggle Intensity (Vibrant/Calm)
-          e.preventDefault();
-          toggleIntensity();
-          break;
-      }
-    }
-  };
-
-  window.addEventListener("keydown", handleKeydown);
-  onUnmounted(() => window.removeEventListener("keydown", handleKeydown));
 });
 
 const navigation: Array<{ name: string; href: string }> = [
@@ -75,50 +50,7 @@ const navigation: Array<{ name: string; href: string }> = [
       </nav>
 
       <div class="flex items-center space-x-2">
-        <!-- Auth Status -->
-        <div v-if="auth.isLoading" class="text-sm text-muted-foreground">
-          Loading...
-        </div>
-        <div
-          v-else-if="auth.isAuthenticated && auth.user"
-          class="flex items-center space-x-2"
-        >
-          <img
-            v-if="auth.user.avatarUrl"
-            :src="auth.user.avatarUrl"
-            alt="User Avatar"
-            class="h-8 w-8 rounded-full border"
-          />
-          <!-- Add fallback avatar if needed -->
-
-          <!-- Admin Link -->
-          <RouterLink
-            to="/admin"
-            :class="cn(buttonVariants({ variant: 'ghost', size: 'sm' }))"
-          >
-            <LayoutDashboard class="mr-1 h-4 w-4" />
-            Admin
-          </RouterLink>
-
-          <LogoutButton
-            variant="ghost"
-            size="icon"
-            button-class="rounded-full"
-            :show-text="false"
-            icon-class="h-5 w-5"
-            @logout:error="
-              (error: Error | string) => console.error('Logout error:', error)
-            "
-          />
-        </div>
-        <RouterLink
-          v-else
-          to="/login"
-          :class="cn(buttonVariants({ variant: 'outline', size: 'sm' }))"
-        >
-          <LogIn class="mr-2 h-4 w-4" />
-          Login
-        </RouterLink>
+        <!-- Simple landing page - no auth needed -->
 
         <!-- Mode Toggles -->
         <UiTooltipTooltipProvider :delay-duration="200">
