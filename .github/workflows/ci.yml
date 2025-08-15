@@ -1,10 +1,8 @@
 name: CI
 
 on:
-  push:
-    branches: [ main ]
-    # Don't run this workflow when a tag is pushed
-    tags-ignore: [ 'v*' ]
+  # Only run on pull requests, not on main branch pushes
+  # Main branch pushes are handled by auto-release.yml
   pull_request:
     # Run on all pull requests regardless of target branch
     branches: [ '**' ]
