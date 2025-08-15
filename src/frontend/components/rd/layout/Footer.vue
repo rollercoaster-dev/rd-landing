@@ -12,10 +12,10 @@
       </div>
       <nav class="flex items-center gap-6">
         <RouterLink to="/legal/impressum" class="hover:text-primary"
-          >Impressum</RouterLink
+          >{{ $t("footer.impressum") }}</RouterLink
         >
         <RouterLink to="/legal/privacy" class="hover:text-primary"
-          >Datenschutz</RouterLink
+          >{{ $t("footer.privacy") }}</RouterLink
         >
         <a
           href="https://github.com/rollercoaster-dev"
