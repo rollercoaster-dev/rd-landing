@@ -16,10 +16,7 @@ interface StatusCardData {
 }
 
 interface GitHubProjectsData {
-  coreEngine: StatusCardData;
-  userInterface: StatusCardData;
-  // backendApi: StatusCardData;
-  communityFeatures: StatusCardData;
+  [key: string]: StatusCardData;
 }
 
 export function useGitHubProjects() {
@@ -104,20 +101,15 @@ export function useGitHubProjects() {
 
       const data = await response.json();
 
-      // Update reactive data
-      const updateProjectData = (
-        key: keyof GitHubProjectsData,
-        apiData: StatusCardData,
-      ) => {
-        Object.assign(projectData[key], {
-          ...apiData,
-          lastUpdated: new Date(apiData.lastUpdated),
-        });
-      };
-
-      updateProjectData("coreEngine", data.coreEngine);
-      updateProjectData("userInterface", data.userInterface);
-      updateProjectData("communityFeatures", data.communityFeatures);
+      // Update all project data dynamically
+      Object.keys(data).forEach((key) => {
+        if (projectData[key] && data[key]) {
+          Object.assign(projectData[key], {
+            ...data[key],
+            lastUpdated: new Date(data[key].lastUpdated),
+          });
+        }
+      });
     } catch (err) {
       error.value =
         err instanceof Error ? err.message : "Failed to fetch project data";
