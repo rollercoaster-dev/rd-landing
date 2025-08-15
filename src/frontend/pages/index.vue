@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { onMounted } from "vue";
+import { useGitHubProjects } from "../composables/useGitHubProjects";
+
 // TODO: find replacement for seo meta
 // const config = useRuntimeConfig();
 // const siteName = config.public.siteName as string;
@@ -13,6 +16,13 @@
 //   ogSiteName: siteName,
 //   twitterCard: 'summary_large_image',
 // });
+
+const { projectData, isLoading, error, fetchStatusCards } = useGitHubProjects();
+
+onMounted(async () => {
+  // Fetch GitHub data on page load
+  await fetchStatusCards();
+});
 </script>
 
 <template>
@@ -166,65 +176,36 @@
           title="Where We Are & Where We're Going"
           description="Our journey is underway! Here's a glimpse of our progress and planned next steps:"
         />
-        <!-- Status Cards -->
-        <RdGrid :cols="2">
-          <!-- Item 1: Core Engine -->
-          <RdStatusCard
-            title="Core Badge Engine"
-            icon="⚙️"
-            description="The foundational system for creating, managing, and issuing Open Badges is operational."
-            :features="[
-              { icon: '✅', text: 'Basic Badge creation and issuance' },
-              {
-                icon: '⏳',
-                text: 'Integration with external identity providers',
-              },
-            ]"
-            status="in-progress"
-            gradient-from="primary"
-          />
+        <!-- Live Status Cards -->
+        <div v-if="isLoading" class="text-center py-8">
+          <div
+            class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"
+          ></div>
+          <p class="mt-2 text-muted-foreground">Loading project status...</p>
+        </div>
 
-          <!-- Item 2: Frontend UI -->
-          <RdStatusCard
-            title="User Interface (Vue)"
-            icon="🖥️"
-            description="Developing an intuitive and accessible frontend using Vue.js and modern UI components."
-            :features="[
-              { icon: '✅', text: 'Initial component library setup' },
-              { icon: '✅', text: 'Basic layout and navigation structures' },
-              { icon: '⏳', text: 'Goal tracking interface design' },
-            ]"
-            status="in-progress"
-            gradient-from="accent"
-          />
+        <div v-else-if="error" class="text-center py-8 text-red-500">
+          <p>Error loading project data: {{ error }}</p>
+          <button
+            class="mt-2 px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90"
+            @click="fetchStatusCards()"
+          >
+            Retry
+          </button>
+        </div>
 
-          <!-- Item 3: Backend API -->
-          <RdStatusCard
-            title="Backend API (Elysia)"
-            icon="💾"
-            description="Building a robust and efficient backend API using ElysiaJS for fast performance."
-            :features="[
-              { icon: '✅', text: 'Core authentication endpoints' },
-              { icon: '✅', text: 'Badge data management APIs' },
-              { icon: '⏳', text: 'Real-time progress updates' },
-            ]"
-            status="in-progress"
-            gradient-from="secondary"
-          />
+        <RdGrid v-else :cols="2">
+          <!-- Core Badge Engine (openbadges-modular-server) -->
+          <RdStatusCard v-bind="projectData.coreEngine" />
 
-          <!-- Item 4: Community Features -->
-          <RdStatusCard
-            title="Community & Collaboration"
-            icon="💬"
-            description="Planning features to foster connection and shared learning within the platform."
-            :features="[
-              { icon: '💡', text: 'Shared goal templates (Planned)' },
-              { icon: '💡', text: 'Peer support forums (Planned)' },
-              { icon: '💡', text: 'Collaborative projects (Planned)' },
-            ]"
-            status="planned"
-            gradient-from="primary"
-          />
+          <!-- User Interface (openbadges-ui) -->
+          <RdStatusCard v-bind="projectData.userInterface" />
+
+          <!-- Backend API (same as core engine for now) -->
+          <RdStatusCard v-bind="projectData.backendApi" />
+
+          <!-- Community Features (openbadges-system) -->
+          <RdStatusCard v-bind="projectData.communityFeatures" />
         </RdGrid>
 
         <p
