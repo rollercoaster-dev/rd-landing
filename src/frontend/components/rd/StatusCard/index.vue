@@ -45,7 +45,7 @@ const formatLastUpdated = (date?: Date) => {
 
 <template>
   <UiCardCard
-    class="group overflow-hidden hover:shadow-lg transition-all relative before:absolute before:inset-0 before:-z-10"
+    class="group overflow-hidden hover:shadow-lg transition-all relative before:absolute before:inset-0 before:-z-10 flex flex-col h-full"
     :class="{
       'before:bg-gradient-to-br before:from-primary/5 before:to-transparent':
         gradientFrom === 'primary',
@@ -74,7 +74,7 @@ const formatLastUpdated = (date?: Date) => {
         </div>
       </UiCardCardTitle>
     </UiCardCardHeader>
-    <UiCardCardContent class="space-y-3">
+    <UiCardCardContent class="space-y-3 flex-1">
       <p class="text-sm text-card-foreground/90">
         {{ description }}
       </p>
@@ -115,7 +115,7 @@ const formatLastUpdated = (date?: Date) => {
       </div>
       <slot></slot>
     </UiCardCardContent>
-    <UiCardCardFooter class="flex justify-between items-center">
+    <UiCardCardFooter class="flex justify-between items-center mt-auto">
       <UiBadgeBadge :variant="statusVariants[status].variant">
         {{ statusVariants[status].text }}
       </UiBadgeBadge>

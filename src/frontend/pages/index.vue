@@ -200,17 +200,14 @@ onMounted(async () => {
           </button>
         </div>
 
-        <RdGrid v-else :cols="2">
+        <RdGrid v-else :cols="3">
           <!-- Core Badge Engine (openbadges-modular-server) -->
           <RdStatusCard v-bind="projectData.coreEngine" />
 
           <!-- User Interface (openbadges-ui) -->
           <RdStatusCard v-bind="projectData.userInterface" />
 
-          <!-- Backend API (same as core engine for now) -->
-          <RdStatusCard v-bind="projectData.backendApi" />
-
-          <!-- Community Features (openbadges-system) -->
+          <!-- Open Badges System - The complete platform (openbadges-system) -->
           <RdStatusCard v-bind="projectData.communityFeatures" />
         </RdGrid>
 

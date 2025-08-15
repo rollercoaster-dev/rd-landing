@@ -18,7 +18,7 @@ interface StatusCardData {
 interface GitHubProjectsData {
   coreEngine: StatusCardData;
   userInterface: StatusCardData;
-  backendApi: StatusCardData;
+  // backendApi: StatusCardData;
   communityFeatures: StatusCardData;
 }
 
@@ -55,32 +55,39 @@ export function useGitHubProjects() {
       gradientFrom: "accent" as const,
       lastUpdated: new Date(),
     },
-    backendApi: {
-      title: "Backend API",
-      icon: "🔌",
-      description: "Loading project status...",
-      repository: "openbadges-modular-server",
-      url: "https://github.com/rollercoaster-dev/openbadges-modular-server",
-      progress: 0,
-      openIssues: 0,
-      totalIssues: 0,
-      features: [{ icon: "🚀", text: "High performance" }],
-      status: "in-progress" as const,
-      gradientFrom: "secondary" as const,
-      lastUpdated: new Date(),
-    },
+    // backendApi: {
+    //   title: "Backend API",
+    //   icon: "🔌",
+    //   description: "Loading project status...",
+    //   repository: "openbadges-modular-server",
+    //   url: "https://github.com/rollercoaster-dev/openbadges-modular-server",
+    //   progress: 0,
+    //   openIssues: 0,
+    //   totalIssues: 0,
+    //   features: [{ icon: "🚀", text: "High performance" }],
+    //   status: "in-progress" as const,
+    //   gradientFrom: "secondary" as const,
+    //   lastUpdated: new Date(),
+    // },
     communityFeatures: {
-      title: "Community Features",
-      icon: "🤝",
-      description: "Loading project status...",
+      title: "Open Badges System",
+      icon: "🏆",
+      description:
+        "The complete open badges platform where server and UI meet to create the first fully open-source Rollercoaster.dev-powered system.",
       repository: "openbadges-system",
       url: "https://github.com/rollercoaster-dev/openbadges-system",
       progress: 0,
       openIssues: 0,
       totalIssues: 0,
-      features: [{ icon: "🌐", text: "Social sharing" }],
-      status: "planned" as const,
-      gradientFrom: "primary" as const,
+      features: [
+        { icon: "🔗", text: "Integrates core engine & UI" },
+        { icon: "🌟", text: "Complete badge ecosystem" },
+        { icon: "📖", text: "Fully open source" },
+        // { icon: "🚀", text: "Production-ready platform" },
+        { icon: "🎯", text: "Reference implementation" },
+      ],
+      status: "in-progress" as const,
+      gradientFrom: "secondary" as const,
       lastUpdated: new Date(),
     },
   });
@@ -98,25 +105,19 @@ export function useGitHubProjects() {
       const data = await response.json();
 
       // Update reactive data
-      Object.assign(projectData.coreEngine, {
-        ...data.coreEngine,
-        lastUpdated: new Date(data.coreEngine.lastUpdated),
-      });
+      const updateProjectData = (
+        key: keyof GitHubProjectsData,
+        apiData: StatusCardData,
+      ) => {
+        Object.assign(projectData[key], {
+          ...apiData,
+          lastUpdated: new Date(apiData.lastUpdated),
+        });
+      };
 
-      Object.assign(projectData.userInterface, {
-        ...data.userInterface,
-        lastUpdated: new Date(data.userInterface.lastUpdated),
-      });
-
-      Object.assign(projectData.backendApi, {
-        ...data.backendApi,
-        lastUpdated: new Date(data.backendApi.lastUpdated),
-      });
-
-      Object.assign(projectData.communityFeatures, {
-        ...data.communityFeatures,
-        lastUpdated: new Date(data.communityFeatures.lastUpdated),
-      });
+      updateProjectData("coreEngine", data.coreEngine);
+      updateProjectData("userInterface", data.userInterface);
+      updateProjectData("communityFeatures", data.communityFeatures);
     } catch (err) {
       error.value =
         err instanceof Error ? err.message : "Failed to fetch project data";

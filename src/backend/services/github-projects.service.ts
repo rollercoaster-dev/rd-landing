@@ -70,17 +70,19 @@ const STATUS_CARD_CONFIG = {
     gradientFrom: "secondary" as const,
   },
   communityFeatures: {
-    title: "Community Features",
-    icon: "🤝",
+    title: "Open Badges System",
+    icon: "🏆",
     description:
-      "Social and community tools that enable badge sharing, peer recognition, and collaborative learning within the neurodivergent community.",
+      "The complete open badges platform where server and UI meet to create the first fully open-source Rollercoaster.dev-powered system.",
     features: [
-      { icon: "🌐", text: "Social sharing" },
-      { icon: "👥", text: "Peer recognition" },
-      { icon: "💬", text: "Community support" },
+      { icon: "🔗", text: "Integrates core engine & UI" },
+      { icon: "🌟", text: "Complete badge ecosystem" },
+      { icon: "📖", text: "Fully open source" },
+      { icon: "🚀", text: "Production-ready platform" },
+      { icon: "🎯", text: "Reference implementation" },
     ],
-    status: "planned" as const,
-    gradientFrom: "primary" as const,
+    status: "in-progress" as const,
+    gradientFrom: "secondary" as const,
   },
 };
 
@@ -90,7 +92,6 @@ export class GitHubProjectsService {
     data: {
       coreEngine: StatusCardData;
       userInterface: StatusCardData;
-      backendApi: StatusCardData;
       communityFeatures: StatusCardData;
     } | null;
     timestamp: number;
@@ -113,7 +114,6 @@ export class GitHubProjectsService {
   async getStatusCardData(): Promise<{
     coreEngine: StatusCardData;
     userInterface: StatusCardData;
-    backendApi: StatusCardData;
     communityFeatures: StatusCardData;
   }> {
     // Check cache first
@@ -157,12 +157,6 @@ export class GitHubProjectsService {
         ...STATUS_CARD_CONFIG.userInterface,
         ...userInterfaceData?.progress,
         repository: userInterfaceData?.name || "openbadges-ui",
-        lastUpdated: new Date(),
-      } as StatusCardData,
-      backendApi: {
-        ...STATUS_CARD_CONFIG.backendApi,
-        ...coreEngineData?.progress, // Use same data as core engine
-        repository: coreEngineData?.name || "openbadges-modular-server",
         lastUpdated: new Date(),
       } as StatusCardData,
       communityFeatures: {
