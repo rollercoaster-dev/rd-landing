@@ -1,0 +1,168 @@
+name: Auto Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # Check if this is a merge commit (not just a direct push to main)
+  check-merge:
+    runs-on: ubuntu-latest
+    outputs:
+      is-merge: ${{ steps.check.outputs.is-merge }}
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      
+      - name: Check if merge commit
+        id: check
+        run: |
+          # Check if this is a merge commit by looking at parent count
+          PARENT_COUNT=$(git rev-list --count --parents HEAD^..HEAD | cut -d' ' -f1)
+          if [ "$PARENT_COUNT" -gt 1 ]; then
+            echo "is-merge=true" >> $GITHUB_OUTPUT
+            echo "This is a merge commit"
+          else
+            echo "is-merge=false" >> $GITHUB_OUTPUT
+            echo "This is not a merge commit"
+          fi
+      
+      - name: Generate version
+        id: version
+        if: steps.check.outputs.is-merge == 'true'
+        run: |
+          # Get the latest tag, or default to v0.0.0 if no tags exist
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          echo "Latest tag: $LATEST_TAG"
+          
+          # Extract version numbers
+          VERSION=${LATEST_TAG#v}
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+          
+          # Increment patch version
+          PATCH=$((PATCH + 1))
+          NEW_VERSION="v${MAJOR}.${MINOR}.${PATCH}"
+          
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+  test:
+    runs-on: ubuntu-latest
+    needs: check-merge
+    if: needs.check-merge.outputs.is-merge == 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Run tests
+        run: bun run test
+        env:
+          RD_GITHUB_CLIENT_ID: ${{ secrets.RD_GITHUB_CLIENT_ID }}
+          RD_GITHUB_CLIENT_SECRET: ${{ secrets.RD_GITHUB_CLIENT_SECRET }}
+          RD_JWT_SECRET: ${{ secrets.RD_JWT_SECRET }}
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [check-merge, test]
+    if: needs.check-merge.outputs.is-merge == 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Build
+        run: bun run build
+        env:
+          RD_JWT_SECRET: ${{ secrets.RD_JWT_SECRET }}
+          RD_GITHUB_CLIENT_ID: ${{ secrets.RD_GITHUB_CLIENT_ID }}
+          RD_GITHUB_CLIENT_SECRET: ${{ secrets.RD_GITHUB_CLIENT_SECRET }}
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: |
+            dist/
+            Dockerfile
+            fly.toml
+
+  create-release:
+    runs-on: ubuntu-latest
+    needs: [check-merge, build]
+    if: needs.check-merge.outputs.is-merge == 'true'
+    outputs:
+      release-created: ${{ steps.release.outputs.release-created }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Create tag and release
+        id: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEW_VERSION: ${{ needs.check-merge.outputs.version }}
+        run: |
+          # Create and push the tag
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag "$NEW_VERSION"
+          git push origin "$NEW_VERSION"
+          
+          # Generate release notes from recent commits
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD~1 2>/dev/null || echo "")
+          if [ -n "$PREVIOUS_TAG" ]; then
+            RELEASE_NOTES=$(git log --pretty=format:"- %s" "$PREVIOUS_TAG"..HEAD)
+          else
+            RELEASE_NOTES=$(git log --pretty=format:"- %s" --max-count=10)
+          fi
+          
+          # Create GitHub release
+          gh release create "$NEW_VERSION" \
+            --title "Release $NEW_VERSION" \
+            --notes "## Changes
+          
+          $RELEASE_NOTES
+          
+          ## Deployment
+          This release has been automatically deployed to production." \
+            --latest
+          
+          echo "release-created=true" >> $GITHUB_OUTPUT
+          echo "Created release $NEW_VERSION"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [check-merge, create-release]
+    if: needs.create-release.outputs.release-created == 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+          path: .
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Deploy to Fly.io
+        run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          RD_JWT_SECRET: ${{ secrets.RD_JWT_SECRET }}
+          RD_GITHUB_CLIENT_ID: ${{ secrets.RD_GITHUB_CLIENT_ID }}
+          RD_GITHUB_CLIENT_SECRET: ${{ secrets.RD_GITHUB_CLIENT_SECRET }}
+      
+      - name: Update release with deployment info
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEW_VERSION: ${{ needs.check-merge.outputs.version }}
+        run: |
+          # Add deployment success note to release
+          gh release edit "$NEW_VERSION" \
+            --notes-file <(gh release view "$NEW_VERSION" --json body -q .body && echo -e "\n\n✅ **Deployment Status**: Successfully deployed to production at $(date -u '+%Y-%m-%d %H:%M:%S UTC')")
