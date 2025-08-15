@@ -2,15 +2,8 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { apiRoutes } from "./api/routes";
 import { staticFilesMiddleware } from "./services/static";
-import { authConfig } from "./config/auth.config"; // Import auth config
-import { sessionMiddleware, CookieStore } from "hono-sessions";
 import { logger } from "./services/logger.service";
 import { loggerMiddleware } from "./middleware/logger.middleware";
-
-// Create a session secret key
-const SESSION_SECRET =
-  process.env.RD_SESSION_SECRET ||
-  "rollercoaster-dev-session-secret-key-change-in-production";
 
 // Define the factory function
 export const createApp = () => {
@@ -24,31 +17,16 @@ export const createApp = () => {
   app.use(
     "*",
     cors({
-      origin: [authConfig.webauthn.origin, "http://localhost:5173"],
+      origin: [
+        "http://localhost:5173",
+        "http://localhost:5174",
+        "http://localhost:5175",
+      ],
       allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
       allowHeaders: ["Content-Type", "Authorization"],
       credentials: true,
     }),
   );
-
-  // Add session middleware
-  app.use(
-    "*",
-    sessionMiddleware({
-      store: new CookieStore(),
-      encryptionKey: SESSION_SECRET, // Required for CookieStore
-      expireAfterSeconds: 60 * 60 * 24, // 24 hours
-      cookieOptions: {
-        path: "/", // Required for this library to work properly
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "Lax",
-      },
-      sessionCookieName: "rd_session",
-    }),
-  );
-
-  // We'll handle database access differently in Hono
 
   // Mount API routes
   app.route("/api", apiRoutes);

@@ -1,53 +1,29 @@
 import { describe, expect, it } from "vitest";
-import { setupHonoTest, createAuthHeaders } from "../test/setup";
+import { setupHonoTest } from "../test/setup";
 
 describe("API Routes - /api", () => {
   const { client } = setupHonoTest();
 
-  describe("GET /test", () => {
-    it("should return status ok", async () => {
-      const { data, error, status } = await client.get("/api/test");
+  describe("GET /github/status-cards", () => {
+    it("should handle GitHub API endpoint", async () => {
+      const { data, error, status } = await client.get(
+        "/api/github/status-cards",
+      );
 
-      expect(error).toBeNull();
-      expect(status).toBe(200);
-      expect(data).toHaveProperty("status", "ok");
-      expect(data).toHaveProperty("message", "API is working properly");
-      expect(data).toHaveProperty("timestamp");
-    });
-  });
+      // The endpoint should respond (may fail due to rate limits or auth in tests)
+      expect(status).toBeGreaterThanOrEqual(200);
 
-  describe("/me (Protected Route)", () => {
-    it("should return 401 Unauthorized without a token", async () => {
-      const { error, status } = await client.get("/api/users/me");
-
-      expect(error).not.toBeNull();
-      expect(status).toBe(401);
-      expect(error?.value).toHaveProperty("message", "Unauthorized");
-    });
-
-    it("should return 401 Unauthorized with an invalid token", async () => {
-      const { error, status } = await client.get("/api/users/me", {
-        headers: {
-          Cookie: "rd_auth_token=this.is.not.a.valid.token",
-        },
-      });
-
-      expect(error).not.toBeNull();
-      expect(status).toBe(401);
-      expect(error?.value).toHaveProperty("message", "Unauthorized");
-    });
-
-    it("should return user data with a valid token", async () => {
-      const headers = await createAuthHeaders();
-      const { data, error, status } = await client.get("/api/users/me", {
-        headers,
-      });
-
-      expect(error).toBeNull();
-      expect(status).toBe(200);
-      expect(data).toHaveProperty("user");
-      expect(data.user).toHaveProperty("sub", "test-user-id");
-      expect(data.user).toHaveProperty("username", "testuser");
+      // If successful, should have the expected structure
+      if (status === 200 && !error) {
+        expect(data).toHaveProperty("coreEngine");
+        expect(data).toHaveProperty("userInterface");
+        expect(data).toHaveProperty("backendApi");
+        expect(data).toHaveProperty("communityFeatures");
+      } else {
+        // If failed, should return an error response
+        expect(status).toBe(500);
+        expect(error?.value).toHaveProperty("error");
+      }
     });
   });
 

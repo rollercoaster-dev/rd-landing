@@ -32,22 +32,6 @@ import { vi } from "vitest";
 import { createApp } from "../index";
 import { TestHttpClient } from "./httpClient";
 
-// Mock the database module
-vi.mock("../db/index", () => {
-  return {
-    db: {
-      query: vi.fn(),
-      select: vi.fn().mockReturnThis(),
-      from: vi.fn().mockReturnThis(),
-      where: vi.fn().mockReturnThis(),
-      execute: vi.fn().mockResolvedValue([]),
-    },
-    migrationDb: {
-      query: vi.fn(),
-    },
-  };
-});
-
 // Mock the static service module
 vi.mock("../services/static", () => {
   return {
@@ -117,42 +101,4 @@ export const setupHonoTest = () => {
   console.log("Hono test environment setup complete");
 
   return { app, client };
-};
-
-/**
- * Helper function to create a test JWT token for testing protected routes
- */
-export const createTestToken = async () => {
-  console.log("Creating test JWT token");
-  // Import the JWT service
-  const { JwtService } = await import("@backend/services/jwt.service");
-
-  // Create a test user ID
-  const userId = "test-user-id";
-
-  // Create additional claims
-  const additionalClaims = {
-    username: "testuser",
-  };
-
-  try {
-    // Generate a token with the test user ID and additional claims
-    const token = await JwtService.generateToken(userId, additionalClaims);
-    console.log("Generated test token:", token);
-    return token;
-  } catch (error) {
-    console.error("Error generating test token:", error);
-    throw error;
-  }
-};
-
-/**
- * Helper function to create test headers with authentication
- */
-export const createAuthHeaders = async () => {
-  const token = await createTestToken();
-
-  return {
-    Cookie: `rd_auth_token=${token}`,
-  };
 };

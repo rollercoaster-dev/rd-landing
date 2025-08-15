@@ -16,7 +16,6 @@ A monolithic application for Open Badges, built with Vue 3 + TypeScript frontend
 
 - Bun
 - Elysia (TypeScript Framework)
-- PostgreSQL (via Docker)
 
 ## Documentation
 
@@ -25,7 +24,6 @@ A monolithic application for Open Badges, built with Vue 3 + TypeScript frontend
 ## Prerequisites
 
 - [Bun](https://bun.sh/) (v1.2.10+)
-- [Docker](https://www.docker.com/) & Docker Compose (for PostgreSQL)
 - [Node.js](https://nodejs.org/) (v18+) or Yarn/npm globally installed
 
 ## Getting Started
@@ -151,7 +149,7 @@ rd-monolith/
 │   └── shared/          # Shared code between frontend and backend
 │       └── types/       # Shared TypeScript types
 │
-├── docker-compose.yml   # Docker Compose for PostgreSQL
+
 ├── Dockerfile           # Docker configuration for the application
 ├── fly.toml             # Fly.io configuration
 ├── vite.config.ts       # Vite configuration

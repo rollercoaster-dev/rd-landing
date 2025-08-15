@@ -39,3 +39,11 @@ bun.lockb
 
 # Histoire
 .histoire/dist
+
+# Generated type files
+auto-imports.d.ts
+components.d.ts
+typed-router.d.ts
+src/frontend/auto-imports.d.ts
+src/frontend/components.d.ts
+src/frontend/typed-router.d.ts

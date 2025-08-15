@@ -55,6 +55,14 @@ export default defineConfig({
       "#imports": resolve(__dirname, "./src/frontend/composables"),
     },
   },
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:3001",
+        changeOrigin: true,
+      },
+    },
+  },
   ssr: {
     noExternal: ["lucide-vue-next"],
   },
