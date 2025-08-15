@@ -5,7 +5,7 @@ export type LinkProps = {
   href: string;
   internal?: boolean;
   variant?: "primary" | "secondary" | "text";
-  icon?: "arrow-right" | "arrow-down" | "none";
+  icon?: "arrow-right" | "arrow-down" | "arrow-up-right" | "none";
 };
 
 const props = withDefaults(defineProps<LinkProps>(), {
@@ -43,7 +43,15 @@ const rel = computed(() =>
   >
     <slot></slot>
     <span v-if="icon !== 'none'" class="text-lg">
-      {{ icon === "arrow-right" ? "→" : "↓" }}
+      {{
+        icon === "arrow-right"
+          ? "→"
+          : icon === "arrow-down"
+            ? "↓"
+            : icon === "arrow-up-right"
+              ? "↗"
+              : "→"
+      }}
     </span>
   </a>
 </template>
