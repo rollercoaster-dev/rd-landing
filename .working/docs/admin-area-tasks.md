@@ -6,12 +6,12 @@ This document outlines feature branches and PRs for building the Admin area and 
 
 ## Branch: feature/setup-drizzle-db
 
-**PR: Setup database with Drizzle ORM**
+**PR: Setup database with Drizzle ORM** _(REMOVED - No longer using database)_
 
-- [x] Add Drizzle ORM configuration and schema definition files
-- [x] Configure `DATABASE_URL` in `.env` and `docker-compose.yml`
-- [x] Generate Drizzle migrations and integrate client with Elysia
-- [x] Create initial migration
+- ~~Add Drizzle ORM configuration and schema definition files~~
+- ~~Configure `DATABASE_URL` in `.env` and `docker-compose.yml`~~
+- ~~Generate Drizzle migrations and integrate client with Elysia~~
+- ~~Create initial migration~~
 
 ## Branch: feature/auth-backend
 

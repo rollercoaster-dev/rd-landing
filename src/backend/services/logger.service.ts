@@ -156,19 +156,19 @@ export class LoggerService {
   }
 
   /**
-   * Log a database query
+   * Log a database query (for future database integration)
    *
    * @param sql The SQL query
    * @param params The query parameters
    * @param duration The query duration in milliseconds
-   * @param dbType The database type (e.g., 'PostgreSQL')
+   * @param dbType The database type (e.g., 'PostgreSQL', 'MySQL', 'SQLite')
    * @param requestId Optional request ID for tracing
    */
   public logQuery(
     sql: string,
     params: unknown[],
     duration: number,
-    dbType: string = "PostgreSQL",
+    dbType: string = "Database",
     requestId?: string,
   ): void {
     this._queryLogger.logQuery(sql, params, duration, dbType, requestId);

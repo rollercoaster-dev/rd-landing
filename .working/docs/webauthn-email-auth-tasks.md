@@ -62,18 +62,8 @@ Email verification presents several accessibility challenges for users with cogn
 
 - [x] **Database Schema Updates**: Design and implement database schema changes to store WebAuthn credentials
 
-  - Created a `webauthnCredentials` table with the following fields:
-    - `id`: Primary key (CUID2)
-    - `userId`: Foreign key to users table
-    - `credentialId`: The credential ID from the authenticator (base64url encoded)
-    - `publicKey`: The public key from the authenticator (base64url encoded)
-    - `counter`: The signature counter for detecting cloned authenticators
-    - `credentialDeviceType`: The type of device (e.g., 'platform', 'cross-platform')
-    - `credentialBackedUp`: Whether the credential is backed up
-    - `transports`: The transports used by the authenticator (JSON string)
-    - `friendlyName`: User-defined name for the credential
-    - `createdAt`: Timestamp of credential creation
-  - **Learning**: Storing binary data as base64url strings simplifies database operations
+  - _(Database schema removed - no longer using database)_
+  - **Note**: WebAuthn credential storage would need to be implemented when database is added
 
 - [x] **Registration Endpoint**: Create API endpoint for registering new WebAuthn credentials
 

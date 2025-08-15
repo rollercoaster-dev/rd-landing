@@ -32,22 +32,6 @@ import { vi } from "vitest";
 import { createApp } from "../index";
 import { TestHttpClient } from "./httpClient";
 
-// Mock the database module
-vi.mock("../db/index", () => {
-  return {
-    db: {
-      query: vi.fn(),
-      select: vi.fn().mockReturnThis(),
-      from: vi.fn().mockReturnThis(),
-      where: vi.fn().mockReturnThis(),
-      execute: vi.fn().mockResolvedValue([]),
-    },
-    migrationDb: {
-      query: vi.fn(),
-    },
-  };
-});
-
 // Mock the static service module
 vi.mock("../services/static", () => {
   return {

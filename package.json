@@ -22,9 +22,7 @@
     "type-check": "bun tsc --noEmit --skipLibCheck",
     "type-check:vue": "vue-tsc --noEmit",
     "check:all": "bun run format && bun run lint && bun run type-check && bun run type-check:vue",
-    "clean:modules": "rm -rf node_modules && bun install",
-    "db:migrate": "bun run scripts/migrate.ts",
-    "db:generate": "drizzle-kit generate"
+    "clean:modules": "rm -rf node_modules && bun install"
   },
   "dependencies": {
     "@hono/zod-validator": "^0.4.3",
@@ -44,8 +42,6 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cookie": "^1.0.2",
-    "drizzle-kit": "^0.31.0",
-    "drizzle-orm": "0.41.0",
     "hono": "^4.7.7",
     "hono-sessions": "^0.7.2",
     "jose": "^6.0.10",
@@ -55,7 +51,6 @@
     "nodemailer": "^6.10.1",
     "pinia": "^3.0.2",
     "pinia-plugin-persistedstate": "^4.2.0",
-    "postgres": "^3.4.5",
     "reka-ui": "^2.2.0",
     "tailwind-merge": "^3.2.0",
     "tailwindcss-animate": "^1.0.7",

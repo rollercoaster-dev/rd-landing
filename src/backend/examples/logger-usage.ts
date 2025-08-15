@@ -26,13 +26,13 @@ export class ExampleService {
         dataSize: Object.keys(data).length,
       });
 
-      // Simulate a database query
+      // Simulate an external API call
       const startTime = Date.now();
-      // ... actual database operation would go here
+      // ... actual API operation would go here
       const duration = Date.now() - startTime;
 
-      // Log the query using the query logger
-      logger.logQuery("SELECT * FROM users WHERE id = $1", [userId], duration);
+      // Log the operation duration
+      logger.info("External API call completed", { userId, duration });
 
       // Warn level - for potentially problematic situations that don't prevent the application from working
       if (Object.keys(data).length > 100) {

@@ -37,22 +37,9 @@ The backend uses JSON Web Tokens (JWT) for managing user authentication. The flo
 - `jose`: For JWT signing and verification.
 - `arctic`: For handling the GitHub OAuth2 flow.
 - `elysia`: Web framework used for routing and middleware.
-- `drizzle-orm`: Database ORM.
-
-## Database Schema
-
-- The `users` table (`src/backend/db/schema.ts`) includes:
-  - `id` (PK)
-  - `username` (Unique, Not Null - from GitHub login)
-  - `email` (Unique, Not Null - primary verified GitHub email)
-  - `name` (Nullable)
-  - `avatarUrl` (Nullable)
-  - `githubId` (Unique - GitHub user ID)
-  - `createdAt`, `updatedAt`
 
 ## Environment Variables
 
-- `RD_DATABASE_URL`: PostgreSQL connection string.
 - `RD_GITHUB_CLIENT_ID`: GitHub OAuth App Client ID.
 - `RD_GITHUB_CLIENT_SECRET`: GitHub OAuth App Client Secret.
 - `RD_JWT_SECRET`: A strong, secret string for signing JWTs.
