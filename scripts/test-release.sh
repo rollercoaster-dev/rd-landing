@@ -46,7 +46,12 @@ test_endpoint() {
     
     echo -e "\n${BLUE}🌐 Testing endpoint: $endpoint${NC}"
     
-    local response=$(curl -s -w "%{http_code}" -o /tmp/response.txt "http://localhost:3002$endpoint")
+    # Check if endpoint is a full URL or relative path
+    if [[ "$endpoint" =~ ^https?:// ]]; then
+        local response=$(curl -s -w "%{http_code}" -o /tmp/response.txt "$endpoint")
+    else
+        local response=$(curl -s -w "%{http_code}" -o /tmp/response.txt "http://localhost:3002$endpoint")
+    fi
     local status_code="${response: -3}"
     
     if [ "$status_code" = "$expected_status" ]; then
@@ -70,7 +75,7 @@ run_test "Node.js version check" "node --version"
 run_test "Bun version check" "bun --version"
 run_test "Dependencies install" "pnpm install --frozen-lockfile"
 run_test "TypeScript compilation" "bun tsc --noEmit --skipLibCheck"
-run_test "Linting" "pnpm exec eslint . --max-warnings 0 || true"  # Allow warnings for now
+run_test "Linting" "pnpm exec eslint . --max-warnings 0"
 run_test "Tests" "pnpm run test"
 
 echo -e "\n${YELLOW}🏗️  Phase 2: Build Process${NC}"
@@ -107,7 +112,16 @@ echo -e "${GREEN}✅ Production server started (PID: $SERVER_PID)${NC}"
 # Test endpoints
 test_endpoint "/" "200" "Frontend serving"
 test_endpoint "/api/github/status-cards" "200" "GitHub API endpoint"
-test_endpoint "/assets/index-BwNiw9D0.js" "200" "Static assets serving"
+
+# Find the first JS asset in the assets directory
+ASSET_JS=$(ls dist/assets/*.js 2>/dev/null | head -n 1)
+if [ -z "$ASSET_JS" ]; then
+    echo -e "${RED}❌ No JS asset found in dist/assets${NC}"
+    exit 1
+fi
+# Remove 'dist' prefix for endpoint path
+ASSET_JS_ENDPOINT="${ASSET_JS#dist}"
+test_endpoint "$ASSET_JS_ENDPOINT" "200" "Static assets serving"
 test_endpoint "/nonexistent" "404" "404 handling"
 
 # Stop the server
@@ -126,8 +140,8 @@ if command -v docker &> /dev/null && docker info &> /dev/null; then
     docker run -d -p 3003:3000 --name rd-monolith-test-container rd-monolith-test
     sleep 5
     
-    test_endpoint ":3003/" "200" "Docker container frontend"
-    test_endpoint ":3003/api/github/status-cards" "200" "Docker container API"
+    test_endpoint "http://localhost:3003/" "200" "Docker container frontend"
+    test_endpoint "http://localhost:3003/api/github/status-cards" "200" "Docker container API"
     
     # Cleanup Docker
     docker stop rd-monolith-test-container
