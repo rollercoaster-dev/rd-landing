@@ -80,10 +80,48 @@
     "description": "Wir befinden uns derzeit in aktiver Entwicklung und bauen die Kerninfrastruktur und Benutzererfahrung auf. Hier ist, woran wir arbeiten:",
     "focusNote": "Unser Fokus liegt darauf, zuerst ein solides Fundament zu schaffen und dann die Funktionen basierend auf Gemeinschaftsfeedback und -bedürfnissen zu erweitern."
   },
+  "empowerment": {
+    "description": "Wir glauben, dass dieses System neurodivergente Personen dabei unterstützen kann, ihre Ziele zu navigieren, ihre einzigartigen Wege zu dokumentieren und dabei Vertrauen aufzubauen."
+  },
+  "vision": {
+    "title": "Unsere Vision: Werkzeuge aus gelebter Erfahrung",
+    "description": "Standard-Produktivitätswerkzeuge werden neurodivergenten Personen oft nicht gerecht.",
+    "challenge": {
+      "title": "Die Herausforderung",
+      "content": "Starre Zeitpläne und lineare Listen passen nicht immer zu der Art, wie unser Verstand am besten funktioniert. Wir verstehen, dass neurodivergente Stärken anders sind, und das Navigieren von Zielen erfordert Werkzeuge, die Flexibilität, klare Schritte und echtes Verständnis bieten – nicht nur einen weiteren Kalender."
+    },
+    "solution": {
+      "title": "Unsere Lösung",
+      "content": "Bei Rollercoaster.dev ist unsere Vision einfach: <strong class='block mt-2 text-xl text-accent'>Die Werkzeuge erschaffen, die wir uns gewünscht hätten, entwickelt <em>von</em> und <em>für</em> die neurodivergente Gemeinschaft.</strong>"
+    },
+    "goals": {
+      "title": "Unsere Ziele",
+      "empower": {
+        "title": "🎯 Benutzer stärken",
+        "description": "Überwältigende Ziele in handhabbare, umsetzbare Schritte aufteilen, die für Sie Sinn machen."
+      },
+      "flexibility": {
+        "title": "🌊 Flexibilität bieten",
+        "description": "Anpassung an Ihre schwankende Energie und Konzentration, frei von starren Zeitplänen und Erwartungen."
+      },
+      "community": {
+        "title": "🤝 Gemeinschaft fördern",
+        "description": "Verbindungen durch gemeinsames Verständnis und gegenseitige Unterstützung aufbauen, weil wir es wirklich 'verstehen'."
+      }
+    },
+    "closing": "Wir bauen das, weil wir den Bedarf aus erster Hand verstehen. Es geht darum, Lösungen zu schaffen, die die vielfältigen Wege, wie neurodivergente Köpfe gedeihen, umarmen und unterstützen."
+  },
+  "currentWork": {
+    "title": "Wo wir stehen & wohin wir gehen",
+    "description": "Unsere Reise ist im Gange! Hier ist ein Einblick in unseren Fortschritt und geplante nächste Schritte:",
+    "loading": "Projektstatus wird geladen...",
+    "error": "Fehler beim Laden der Projektdaten:",
+    "retry": "Wiederholen",
+    "focusNote": "Unser Fokus liegt darauf, zuerst ein solides Fundament zu schaffen und dann die Funktionen basierend auf Gemeinschaftsfeedback und -bedürfnissen zu erweitern."
+  },
   "getInvolved": {
-    "title": "Mitmachen",
-    "subtitle": "Begleiten Sie die Reise",
-    "description": "Ob Sie daran interessiert sind, die Plattform zu nutzen oder zu ihrer Entwicklung beizutragen, es gibt Möglichkeiten, sich zu beteiligen:",
+    "title": "Begleiten Sie unsere Reise",
+    "description": "Rollercoaster.dev wird von neurodivergenten Personen für neurodivergente Personen entwickelt. Wir glauben an die Kraft gelebter Erfahrung, um Werkzeuge zu schaffen, die wirklich resonieren.",
     "users": {
       "title": "👋 Interessiert an der Nutzung der Werkzeuge?",
       "description": "Möchten Sie wissen, wann die Plattform startet oder wichtige Updates veröffentlicht werden?",
@@ -91,7 +129,8 @@
         "Frühen Zugang zu Funktionen erhalten",
         "Über die Entwicklung auf dem Laufenden bleiben",
         "Wertvolles Feedback geben"
-      ]
+      ],
+      "action": "Fortschritt auf GitHub verfolgen"
     },
     "contributors": {
       "title": "🚀 Interessiert am Beitragen?",
@@ -100,7 +139,11 @@
         "Die Zukunft der Plattform gestalten",
         "Mit Gleichgesinnten arbeiten",
         "Werkzeuge bauen, die wichtig sind"
-      ]
+      ],
+      "actions": {
+        "explore": "Auf GitHub erkunden",
+        "email": "E-Mail senden"
+      }
     }
   }
 }
