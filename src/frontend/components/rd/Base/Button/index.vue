@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { UIButton } from "#components";
+import Button from "~/components/ui/button/Button.vue";
 
 export type ButtonProps = {
   variant?:
@@ -42,7 +42,7 @@ const handleClick = (event: MouseEvent) => {
 </script>
 
 <template>
-  <UIButton
+  <Button
     :variant="buttonVariant"
     :size="size"
     :disabled="disabled"
@@ -54,5 +54,5 @@ const handleClick = (event: MouseEvent) => {
     <span v-if="icon !== 'none'" class="text-lg">
       {{ icon === "arrow-right" ? "→" : "↓" }}
     </span>
-  </UIButton>
+  </Button>
 </template>

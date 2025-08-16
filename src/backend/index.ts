@@ -87,7 +87,7 @@ export type AppType = ReturnType<typeof createApp>;
 // Keep the server start logic separate, only run if file is executed directly
 if (import.meta.main) {
   const appInstance = createApp();
-  const port = process.env.PORT ? parseInt(process.env.PORT) : 3001;
+  const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
   logger.info(`Hono server starting on port ${port}...`);
 

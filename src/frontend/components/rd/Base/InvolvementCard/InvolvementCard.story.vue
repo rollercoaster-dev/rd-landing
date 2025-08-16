@@ -1,6 +1,4 @@
-<script setup lang="ts">
-import { logEvent } from "histoire/client";
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <Story title="Base/InvolvementCard" :layout="{ type: 'grid', width: '100%' }">

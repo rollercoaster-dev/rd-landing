@@ -5,7 +5,6 @@
 **Steps:**
 
 1.  **Modify `package.json` Scripts:**
-
     - Define a `test:frontend` script that runs Vitest, ensuring it targets only frontend tests and uses the appropriate Vite configuration (which should provide the browser environment).
       - Example: `"test:frontend": "vitest run --root src/frontend"` (Adjust path/config if needed).
     - Define a `test:backend` script that runs Bun's native tester, targeting only backend tests.
@@ -16,22 +15,18 @@
       - Example: `"test:watch:frontend": "vitest --root src/frontend"`, `"test:watch:backend": "bun test --watch --cwd src/backend"`
 
 2.  **Update Pre-commit Hook (`.husky/pre-commit`):**
-
     - Change the test command from `bun run test` (or `bun test` if you kept the previous change) to the new combined script: `bun run test`.
 
 3.  **Update CI Workflow (`.github/workflows/ci.yml`):**
-
     - Modify the 'Run tests' step to use the new combined script: `run: bun run test`.
 
 4.  **Adapt Backend Tests for `bun test`:**
-
     - Go through backend test files (starting with `src/backend/test/setup.ts`).
     - Replace Vitest-specific utilities like `vi.mock` with alternatives compatible with `bun test`.
       - `bun test` aims for Jest compatibility. Check if `jest.mock` works or if Bun offers its own mocking/stubbing mechanism in its `Bun.test` module documentation.
       - If direct mocking is difficult, consider dependency injection patterns to make mocking easier.
 
 5.  **Verify Frontend Test Environment:**
-
     - Ensure your Vite/Vitest configuration (likely `vite.config.ts` or `vitest.config.ts` usually located in the frontend directory or project root) is set up to provide a browser-like environment (e.g., using `jsdom`). This is necessary for tests using APIs like `sessionStorage`.
     - Check the `test.environment` setting in your Vitest config.
 

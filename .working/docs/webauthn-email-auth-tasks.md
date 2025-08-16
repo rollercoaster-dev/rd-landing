@@ -55,53 +55,45 @@ Email verification presents several accessibility challenges for users with cogn
 #### Server-Side Tasks
 
 - [x] **Research WebAuthn Libraries**: Evaluate and select the most appropriate WebAuthn server library for our Node.js backend
-
   - We already have `@simplewebauthn/server` and `@simplewebauthn/types` installed
   - Review documentation and examples at https://simplewebauthn.dev/
   - **Learning**: SimpleWebAuthn provides a comprehensive API but has some TypeScript type issues that require workarounds
 
 - [x] **Database Schema Updates**: Design and implement database schema changes to store WebAuthn credentials
-
   - _(Database schema removed - no longer using database)_
   - **Note**: WebAuthn credential storage would need to be implemented when database is added
 
 - [x] **Registration Endpoint**: Create API endpoint for registering new WebAuthn credentials
-
   - Implemented `/api/auth/webauthn/register/options` to generate registration options
   - Implemented `/api/auth/webauthn/register/verify` to verify and store credentials
   - Added clear error handling and user feedback
   - **Learning**: Storing the challenge in the session is crucial for security
 
 - [x] **Authentication Endpoint**: Create API endpoint for authenticating with WebAuthn credentials
-
   - Implemented `/api/auth/webauthn/login/options` to generate authentication options
   - Implemented `/api/auth/webauthn/login/verify` to verify credentials and issue JWT
   - Ensured proper session management and security
   - **Learning**: The verification process requires careful handling of the authenticator data
 
 - [x] **User Association**: Implement logic to associate WebAuthn credentials with user accounts
-
   - Added support for multiple credentials per user for different devices
   - Implemented friendly name for each credential (e.g., "My Phone", "Work Laptop")
   - Stored metadata about each credential for user reference
   - **Learning**: Storing the credential type and transports helps with user experience
 
 - [x] **Credential Management**: Add functionality to manage (view, delete) registered credentials
-
   - Created endpoints for listing user's credentials
   - Implemented credential deletion with proper authentication
   - Added ability to rename credentials
   - **Learning**: Proper authorization checks are essential for credential management
 
 - [x] **Error Handling**: Implement robust error handling for WebAuthn operations
-
   - Created user-friendly error messages for common issues
   - Implemented detailed logging for debugging
   - Added handling for device compatibility issues
   - **Learning**: Detailed logging is crucial for debugging WebAuthn issues
 
 - [x] **Security Considerations**: Ensure proper validation and security measures for all WebAuthn operations
-
   - Validated origin and RP ID for all operations
   - Implemented proper challenge generation and verification
   - Ensured credential IDs are properly validated
@@ -116,40 +108,34 @@ Email verification presents several accessibility challenges for users with cogn
 #### Client-Side Tasks
 
 - [ ] **Add WebAuthn Browser Library**: Integrate @simplewebauthn/browser into the frontend
-
   - Add as a dependency: `bun add @simplewebauthn/browser`
   - Create a WebAuthn composable for reusable functionality
 
 - [ ] **Registration UI**: Create accessible UI for registering new WebAuthn credentials
-
   - Design a step-by-step guided process with clear instructions
   - Include animated illustrations showing how to use biometric sensors or security keys
   - Provide clear progress indicators and success/failure states
   - Use simple language and avoid technical jargon
 
 - [ ] **Authentication UI**: Create accessible UI for authenticating with WebAuthn
-
   - Create a clean, distraction-free authentication interface
   - Include clear visual cues for biometric or security key usage
   - Provide helpful animations to guide users through the process
   - Ensure the UI works well on mobile and desktop devices
 
 - [ ] **Device Compatibility Check**: Implement detection for WebAuthn support and provide appropriate feedback
-
   - Check browser compatibility using feature detection
   - Provide clear guidance when WebAuthn isn't supported
   - Suggest alternative browsers or authentication methods when needed
   - Store user preferences to avoid repeated compatibility checks
 
 - [ ] **Error Handling**: Create user-friendly error messages for WebAuthn operations
-
   - Translate technical errors into plain language explanations
   - Provide actionable guidance for resolving common issues
   - Include illustrations or animations to help explain problems
   - Avoid technical jargon and error codes in user-facing messages
 
 - [ ] **Fallback Mechanisms**: Implement fallback authentication methods when WebAuthn isn't available
-
   - Provide email-based authentication as an alternative
   - Allow users to choose their preferred authentication method
   - Ensure smooth transitions between authentication methods
@@ -166,7 +152,6 @@ Email verification presents several accessibility challenges for users with cogn
 #### Server-Side Tasks
 
 - [x] **Email Service Setup**: Create a reusable email service using Nodemailer
-
   - Implemented a self-hosted email solution using Nodemailer
   - Created a flexible configuration system for different environments
   - Set up support for MailDev for local development testing
@@ -174,7 +159,6 @@ Email verification presents several accessibility challenges for users with cogn
   - **Learning**: Environment-specific configuration is essential for email services
 
 - [x] **Email Templates**: Design accessible email templates for verification
-
   - Created simple, clean HTML templates with plain text alternatives
   - Used clear, concise language with step-by-step instructions
   - Included high-contrast design elements for better readability
@@ -182,14 +166,12 @@ Email verification presents several accessibility challenges for users with cogn
   - **Learning**: Simple, clean designs work best across different email clients
 
 - [x] **Token Generation**: Implement secure token generation for email verification
-
   - Used cryptographically secure random token generation with Node.js crypto
   - Implemented longer-lived tokens (24 hours by default) for neurodivergent users
   - Added a mechanism to regenerate tokens if needed
   - **Learning**: Longer token expiration times improve accessibility without significantly compromising security
 
 - [x] **Token Storage**: Create database schema for storing verification tokens
-
   - Created a `verificationTokens` table with the following fields:
     - `id`: Primary key (CUID2)
     - `userId`: Foreign key to users table
@@ -200,7 +182,6 @@ Email verification presents several accessibility challenges for users with cogn
   - **Learning**: Hashing tokens in the database adds an important security layer
 
 - [x] **Verification Endpoint**: Create API endpoint for verifying email tokens
-
   - Implemented `/api/auth/email/verify` endpoint
   - Added proper validation and error handling
   - Provided clear success and error responses
@@ -208,14 +189,12 @@ Email verification presents several accessibility challenges for users with cogn
   - **Learning**: Token verification should be a one-time operation with immediate token deletion
 
 - [x] **Expiration Handling**: Implement token expiration and renewal functionality
-
   - Set longer expiration times (24 hours by default) for accessibility
   - Implemented easy token renewal process
   - Added clear messaging about expiration
   - **Learning**: Longer expiration times reduce anxiety for users with cognitive disabilities
 
 - [x] **Rate Limiting**: Add protection against abuse of email verification system
-
   - Implemented token cleanup to prevent database bloat
   - Added protection against brute force attacks by hashing tokens
   - Included logging for security monitoring
@@ -229,35 +208,30 @@ Email verification presents several accessibility challenges for users with cogn
 #### Client-Side Tasks
 
 - [ ] **Verification UI**: Create accessible UI for initiating email verification
-
   - Design a clean, focused interface for entering email address
   - Include clear validation and feedback for email format
   - Provide immediate confirmation when verification email is sent
   - Use animations sparingly to indicate progress without causing distraction
 
 - [ ] **Verification Status**: Implement clear indication of verification status
-
   - Create a persistent, easy-to-understand status indicator
   - Use color, icons, and text to convey status (considering color blindness)
   - Provide clear next steps based on verification status
   - Ensure status updates are announced to screen readers
 
 - [ ] **Resend Functionality**: Add ability to request new verification emails
-
   - Implement an easily accessible "Resend" button
   - Provide clear feedback when a new email is sent
   - Include a countdown timer before resend is available (if rate limited)
   - Ensure the resend process is fully accessible
 
 - [ ] **Clear Instructions**: Provide simple, clear instructions for the verification process
-
   - Write instructions at approximately 6th-grade reading level
   - Break down the process into numbered steps
   - Include visual aids alongside text instructions
   - Provide examples of what to look for in the verification email
 
 - [ ] **Progress Indication**: Show verification progress to reduce anxiety
-
   - Implement a clear progress indicator showing current step
   - Provide estimated time remaining for each step
   - Allow users to save progress and return later
@@ -272,42 +246,36 @@ Email verification presents several accessibility challenges for users with cogn
 ### 3. Integrated Authentication Flow
 
 - [ ] **User Registration Flow**: Design and implement accessible user registration flow
-
   - Create a step-by-step registration process with minimal required information
   - Allow registration with just email address initially
   - Offer WebAuthn credential registration during onboarding
   - Provide clear guidance throughout the registration process
 
 - [ ] **Authentication Options**: Provide clear choice between WebAuthn and email-based authentication
-
   - Design a clean login page with clear authentication options
   - Use recognizable icons alongside text labels
   - Remember user's preferred authentication method
   - Ensure switching between methods is straightforward
 
 - [ ] **Account Recovery**: Implement accessible account recovery mechanisms
-
   - Create a simple, stress-free account recovery process
   - Provide multiple recovery options (email, backup codes, etc.)
   - Use clear, reassuring language throughout recovery
   - Implement safeguards against account takeover
 
 - [ ] **Progressive Enhancement**: Ensure basic functionality works without JavaScript
-
   - Implement core authentication flows that work with minimal JavaScript
   - Provide fallback mechanisms for browsers without WebAuthn support
   - Ensure critical paths work on older browsers
   - Test with JavaScript disabled
 
 - [ ] **User Preferences**: Allow users to set their preferred authentication method
-
   - Create a user settings page for authentication preferences
   - Allow users to manage their WebAuthn credentials
   - Provide options for email notification preferences
   - Remember and respect user preferences across sessions
 
 - [ ] **Session Management**: Implement secure and accessible session handling
-
   - Create clear session timeout notifications
   - Provide easy session renewal options
   - Implement secure session storage and validation

@@ -5,7 +5,6 @@ This document outlines the key configuration points for Histoire in this project
 ## Configuration (`histoire.config.ts`)
 
 - **`setupFile`:** This option is crucial for handling code that runs in different environments (browser vs. Node.js during story collection).
-
   - We encountered errors like `window.matchMedia is not a function` because browser-specific APIs were being called during the Node.js-based collection process.
   - **Solution:** Use the object syntax for `setupFile` to provide separate entry points:
 
@@ -35,7 +34,6 @@ This document outlines the key configuration points for Histoire in this project
 - Histoire requires a specific structure within `.story.vue` files to recognize and display stories correctly. Simply using your components in the template is not enough.
 - We encountered `No story found for ...` warnings because the required structure was missing.
 - **Solution:**
-
   1.  Wrap the entire story template in a single `<Story>` component. Provide a `title` prop (e.g., `title="UI/Button"`).
   2.  Wrap each distinct example or state you want to showcase within its own `<Variant>` component inside the `<Story>`. Provide a `title` for each variant (e.g., `title="Default Variants"`).
 
