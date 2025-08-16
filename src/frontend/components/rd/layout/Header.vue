@@ -55,9 +55,11 @@ const navigation: Array<{ name: string; href: string }> = [
         <!-- Mode Toggles -->
         <UiTooltipTooltipProvider :delay-duration="200">
           <div v-if="isMounted" class="flex items-center space-x-1">
+            <!-- Language Switcher -->
+            <UiLanguageSwitcher />
             <!-- Mode Toggle -->
             <UiTooltipTooltip
-              :content="`${mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}\nShortcut: Cmd + D`"
+              :content="`${mode === 'dark' ? $t('header.theme.switchToLight') : $t('header.theme.switchToDark')}\n${$t('header.theme.shortcutMode')}`"
               side="bottom"
               :delay-duration="200"
             >
@@ -72,8 +74,8 @@ const navigation: Array<{ name: string; href: string }> = [
                 <span class="sr-only">
                   {{
                     mode === "dark"
-                      ? "Switch to light mode"
-                      : "Switch to dark mode"
+                      ? $t("header.theme.switchToLight")
+                      : $t("header.theme.switchToDark")
                   }}
                 </span>
               </UiButtonButton>
@@ -81,7 +83,7 @@ const navigation: Array<{ name: string; href: string }> = [
 
             <!-- Intensity Toggle -->
             <UiTooltipTooltip
-              :content="`${intensity === 'vibrant' ? 'Switch to calm intensity' : 'Switch to vibrant intensity'}\nShortcut: Cmd + I`"
+              :content="`${intensity === 'vibrant' ? $t('header.theme.switchToCalm') : $t('header.theme.switchToVibrant')}\n${$t('header.theme.shortcutIntensity')}`"
               side="bottom"
               :delay-duration="200"
             >
@@ -95,8 +97,8 @@ const navigation: Array<{ name: string; href: string }> = [
                 <span class="sr-only">
                   {{
                     intensity === "vibrant"
-                      ? "Switch to calm intensity"
-                      : "Switch to vibrant intensity"
+                      ? $t("header.theme.switchToCalm")
+                      : $t("header.theme.switchToVibrant")
                   }}
                 </span>
               </UiButtonButton>

@@ -1,8 +1,10 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import { resolve } from "path";
+import { resolve, dirname } from "path";
+import { fileURLToPath } from "url";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
+import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 
 import VueRouter from "unplugin-vue-router/vite";
 import { VueRouterAutoImports } from "unplugin-vue-router";
@@ -40,6 +42,14 @@ export default defineConfig({
       collapseSamePrefixes: false,
       // Deep search in subdirectories
       deep: true,
+    }),
+    VueI18nPlugin({
+      include: [
+        resolve(
+          dirname(fileURLToPath(import.meta.url)),
+          "./src/frontend/locales/**",
+        ),
+      ],
     }),
   ],
   resolve: {

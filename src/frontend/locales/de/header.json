@@ -1,0 +1,16 @@
+{
+  "brand": "rollercoaster.dev",
+  "theme": {
+    "switchToLight": "Zum hellen Modus wechseln",
+    "switchToDark": "Zum dunklen Modus wechseln",
+    "shortcutMode": "Tastenkürzel: Cmd + D",
+    "switchToCalm": "Zur ruhigen Intensität wechseln",
+    "switchToVibrant": "Zur lebendigen Intensität wechseln",
+    "shortcutIntensity": "Tastenkürzel: Cmd + I"
+  },
+  "language": {
+    "switchLanguage": "Sprache wechseln",
+    "english": "English",
+    "german": "Deutsch"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "title": "About - Rollercoaster.dev",
+  "meta": {
+    "description": "Learn about Rollercoaster.dev - An Open Badges platform"
+  },
+  "heading": "About Rollercoaster.dev",
+  "description": "Rollercoaster.dev is an Open Badges platform designed specifically for neurodivergent creators and learners. We believe in celebrating diverse achievements and providing flexible tools for tracking progress and showcasing skills.",
+  "techStack": {
+    "title": "Our Technology Stack",
+    "frontend": "Frontend:",
+    "frontendTech": "Vue 3, TypeScript, Vite, vite-ssg",
+    "backend": "Backend:",
+    "backendTech": "Bun, Elysia",
+    "database": "Database:",
+    "databaseTech": "PostgreSQL",
+    "componentDev": "Component Development:",
+    "componentDevTech": "Histoire"
+  }
+}

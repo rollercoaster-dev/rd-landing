@@ -30,17 +30,17 @@ onMounted(async () => {
     <main class="container mx-auto max-w-4xl px-4 py-12 space-y-12">
       <!-- 1. Headline / Hero Section -->
       <RdHeroSection
-        title="Rollercoaster.dev"
-        subtitle="is a space where neurodivergent minds create and discover tools designed for the way we think."
+        :title="$t('home.hero.title')"
+        :subtitle="$t('home.hero.subtitle')"
         :actions="[
           {
-            text: 'Learn More',
+            text: $t('common.buttons.learnMore'),
             href: '#what-we-build',
             icon: 'arrow-down',
             internal: true,
           },
           {
-            text: 'View on GitHub',
+            text: $t('common.buttons.viewOnGitHub'),
             href: 'https://github.com/rollercoaster-dev',
             variant: 'secondary',
           },
@@ -50,71 +50,45 @@ onMounted(async () => {
       <!-- 2. "What We're Building" Section -->
       <RdSection id="what-we-build" with-separator>
         <RdBaseSectionHeader
-          title="What We're Building"
-          description="At Rollercoaster.dev, we're crafting a unique platform centered around"
+          :title="$t('home.whatWeBuild.title')"
+          :subtitle="$t('home.whatWeBuild.subtitle')"
         >
           <template #description>
-            At Rollercoaster.dev, we're crafting a unique platform centered
-            around
-            <RdBaseLink
-              href="https://openbadges.org"
-              variant="text"
-              icon="arrow-right"
-              class="text-accent font-semibold"
-            >
-              Open Badges
-            </RdBaseLink>
-            , designed specifically for the neurodivergent experience.
+            {{ $t("home.whatWeBuild.description") }}
           </template>
         </RdBaseSectionHeader>
 
         <RdGrid :cols="2">
           <!-- Feature 1: Track Progress -->
           <RdBaseFeatureCard
-            title="Track and Showcase Progress"
+            :title="$t('home.features.trackProgress.title')"
             icon="📊"
-            description="Track progress on any goal that matters to you – learning, work, hobbies, community action, personal growth, and more. Our flexible system adapts to your unique journey, letting you document and celebrate achievements in a way that makes sense for you."
-            :features="[
-              'Flexible goal tracking',
-              'Custom achievement paths',
-              'Progress visualization',
-            ]"
+            :description="$t('home.features.trackProgress.description')"
+            :features="$t('home.features.trackProgress.items')"
           />
 
           <!-- Feature 2: Visualize Journey -->
           <RdBaseFeatureCard
-            title="Visualize Your Journey"
+            :title="$t('home.features.visualizeJourney.title')"
             icon="🎨"
-            description="See your progress and achievements in meaningful, visual ways. Our platform offers different views and representations of your journey, helping you recognize patterns, celebrate milestones, and stay motivated through visual feedback."
-            :features="[
-              'Multiple view options',
-              'Pattern recognition',
-              'Visual milestone tracking',
-            ]"
+            :description="$t('home.features.visualizeJourney.description')"
+            :features="$t('home.features.visualizeJourney.items')"
           />
 
           <!-- Feature 3: Flexibility -->
           <RdBaseFeatureCard
-            title="Pause and Restart with Ease"
+            :title="$t('home.features.pauseRestart.title')"
             icon="🌱"
-            description="Life isn't linear, and neither is progress. Our system supports natural ebbs and flows, letting you pause during challenging times like burnout or low motivation. When you're ready to return, you'll find your progress preserved and tools to help you pick up where you left off."
-            :features="[
-              'Flexible pausing',
-              'Progress preservation',
-              'Easy resumption',
-            ]"
+            :description="$t('home.features.pauseRestart.description')"
+            :features="$t('home.features.pauseRestart.items')"
           />
 
           <!-- Feature 4: Community -->
           <RdBaseFeatureCard
-            title="Connect with Community"
+            :title="$t('home.features.connectCommunity.title')"
             icon="🤝"
-            description="Join a community that understands. Share experiences, learn from others' journeys, and find mutual support. Our platform facilitates meaningful connections through shared achievements and collaborative learning paths."
-            :features="[
-              'Shared achievements',
-              'Learning communities',
-              'Mutual support',
-            ]"
+            :description="$t('home.features.connectCommunity.description')"
+            :features="$t('home.features.connectCommunity.items')"
           />
         </RdGrid>
 

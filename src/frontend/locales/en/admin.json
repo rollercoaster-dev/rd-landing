@@ -1,0 +1,9 @@
+{
+  "title": "Admin Panel",
+  "navigation": {
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "documentation": "Documentation",
+    "projects": "Projects"
+  }
+}
