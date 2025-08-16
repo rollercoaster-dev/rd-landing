@@ -1,4 +1,9 @@
+FROM oven/bun:1-alpine as bun
+
 FROM node:23-alpine AS base
+
+# Copy bun from the official image
+COPY --from=bun /usr/local/bin/bun /usr/local/bin/bun
 
 # Enable corepack for pnpm
 RUN corepack enable
@@ -12,13 +17,10 @@ COPY package.json pnpm-lock.yaml ./
 # Install dependencies with pnpm
 RUN pnpm install --frozen-lockfile
 
-# Install Bun for backend
-RUN npm install -g bun
-
 # Copy the rest of the application
 COPY . .
 
-# Build the application (frontend with pnpm, backend with bun)
+# Build the application
 RUN pnpm run build
 
 # Expose the port
