@@ -19,9 +19,9 @@ onMounted(() => {
 });
 
 const navigation = computed(() => [
-  { name: t("header.nav.about") as string, href: "/about" },
-  { name: t("header.nav.howItWorks") as string, href: "/how-it-works" },
-  { name: t("header.nav.roadmap") as string, href: "/roadmap" },
+  { name: t("header.nav.about"), href: "/about" },
+  { name: t("header.nav.howItWorks"), href: "/how-it-works" },
+  { name: t("header.nav.roadmap"), href: "/roadmap" },
 ]);
 </script>
 
@@ -75,9 +75,7 @@ const navigation = computed(() => [
             <!-- Mode Toggle -->
             <UiTooltipTooltip
               :content="
-                `${mode === 'dark' ? $t('header.theme.switchToLight') : $t('header.theme.switchToDark')}` +
-                '\n' +
-                `${$t('header.theme.shortcutMode')}`
+                `${mode === 'dark' ? $t('header.theme.switchToLight') : $t('header.theme.switchToDark')} ${$t('header.theme.shortcutMode')}`
               "
               side="bottom"
               :delay-duration="200"
@@ -103,9 +101,7 @@ const navigation = computed(() => [
             <!-- Intensity Toggle -->
             <UiTooltipTooltip
               :content="
-                `${intensity === 'vibrant' ? $t('header.theme.switchToCalm') : $t('header.theme.switchToVibrant')}` +
-                '\n' +
-                `${$t('header.theme.shortcutIntensity')}`
+                `${intensity === 'vibrant' ? $t('header.theme.switchToCalm') : $t('header.theme.switchToVibrant')} ${$t('header.theme.shortcutIntensity')}`
               "
               side="bottom"
               :delay-duration="200"
