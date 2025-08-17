@@ -39,13 +39,25 @@ export function useSEO(options: SEOOptions) {
   const route = useRoute();
   const siteName = "RollerCoaster.dev";
 
-  // Use environment variable with safe fallbacks
-  const envSiteUrl = import.meta.env.VITE_SITE_URL;
-  const siteUrl =
-    envSiteUrl ||
-    (typeof window !== "undefined" && window.location?.origin
-      ? window.location.origin
-      : "http://localhost:5173");
+  // Use environment variable with safe fallbacks and validation
+  function getValidSiteUrl(): string {
+    const envSiteUrl = import.meta.env.VITE_SITE_URL;
+    if (envSiteUrl) {
+      try {
+        // Throws if not a valid absolute URL
+        new URL(envSiteUrl);
+        return envSiteUrl;
+      } catch {
+        // Invalid envSiteUrl, ignore and fallback
+        console.warn(`Invalid VITE_SITE_URL: "${envSiteUrl}", using fallback`);
+      }
+    }
+    if (typeof window !== "undefined" && window.location?.origin) {
+      return window.location.origin;
+    }
+    return "http://localhost:5173";
+  }
+  const siteUrl = getValidSiteUrl();
 
   // Get the current route name for OG image path generation
   const routeName = (route.name as string) || "index";
@@ -110,8 +122,8 @@ function generateOGImagePath(
   routeName: string,
   ogOptions?: SEOOptions["og"],
 ): string {
-  // Default to 'page' template if not specified
-  const template = ogOptions?.template || "page";
+  // Default to 'default' template if not specified
+  const template = ogOptions?.template || "default";
 
   // Handle index route specifically
   const normalizedRouteName =

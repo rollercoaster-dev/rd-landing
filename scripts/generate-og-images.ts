@@ -106,8 +106,9 @@ export async function generateOGImageBuffer(
     });
 
     // Set the HTML content
+    // Using 'domcontentloaded' for faster generation since all assets are self-contained (local fonts, inline SVGs)
     await page.setContent(html, {
-      waitUntil: "networkidle0",
+      waitUntil: "domcontentloaded",
     });
 
     // Take screenshot

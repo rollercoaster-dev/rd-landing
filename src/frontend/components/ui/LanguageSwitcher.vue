@@ -27,16 +27,29 @@ const currentLanguage = computed(() => {
   return languages.find((lang) => lang.code === locale.value) || languages[0];
 });
 
+// Type guard to safely extract value from event target
+function extractValueFromEvent(e: unknown): string | null {
+  if (
+    typeof e === "object" &&
+    e !== null &&
+    "target" in e &&
+    typeof (e as any).target === "object" &&
+    (e as any).target !== null &&
+    "value" in (e as any).target &&
+    typeof (e as any).target.value === "string"
+  ) {
+    return (e as any).target.value;
+  }
+  return null;
+}
+
 const switchLanguage = (value: unknown) => {
   let langCode: string | null = null;
 
   if (typeof value === "string") {
     langCode = value;
-  } else if (value && typeof value === "object") {
-    const target = (value as Event).target as unknown;
-    if (target && typeof target === "object" && "value" in target) {
-      langCode = (target as HTMLSelectElement).value;
-    }
+  } else {
+    langCode = extractValueFromEvent(value);
   }
 
   if (langCode && languages.some((lang) => lang.code === langCode)) {
