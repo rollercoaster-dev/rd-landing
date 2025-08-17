@@ -38,7 +38,14 @@ interface SEOOptions {
 export function useSEO(options: SEOOptions) {
   const route = useRoute();
   const siteName = "RollerCoaster.dev";
-  const siteUrl = "https://rollercoaster.dev"; // TODO: Get from config/env
+
+  // Use environment variable with safe fallbacks
+  const envSiteUrl = import.meta.env.VITE_SITE_URL;
+  const siteUrl =
+    envSiteUrl ||
+    (typeof window !== "undefined" && window.location?.origin
+      ? window.location.origin
+      : "http://localhost:5173");
 
   // Get the current route name for OG image path generation
   const routeName = (route.name as string) || "index";
@@ -46,11 +53,9 @@ export function useSEO(options: SEOOptions) {
   // Generate OG image path based on route and template
   const ogImagePath = generateOGImagePath(routeName, options.og);
 
-  // Full URL for OG image (required by social platforms)
-  const ogImageUrl = `${siteUrl}${ogImagePath}`;
-
-  // Current page URL for canonical and og:url
-  const pageUrl = `${siteUrl}${route.path}`;
+  // Build absolute URLs robustly
+  const ogImageUrl = new URL(ogImagePath, siteUrl).toString();
+  const pageUrl = new URL(route.path, siteUrl).toString();
 
   // Handle all meta tags automatically using @unhead/vue
   useHead({

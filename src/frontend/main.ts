@@ -52,13 +52,13 @@ export const createApp = ViteSSG(
   // the root component
   App,
   // vue-router options - using our custom routes with authentication guards
-  { routes, scrollBehavior: scrollBehavior as never },
+  { routes, scrollBehavior },
   // function to have custom setups
   ({ app, initialState }) => {
     // Create and use Pinia instance
     const pinia = createPinia();
     pinia.use(piniaPluginPersistedstate); // Use the plugin
-    app.use(pinia as never); // Type cast to resolve compatibility issue
+    app.use(pinia);
 
     // Install i18n
     app.use(i18n);

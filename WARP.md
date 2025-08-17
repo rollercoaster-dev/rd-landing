@@ -149,6 +149,10 @@ The application uses a monolithic architecture with clear separation between fro
 # GitHub API for project status cards
 GITHUB_TOKEN="ghp_your_personal_access_token_here"
 
+# Site URL for SEO meta tags (absolute URLs for og:url, canonical, etc.)
+VITE_SITE_URL="http://localhost:5173"  # Development
+# VITE_SITE_URL="https://rollercoaster.dev"  # Production
+
 # Authentication (from docs/backend/authentication.md)
 RD_GITHUB_CLIENT_ID="your_github_oauth_client_id"
 RD_GITHUB_CLIENT_SECRET="your_github_oauth_client_secret"

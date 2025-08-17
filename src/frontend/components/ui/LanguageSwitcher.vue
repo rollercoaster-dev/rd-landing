@@ -28,13 +28,19 @@ const currentLanguage = computed(() => {
 });
 
 const switchLanguage = (value: unknown) => {
-  const langCode = typeof value === "string" ? value : String(value);
-  if (
-    typeof langCode === "string" &&
-    languages.some((lang) => lang.code === langCode)
-  ) {
+  let langCode: string | null = null;
+
+  if (typeof value === "string") {
+    langCode = value;
+  } else if (value && typeof value === "object") {
+    const target = (value as Event).target as unknown;
+    if (target && typeof target === "object" && "value" in target) {
+      langCode = (target as HTMLSelectElement).value;
+    }
+  }
+
+  if (langCode && languages.some((lang) => lang.code === langCode)) {
     locale.value = langCode;
-    // Persist language preference
     if (typeof localStorage !== "undefined") {
       localStorage.setItem("preferred-language", langCode);
     }
