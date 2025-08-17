@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.14.0",
   "scripts": {
     "dev": "concurrently \"pnpm run dev:frontend\" \"bun run dev:backend\"",
     "dev:frontend": "pnpm exec vite",

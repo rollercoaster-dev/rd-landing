@@ -32,7 +32,11 @@ export default defineConfig({
     globals: true,
     setupFiles: ["src/frontend/vitest.setup.ts"],
     deps: {
-      inline: ["@vue"],
+      optimizer: {
+        ssr: {
+          include: ["@vue"],
+        },
+      },
     },
   },
 });
