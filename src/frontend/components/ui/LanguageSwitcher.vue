@@ -27,7 +27,8 @@ const currentLanguage = computed(() => {
   return languages.find((lang) => lang.code === locale.value) || languages[0];
 });
 
-const switchLanguage = (langCode: string) => {
+const switchLanguage = (value: unknown) => {
+  const langCode = typeof value === "string" ? value : String(value);
   if (
     typeof langCode === "string" &&
     languages.some((lang) => lang.code === langCode)

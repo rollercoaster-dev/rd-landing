@@ -42,7 +42,8 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "src/types/**/*.d.ts"
+    "src/types/**/*.d.ts",
+    "env.d.ts"
   ],
   "exclude": ["node_modules", "dist"],
   "references": [{ "path": "./tsconfig.node.json" }]
