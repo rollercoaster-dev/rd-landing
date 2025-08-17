@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tooltip } from "@/frontend/components/ui/tooltip";
 
 const { locale } = useI18n();
 
@@ -50,7 +51,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <UiTooltipTooltip
+  <Tooltip
     v-if="isMounted"
     :content="$t('header.language.switchLanguage')"
     side="bottom"
@@ -84,5 +85,5 @@ onMounted(() => {
         </SelectItem>
       </SelectContent>
     </Select>
-  </UiTooltipTooltip>
+  </Tooltip>
 </template>
