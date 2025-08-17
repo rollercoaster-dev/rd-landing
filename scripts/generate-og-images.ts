@@ -1,10 +1,10 @@
 #!/usr/bin/env bun
 
-// Main OG image generator script
-import { ImageResponse } from "@vercel/og";
+// Main OG image generator script - Puppeteer + HTML approach
+import puppeteer from "puppeteer";
 import { writeFile, mkdir } from "fs/promises";
 import { join } from "path";
-import { OGTemplate } from "./og-templates.js";
+import { generateOGTemplate } from "./og-templates.js";
 import {
   OGContentConfig,
   getOGContentForRoute,
@@ -71,7 +71,7 @@ export async function generateOGImage({
   const fileName = `${routeName}-${finalContent.template}-1200x630.png`;
   const imagePath = join(outputDir, fileName);
 
-  await writeFile(imagePath, Buffer.from(imageBuffer));
+  await writeFile(imagePath, imageBuffer);
 
   return {
     fileName,
@@ -80,22 +80,52 @@ export async function generateOGImage({
   };
 }
 
-// Generate image buffer from content
+// Generate image buffer from content using Puppeteer
 export async function generateOGImageBuffer(
   content: OGContentItem,
-): Promise<ArrayBuffer> {
-  const image = new ImageResponse(
-    OGTemplate({
-      ...content,
-      siteName: OGContentConfig.defaults.siteName,
-    }),
-    {
+): Promise<Buffer> {
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
+
+  try {
+    const page = await browser.newPage();
+
+    // Set viewport to exact OG image dimensions
+    await page.setViewport({
       width: OGDesignTokens.dimensions.ogWidth,
       height: OGDesignTokens.dimensions.ogHeight,
-    },
-  );
+      deviceScaleFactor: 1,
+    });
 
-  return await image.arrayBuffer();
+    // Generate HTML template
+    const html = generateOGTemplate({
+      ...content,
+      siteName: OGContentConfig.defaults.siteName,
+    });
+
+    // Set the HTML content
+    await page.setContent(html, {
+      waitUntil: "networkidle0",
+    });
+
+    // Take screenshot
+    const screenshot = await page.screenshot({
+      type: "png",
+      fullPage: false,
+      clip: {
+        x: 0,
+        y: 0,
+        width: OGDesignTokens.dimensions.ogWidth,
+        height: OGDesignTokens.dimensions.ogHeight,
+      },
+    });
+
+    return screenshot as Buffer;
+  } finally {
+    await browser.close();
+  }
 }
 
 // Utility function to generate OG image path for use in components
