@@ -18,9 +18,6 @@ dist-ssr
 *.local
 .output
 
-# Generated OG images
-public/og/
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
