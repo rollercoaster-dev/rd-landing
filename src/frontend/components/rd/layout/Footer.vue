@@ -9,8 +9,12 @@
         <span class="font-semibold text-foreground">rollercoaster.dev</span>
       </div>
       <nav class="flex items-center gap-6">
-        <a href="/legal/impressum" class="hover:text-primary">Impressum</a>
-        <a href="/legal/privacy" class="hover:text-primary">Datenschutz</a>
+        <RouterLink to="/legal/impressum" class="hover:text-primary"
+          >Impressum</RouterLink
+        >
+        <RouterLink to="/legal/privacy" class="hover:text-primary"
+          >Datenschutz</RouterLink
+        >
         <a
           href="https://github.com/rollercoaster-dev"
           target="_blank"

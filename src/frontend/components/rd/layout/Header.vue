@@ -30,32 +30,32 @@ const navigation: Array<{ name: string; href: string }> = [
   >
     <div class="container flex h-16 items-center">
       <!-- Logo -->
-      <a href="/" class="mr-8">
+      <RouterLink to="/" class="mr-8">
         <h1 class="text-2xl font-bold">
           <RdHeadlineGradient>rollercoaster.dev</RdHeadlineGradient>
         </h1>
-      </a>
+      </RouterLink>
 
       <!-- Navigation -->
       <nav class="flex items-center space-x-6 text-sm font-medium flex-1">
-        <a
+        <RouterLink
           v-for="item in navigation"
           :key="item.name"
-          :href="item.href"
+          :to="item.href"
           class="transition-colors hover:text-primary"
         >
           {{ item.name }}
-        </a>
+        </RouterLink>
       </nav>
 
       <div class="flex items-center space-x-2">
         <!-- CTAs -->
-        <a
-          href="/#waitlist"
+        <RouterLink
+          :to="{ path: '/', hash: '#waitlist' }"
           class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90"
         >
           Join the waitlist
-        </a>
+        </RouterLink>
         <a
           href="https://github.com/rollercoaster-dev"
           target="_blank"
@@ -66,7 +66,6 @@ const navigation: Array<{ name: string; href: string }> = [
         </a>
 
         <!-- Simple landing page - no auth needed -->
-
         <!-- Mode Toggles -->
         <UiTooltipTooltipProvider :delay-duration="200">
           <div v-if="isMounted" class="flex items-center space-x-1">
