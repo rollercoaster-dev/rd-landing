@@ -6,7 +6,9 @@
       class="container py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground"
     >
       <div class="flex items-center gap-3">
-        <span class="font-semibold text-foreground">rollercoaster.dev</span>
+        <span class="font-semibold text-foreground">{{
+          $t("header.brand")
+        }}</span>
       </div>
       <nav class="flex items-center gap-6">
         <RouterLink to="/legal/impressum" class="hover:text-primary"
