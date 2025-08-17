@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from "@/frontend/components/ui/select";
 import { Tooltip } from "@/frontend/components/ui/tooltip";
+import type { AcceptableValue } from "reka-ui";
 
 const { locale } = useI18n();
 
@@ -27,7 +28,7 @@ const currentLanguage = computed(() => {
   return languages.find((lang) => lang.code === locale.value) || languages[0];
 });
 
-const switchLanguage = (langCode: string) => {
+const switchLanguage = (langCode: AcceptableValue) => {
   if (
     typeof langCode === "string" &&
     languages.some((lang) => lang.code === langCode)
