@@ -27,10 +27,11 @@ const currentLanguage = computed(() => {
   return languages.find((lang) => lang.code === locale.value) || languages[0];
 });
 
-const switchLanguage = (
-  langCode: string | number | bigint | Record<string, any> | null,
-) => {
-  if (langCode && typeof langCode === "string") {
+const switchLanguage = (langCode: string) => {
+  if (
+    typeof langCode === "string" &&
+    languages.some((lang) => lang.code === langCode)
+  ) {
     locale.value = langCode;
     // Persist language preference
     if (typeof localStorage !== "undefined") {
@@ -52,12 +53,15 @@ onMounted(() => {
 
 <template>
   <Tooltip
-    v-if="isMounted"
     :content="$t('header.language.switchLanguage')"
     side="bottom"
     :delay-duration="200"
   >
-    <Select :model-value="locale" @update:model-value="switchLanguage">
+    <Select
+      v-if="isMounted"
+      :model-value="locale"
+      @update:model-value="switchLanguage"
+    >
       <SelectTrigger
         class="w-auto h-9 px-3 border-0 bg-transparent hover:bg-accent hover:text-accent-foreground rounded-full focus:ring-1 focus:ring-ring"
         :aria-label="$t('header.language.switchLanguage')"
@@ -85,5 +89,17 @@ onMounted(() => {
         </SelectItem>
       </SelectContent>
     </Select>
+
+    <!-- SSR fallback: show current language without interactivity -->
+    <div
+      v-else
+      class="w-auto h-9 px-3 border-0 bg-transparent rounded-full flex items-center gap-2"
+      :aria-label="$t('header.language.switchLanguage')"
+    >
+      <span>{{ currentLanguage.flag }}</span>
+      <span class="text-sm font-medium">{{
+        currentLanguage.code.toUpperCase()
+      }}</span>
+    </div>
   </Tooltip>
 </template>

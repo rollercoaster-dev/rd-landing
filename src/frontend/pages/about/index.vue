@@ -63,11 +63,11 @@ import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 
 useHead({
-  title: t("about.title"),
+  title: () => t("about.title"),
   meta: [
     {
       name: "description",
-      content: t("about.meta.description"),
+      content: () => t("about.meta.description"),
     },
   ],
 });
