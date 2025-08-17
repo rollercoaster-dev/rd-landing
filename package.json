@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.14.0",
   "scripts": {
     "dev": "concurrently \"pnpm run dev:frontend\" \"bun run dev:backend\"",
     "dev:frontend": "pnpm exec vite",
@@ -20,13 +19,14 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"**/*.{js,ts,vue,json,css,scss,md}\"",
-    "type-check": "bun tsc --noEmit --skipLibCheck",
+    "type-check": "npx tsc --noEmit --skipLibCheck",
     "type-check:vue": "vue-tsc --noEmit",
-    "check:all": "bun run format && bun run lint && bun run type-check && bun run type-check:vue",
+    "check:all": "npm run format && npm run lint && npm run type-check && npm run type-check:vue",
     "clean:modules": "rm -rf node_modules && bun install"
   },
   "dependencies": {
     "@hono/zod-validator": "^0.4.3",
+    "@intlify/unplugin-vue-i18n": "^6.0.8",
     "@octokit/rest": "^22.0.0",
     "@paralleldrive/cuid2": "^2.2.2",
     "@pinia/nuxt": "^0.11.0",
@@ -57,6 +57,7 @@
     "tailwindcss-animate": "^1.0.7",
     "tw-animate-css": "^1.2.7",
     "vue": "^3.4.15",
+    "vue-i18n": "^11.1.11",
     "vue-router": "^4.2.5",
     "zod": "^3.24.3"
   },
@@ -98,5 +99,6 @@
   "lint-staged": {
     "*.{js,ts,vue,json,css,scss,md}": "prettier --write",
     "*.{js,ts,vue}": "eslint --fix"
-  }
+  },
+  "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748"
 }

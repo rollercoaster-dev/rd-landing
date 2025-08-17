@@ -3,11 +3,10 @@
     <header>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 class="text-4xl font-bold text-gray-900">
-          About Rollercoaster.dev
+          {{ $t("about.heading") }}
         </h1>
         <p class="mt-4 text-lg text-gray-600">
-          Rollercoaster.dev is an Open Badges platform that allows organizations
-          to create, issue, and verify digital badges.
+          {{ $t("about.description") }}
         </p>
       </div>
     </header>
@@ -24,17 +23,32 @@
         </p>
 
         <h2 class="text-2xl font-bold text-gray-900 mt-8">
-          Our Technology Stack
+          {{ $t("about.techStack.title") }}
         </h2>
         <ul class="mt-4 space-y-2 list-disc pl-5 text-gray-600">
           <li>
-            <span class="font-semibold">Frontend:</span> Vue 3, TypeScript,
-            Vite, vite-ssg
+            <span class="font-semibold">{{
+              $t("about.techStack.frontend")
+            }}</span>
+            {{ $t("about.techStack.frontendTech") }}
           </li>
-          <li><span class="font-semibold">Backend:</span> Bun, Elysia</li>
-          <li><span class="font-semibold">Database:</span> PostgreSQL</li>
           <li>
-            <span class="font-semibold">Component Development:</span> Histoire
+            <span class="font-semibold">{{
+              $t("about.techStack.backend")
+            }}</span>
+            {{ $t("about.techStack.backendTech") }}
+          </li>
+          <li>
+            <span class="font-semibold">{{
+              $t("about.techStack.database")
+            }}</span>
+            {{ $t("about.techStack.databaseTech") }}
+          </li>
+          <li>
+            <span class="font-semibold">{{
+              $t("about.techStack.componentDev")
+            }}</span>
+            {{ $t("about.techStack.componentDevTech") }}
           </li>
         </ul>
       </div>
@@ -43,13 +57,17 @@
 </template>
 
 <script setup>
+import { useI18n } from "vue-i18n";
+
 // Notice we don't need to import useHead anymore - it's auto-imported
+const { t } = useI18n();
+
 useHead({
-  title: "About - Rollercoaster.dev",
+  title: () => t("about.title"),
   meta: [
     {
       name: "description",
-      content: "Learn about Rollercoaster.dev - An Open Badges platform",
+      content: () => t("about.meta.description"),
     },
   ],
 });

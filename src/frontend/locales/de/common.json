@@ -1,0 +1,38 @@
+{
+  "buttons": {
+    "learnMore": "Mehr erfahren",
+    "viewOnGitHub": "Auf GitHub ansehen",
+    "followProgress": "Fortschritt auf GitHub verfolgen",
+    "getInTouch": "Kontakt aufnehmen"
+  },
+  "actions": {
+    "switchLanguage": "Sprache wechseln",
+    "close": "Schließen",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "create": "Erstellen",
+    "update": "Aktualisieren"
+  },
+  "status": {
+    "loading": "Lädt...",
+    "error": "Fehler",
+    "success": "Erfolgreich",
+    "warning": "Warnung",
+    "info": "Information",
+    "inProgress": "In Bearbeitung",
+    "planned": "Geplant",
+    "completed": "Abgeschlossen"
+  },
+  "github": "GitHub",
+  "progress": "Fortschritt",
+  "completed": "abgeschlossen",
+  "open": "offen",
+  "navigation": {
+    "home": "Startseite",
+    "about": "Über uns",
+    "blog": "Blog",
+    "contact": "Kontakt"
+  }
+}

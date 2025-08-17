@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from "vue-i18n";
+
 export type StatusFeature = {
   icon: string;
   text: string;
@@ -28,15 +30,23 @@ withDefaults(defineProps<StatusCardProps>(), {
   showGitHubLink: true,
 });
 
+const { t, locale } = useI18n();
+
 const statusVariants = {
-  "in-progress": { text: "In Progress", variant: "secondary" as const },
-  planned: { text: "Planned", variant: "outline" as const },
-  completed: { text: "Completed", variant: "default" as const },
+  "in-progress": {
+    textKey: "common.status.inProgress",
+    variant: "secondary" as const,
+  },
+  planned: { textKey: "common.status.planned", variant: "outline" as const },
+  completed: {
+    textKey: "common.status.completed",
+    variant: "default" as const,
+  },
 };
 
 const formatLastUpdated = (date?: Date) => {
   if (!date) return null;
-  return new Intl.RelativeTimeFormat("en", { numeric: "auto" }).format(
+  return new Intl.RelativeTimeFormat(locale.value, { numeric: "auto" }).format(
     Math.floor((date.getTime() - Date.now()) / (1000 * 60)),
     "minute",
   );
@@ -69,7 +79,7 @@ const formatLastUpdated = (date?: Date) => {
             class="text-muted-foreground hover:text-foreground transition-colors"
             :title="`View ${repository} on GitHub`"
           >
-            GitHub →
+            {{ t("common.github") }} →
           </a>
         </div>
       </UiCardCardTitle>
@@ -85,7 +95,7 @@ const formatLastUpdated = (date?: Date) => {
         class="space-y-2"
       >
         <div class="flex justify-between text-xs text-muted-foreground">
-          <span>Progress</span>
+          <span>{{ t("common.progress") }}</span>
           <span>{{ progress }}%</span>
         </div>
         <div class="w-full bg-secondary rounded-full h-2">
@@ -101,8 +111,13 @@ const formatLastUpdated = (date?: Date) => {
         v-if="typeof openIssues === 'number' && typeof totalIssues === 'number'"
         class="flex justify-between text-xs text-muted-foreground"
       >
-        <span>{{ totalIssues - openIssues }}/{{ totalIssues }} completed</span>
-        <span v-if="openIssues > 0">{{ openIssues }} open</span>
+        <span
+          >{{ totalIssues - openIssues }}/{{ totalIssues }}
+          {{ t("common.completed") }}</span
+        >
+        <span v-if="openIssues > 0"
+          >{{ openIssues }} {{ t("common.open") }}</span
+        >
       </div>
 
       <div v-if="features.length > 0" class="space-y-1">
@@ -117,7 +132,7 @@ const formatLastUpdated = (date?: Date) => {
     </UiCardCardContent>
     <UiCardCardFooter class="flex justify-between items-center mt-auto">
       <UiBadgeBadge :variant="statusVariants[status].variant">
-        {{ statusVariants[status].text }}
+        {{ t(statusVariants[status].textKey) }}
       </UiBadgeBadge>
       <div v-if="lastUpdated" class="text-xs text-muted-foreground">
         {{ formatLastUpdated(lastUpdated) }}

@@ -1,0 +1,158 @@
+{
+  "hero": {
+    "title": "Rollercoaster.dev",
+    "subtitle": "is a space where neurodivergent minds create and discover tools designed for the way we think."
+  },
+  "whatWeBuild": {
+    "title": "What We're Building",
+    "subtitle": "Open Badges Platform for Neurodivergent Creators",
+    "description": "We're creating a comprehensive Open Badges ecosystem that celebrates diverse achievements and learning paths. Our platform recognizes that success isn't one-size-fits-all."
+  },
+  "features": {
+    "trackProgress": {
+      "title": "Track and Showcase Progress",
+      "description": "Track progress on any goal that matters to you – learning, work, hobbies, community action, personal growth, and more. Our flexible system adapts to your unique journey, letting you document and celebrate achievements in a way that makes sense for you.",
+      "item1": "Flexible goal tracking",
+      "item2": "Custom achievement paths",
+      "item3": "Progress visualization"
+    },
+    "visualizeJourney": {
+      "title": "Visualize Your Journey",
+      "description": "See your progress and achievements in meaningful, visual ways. Our platform offers different views and representations of your journey, helping you recognize patterns, celebrate milestones, and stay motivated through visual feedback.",
+      "item1": "Multiple view options",
+      "item2": "Pattern recognition",
+      "item3": "Visual milestone tracking"
+    },
+    "pauseRestart": {
+      "title": "Pause and Restart with Ease",
+      "description": "Life isn't linear, and neither is progress. Our system supports natural ebbs and flows, letting you pause during challenging times like burnout or low motivation. When you're ready to return, you'll find your progress preserved and tools to help you pick up where you left off.",
+      "item1": "Flexible pausing",
+      "item2": "Progress preservation",
+      "item3": "Easy resumption"
+    },
+    "connectCommunity": {
+      "title": "Connect with Community",
+      "description": "Join a community that understands. Share experiences, learn from others' journeys, and find mutual support. Our platform facilitates meaningful connections through shared achievements and collaborative learning paths.",
+      "item1": "Shared achievements",
+      "item2": "Learning communities",
+      "item3": "Mutual support"
+    },
+    "buildCommunity": {
+      "title": "Build Community",
+      "description": "Connect with other neurodivergent creators, share your journey, and discover new opportunities. Our platform is designed to foster genuine connections and collaborative growth.",
+      "items": [
+        "Creator networking",
+        "Collaborative projects",
+        "Mentorship opportunities"
+      ]
+    },
+    "shareJourney": {
+      "title": "Share Your Journey",
+      "description": "Tell your story in a way that resonates with you. Our platform supports various formats and styles, letting you document and share your progress authentically.",
+      "items": [
+        "Multiple content formats",
+        "Personal storytelling",
+        "Achievement portfolios"
+      ]
+    }
+  },
+  "currentWork": {
+    "title": "Current Work",
+    "subtitle": "Building the Foundation",
+    "description": "We're currently in active development, building the core infrastructure and user experience. Here's what we're working on:",
+    "focusNote": "Our focus is on building a solid foundation first, then expanding features based on community feedback and needs."
+  },
+  "empowerment": {
+    "description": "We believe this system can empower neurodivergent individuals to navigate their goals, document their unique paths, and build confidence along the way."
+  },
+  "vision": {
+    "title": "Our Vision: Tools Built From Lived Experience",
+    "description": "Standard productivity tools often fall short for neurodivergent individuals.",
+    "challenge": {
+      "title": "The Challenge",
+      "content": "Rigid schedules and linear lists don't always align with how our minds work best. We understand that neurodivergent strengths are different, and navigating goals requires tools that offer flexibility, clear steps, and genuine understanding – not just another calendar."
+    },
+    "solution": {
+      "title": "Our Solution",
+      "content": "At Rollercoaster.dev, our vision is simple: <strong class='block mt-2 text-xl text-accent'>Create the tools we wish existed, built <em>by</em> and <em>for</em> the neurodivergent community.</strong>"
+    },
+    "goals": {
+      "title": "Our Goals",
+      "empower": {
+        "title": "🎯 To Empower Users",
+        "description": "Breaking down overwhelming goals into manageable, actionable steps that make sense for you."
+      },
+      "flexibility": {
+        "title": "🌊 To Offer Flexibility",
+        "description": "Adapting to your fluctuating energy and focus, free from rigid timelines and expectations."
+      },
+      "community": {
+        "title": "🤝 To Foster Community",
+        "description": "Building connections through shared understanding and mutual support, because we truly 'get it'."
+      }
+    },
+    "closing": "We're building this because we understand the need firsthand. It's about creating solutions that embrace and support the diverse ways neurodivergent minds thrive."
+  },
+  "currentWorkStatus": {
+    "title": "Where We Are & Where We're Going",
+    "description": "Our journey is underway! Here's a glimpse of our progress and planned next steps:",
+    "loading": "Loading project status...",
+    "error": "Error loading project data:",
+    "retry": "Retry",
+    "focusNote": "Our focus is on building a solid foundation first, then expanding features based on community feedback and needs."
+  },
+  "projects": {
+    "coreEngine": {
+      "title": "Core Badge Engine",
+      "description": "The foundational server that processes and validates Open Badges, handles credential verification, and manages the core badge ecosystem.",
+      "features": {
+        "secure": "Secure badge validation",
+        "tracking": "Progress tracking",
+        "realtime": "Real-time updates"
+      }
+    },
+    "userInterface": {
+      "title": "User Interface (Vue)",
+      "description": "Modern, accessible Vue.js components and interfaces that make badge management intuitive and engaging for neurodivergent users.",
+      "features": {
+        "accessibility": "Accessibility focused",
+        "responsive": "Mobile responsive",
+        "userCentered": "User-centered design"
+      }
+    },
+    "communityFeatures": {
+      "title": "Open Badges System",
+      "description": "The complete open badges platform where server and UI meet to create the first fully open-source Rollercoaster.dev-powered system.",
+      "features": {
+        "integrates": "Integrates core engine & UI",
+        "ecosystem": "Complete badge ecosystem",
+        "openSource": "Fully open source",
+        "production": "Production-ready platform",
+        "reference": "Reference implementation"
+      }
+    }
+  },
+  "getInvolved": {
+    "title": "Join Our Journey",
+    "description": "Rollercoaster.dev is being built by neurodivergent individuals, for neurodivergent individuals. We believe in the power of lived experience to create tools that truly resonate.",
+    "users": {
+      "title": "👋 Interested in Using the Tools?",
+      "description": "Want to know when the platform launches or major updates are released?",
+      "feature1": "Get early access to features",
+      "feature2": "Stay updated on development",
+      "feature3": "Provide valuable feedback",
+      "action": "Follow Progress on GitHub"
+    },
+    "contributors": {
+      "title": "🚀 Interested in Contributing?",
+      "description": "We're seeking passionate neurodivergent creators (designers, frontend, backend, full-stack). Explore our work or get in touch!",
+      "feature1": "Shape the platform's future",
+      "feature2": "Work with like-minded creators",
+      "feature3": "Build tools that matter",
+      "actions": {
+        "explore": "Explore on GitHub",
+        "email": "Email Us"
+      }
+    }
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "hero": {
+    "title": "Rollercoaster.dev",
+    "subtitle": "ist ein Raum, in dem neurodivergente Köpfe Werkzeuge erschaffen und entdecken, die für unsere Denkweise entwickelt wurden."
+  },
+  "whatWeBuild": {
+    "title": "Was wir entwickeln",
+    "subtitle": "Open Badges Plattform für neurodivergente Kreative",
+    "description": "Wir erschaffen ein umfassendes Open Badges Ökosystem, das vielfältige Erfolge und Lernwege würdigt. Unsere Plattform erkennt an, dass Erfolg nicht für alle gleich aussieht."
+  },
+  "features": {
+    "trackProgress": {
+      "title": "Fortschritt verfolgen und präsentieren",
+      "description": "Verfolgen Sie Fortschritte bei jedem Ziel, das Ihnen wichtig ist – Lernen, Arbeit, Hobbys, Gemeinschaftsaktionen, persönliches Wachstum und mehr. Unser flexibles System passt sich Ihrer einzigartigen Reise an und ermöglicht es Ihnen, Erfolge auf eine Weise zu dokumentieren und zu feiern, die für Sie Sinn macht.",
+      "item1": "Flexible Zielverfolgung",
+      "item2": "Individuelle Erfolgswege",
+      "item3": "Fortschrittsvisualisierung"
+    },
+    "visualizeJourney": {
+      "title": "Ihre Reise visualisieren",
+      "description": "Sehen Sie Ihren Fortschritt und Ihre Erfolge auf bedeutungsvolle, visuelle Weise. Unsere Plattform bietet verschiedene Ansichten und Darstellungen Ihrer Reise, die Ihnen helfen, Muster zu erkennen, Meilensteine zu feiern und durch visuelles Feedback motiviert zu bleiben.",
+      "item1": "Mehrere Ansichtsoptionen",
+      "item2": "Mustererkennung",
+      "item3": "Visuelle Meilenstein-Verfolgung"
+    },
+    "pauseRestart": {
+      "title": "Pausieren und Neustarten mit Leichtigkeit",
+      "description": "Das Leben ist nicht linear, und Fortschritt auch nicht. Unser System unterstützt natürliche Höhen und Tiefen und ermöglicht es Ihnen, während herausfordernder Zeiten wie Burnout oder geringer Motivation zu pausieren. Wenn Sie bereit sind zurückzukehren, finden Sie Ihren Fortschritt bewahrt und Werkzeuge, die Ihnen helfen, dort weiterzumachen, wo Sie aufgehört haben.",
+      "item1": "Flexibles Pausieren",
+      "item2": "Fortschrittsbewahrung",
+      "item3": "Einfache Wiederaufnahme"
+    },
+    "connectCommunity": {
+      "title": "Mit der Gemeinschaft verbinden",
+      "description": "Treten Sie einer Gemeinschaft bei, die versteht. Teilen Sie Erfahrungen, lernen Sie von den Reisen anderer und finden Sie gegenseitige Unterstützung. Unsere Plattform ermöglicht bedeutungsvolle Verbindungen durch geteilte Erfolge und kollaborative Lernwege.",
+      "item1": "Geteilte Erfolge",
+      "item2": "Lerngemeinschaften",
+      "item3": "Gegenseitige Unterstützung"
+    },
+    "buildCommunity": {
+      "title": "Gemeinschaft aufbauen",
+      "description": "Vernetzen Sie sich mit anderen neurodivergenten Kreativen, teilen Sie Ihre Reise und entdecken Sie neue Möglichkeiten. Unsere Plattform ist darauf ausgelegt, echte Verbindungen und kollaboratives Wachstum zu fördern.",
+      "items": [
+        "Kreative-Netzwerk",
+        "Kollaborative Projekte",
+        "Mentoring-Möglichkeiten"
+      ]
+    },
+    "shareJourney": {
+      "title": "Ihre Reise teilen",
+      "description": "Erzählen Sie Ihre Geschichte auf eine Weise, die bei Ihnen Anklang findet. Unsere Plattform unterstützt verschiedene Formate und Stile, sodass Sie Ihren Fortschritt authentisch dokumentieren und teilen können.",
+      "items": [
+        "Mehrere Inhaltsformate",
+        "Persönliches Storytelling",
+        "Erfolgs-Portfolios"
+      ]
+    }
+  },
+  "currentWork": {
+    "title": "Aktuelle Arbeit",
+    "subtitle": "Das Fundament bauen",
+    "description": "Wir befinden uns derzeit in aktiver Entwicklung und bauen die Kerninfrastruktur und Benutzererfahrung auf. Hier ist, woran wir arbeiten:",
+    "focusNote": "Unser Fokus liegt darauf, zuerst ein solides Fundament zu schaffen und dann die Funktionen basierend auf Gemeinschaftsfeedback und -bedürfnissen zu erweitern."
+  },
+  "empowerment": {
+    "description": "Wir glauben, dass dieses System neurodivergente Personen dabei unterstützen kann, ihre Ziele zu navigieren, ihre einzigartigen Wege zu dokumentieren und dabei Vertrauen aufzubauen."
+  },
+  "vision": {
+    "title": "Unsere Vision: Werkzeuge aus gelebter Erfahrung",
+    "description": "Standard-Produktivitätswerkzeuge werden neurodivergenten Personen oft nicht gerecht.",
+    "challenge": {
+      "title": "Die Herausforderung",
+      "content": "Starre Zeitpläne und lineare Listen passen nicht immer zu der Art, wie unser Verstand am besten funktioniert. Wir verstehen, dass neurodivergente Stärken anders sind, und das Navigieren von Zielen erfordert Werkzeuge, die Flexibilität, klare Schritte und echtes Verständnis bieten – nicht nur einen weiteren Kalender."
+    },
+    "solution": {
+      "title": "Unsere Lösung",
+      "content": "Bei Rollercoaster.dev ist unsere Vision einfach: <strong class='block mt-2 text-xl text-accent'>Die Werkzeuge erschaffen, die wir uns gewünscht hätten, entwickelt <em>von</em> und <em>für</em> die neurodivergente Gemeinschaft.</strong>"
+    },
+    "goals": {
+      "title": "Unsere Ziele",
+      "empower": {
+        "title": "🎯 Benutzer stärken",
+        "description": "Überwältigende Ziele in handhabbare, umsetzbare Schritte aufteilen, die für Sie Sinn machen."
+      },
+      "flexibility": {
+        "title": "🌊 Flexibilität bieten",
+        "description": "Anpassung an Ihre schwankende Energie und Konzentration, frei von starren Zeitplänen und Erwartungen."
+      },
+      "community": {
+        "title": "🤝 Gemeinschaft fördern",
+        "description": "Verbindungen durch gemeinsames Verständnis und gegenseitige Unterstützung aufbauen, weil wir es wirklich 'verstehen'."
+      }
+    },
+    "closing": "Wir bauen das, weil wir den Bedarf aus erster Hand verstehen. Es geht darum, Lösungen zu schaffen, die die vielfältigen Wege, wie neurodivergente Köpfe gedeihen, umarmen und unterstützen."
+  },
+  "currentWorkStatus": {
+    "title": "Wo wir stehen & wohin wir gehen",
+    "description": "Unsere Reise ist im Gange! Hier ist ein Einblick in unseren Fortschritt und geplante nächste Schritte:",
+    "loading": "Projektstatus wird geladen...",
+    "error": "Fehler beim Laden der Projektdaten:",
+    "retry": "Wiederholen",
+    "focusNote": "Unser Fokus liegt darauf, zuerst ein solides Fundament zu schaffen und dann die Funktionen basierend auf Gemeinschaftsfeedback und -bedürfnissen zu erweitern."
+  },
+  "projects": {
+    "coreEngine": {
+      "title": "Core Badge Engine",
+      "description": "Der grundlegende Server, der Open Badges verarbeitet und validiert, die Anmeldedatenüberprüfung durchführt und das Kern-Badge-Ökosystem verwaltet.",
+      "features": {
+        "secure": "Sichere Badge-Validierung",
+        "tracking": "Fortschrittsverfolgung",
+        "realtime": "Echtzeit-Updates"
+      }
+    },
+    "userInterface": {
+      "title": "Benutzeroberfläche (Vue)",
+      "description": "Moderne, barrierefreie Vue.js-Komponenten und Schnittstellen, die das Badge-Management intuitiv und ansprechend für neurodivergente Benutzer machen.",
+      "features": {
+        "accessibility": "Barrierefreiheit im Fokus",
+        "responsive": "Mobile Responsivität",
+        "userCentered": "Benutzerzentriertes Design"
+      }
+    },
+    "communityFeatures": {
+      "title": "Open Badges System",
+      "description": "Die vollständige Open Badges Plattform, wo Server und UI zusammentreffen, um das erste vollständig Open-Source Rollercoaster.dev-gestützte System zu schaffen.",
+      "features": {
+        "integrates": "Integriert Core Engine & UI",
+        "ecosystem": "Vollständiges Badge-Ökosystem",
+        "openSource": "Vollständig Open Source",
+        "production": "Produktionsreife Plattform",
+        "reference": "Referenzimplementierung"
+      }
+    }
+  },
+  "getInvolved": {
+    "title": "Begleiten Sie unsere Reise",
+    "description": "Rollercoaster.dev wird von neurodivergenten Personen für neurodivergente Personen entwickelt. Wir glauben an die Kraft gelebter Erfahrung, um Werkzeuge zu schaffen, die wirklich resonieren.",
+    "users": {
+      "title": "👋 Interessiert an der Nutzung der Werkzeuge?",
+      "description": "Möchten Sie wissen, wann die Plattform startet oder wichtige Updates veröffentlicht werden?",
+      "feature1": "Frühen Zugang zu Funktionen erhalten",
+      "feature2": "Über die Entwicklung auf dem Laufenden bleiben",
+      "feature3": "Wertvolles Feedback geben",
+      "action": "Fortschritt auf GitHub verfolgen"
+    },
+    "contributors": {
+      "title": "🚀 Interessiert am Beitragen?",
+      "description": "Wir suchen leidenschaftliche neurodivergente Kreative (Designer, Frontend, Backend, Full-Stack). Erkunden Sie unsere Arbeit oder nehmen Sie Kontakt auf!",
+      "feature1": "Die Zukunft der Plattform gestalten",
+      "feature2": "Mit Gleichgesinnten arbeiten",
+      "feature3": "Werkzeuge bauen, die wichtig sind",
+      "actions": {
+        "explore": "Auf GitHub erkunden",
+        "email": "E-Mail senden"
+      }
+    }
+  }
+}

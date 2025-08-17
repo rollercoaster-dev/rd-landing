@@ -1,0 +1,16 @@
+{
+  "brand": "rollercoaster.dev",
+  "theme": {
+    "switchToLight": "Switch to light mode",
+    "switchToDark": "Switch to dark mode",
+    "shortcutMode": "Shortcut: Cmd + D",
+    "switchToCalm": "Switch to calm intensity",
+    "switchToVibrant": "Switch to vibrant intensity",
+    "shortcutIntensity": "Shortcut: Cmd + I"
+  },
+  "language": {
+    "switchLanguage": "Switch Language",
+    "english": "English",
+    "german": "Deutsch"
+  }
+}
