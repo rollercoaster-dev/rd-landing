@@ -110,7 +110,6 @@
     "error": "Fehler beim Laden der Projektdaten:",
     "retry": "Wiederholen",
     "focusNote": "Unser Fokus liegt darauf, zuerst ein solides Fundament zu schaffen und dann die Funktionen basierend auf Gemeinschaftsfeedback und -bedürfnissen zu erweitern."
-  },
   "projects": {
     "coreEngine": {
       "title": "Core Badge Engine",
