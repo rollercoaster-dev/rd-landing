@@ -18,10 +18,9 @@ onMounted(() => {
 });
 
 const navigation: Array<{ name: string; href: string }> = [
-  // { name: 'Home', href: '/' },
-  // { name: 'About', href: '/about' },
-  // { name: 'Blog', href: '/blog' },
-  // { name: 'Contact', href: '/contact' }
+  { name: "About", href: "/about" },
+  { name: "How it works", href: "/how-it-works" },
+  { name: "Roadmap", href: "/roadmap" },
 ];
 </script>
 
@@ -31,25 +30,41 @@ const navigation: Array<{ name: string; href: string }> = [
   >
     <div class="container flex h-16 items-center">
       <!-- Logo -->
-      <RouterLink to="/" class="mr-8">
+      <a href="/" class="mr-8">
         <h1 class="text-2xl font-bold">
           <RdHeadlineGradient>rollercoaster.dev</RdHeadlineGradient>
         </h1>
-      </RouterLink>
+      </a>
 
       <!-- Navigation -->
       <nav class="flex items-center space-x-6 text-sm font-medium flex-1">
-        <RouterLink
+        <a
           v-for="item in navigation"
           :key="item.name"
-          :to="item.href"
+          :href="item.href"
           class="transition-colors hover:text-primary"
         >
           {{ item.name }}
-        </RouterLink>
+        </a>
       </nav>
 
       <div class="flex items-center space-x-2">
+        <!-- CTAs -->
+        <a
+          href="/#waitlist"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90"
+        >
+          Join the waitlist
+        </a>
+        <a
+          href="https://github.com/rollercoaster-dev"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-primary text-primary hover:bg-primary/10"
+        >
+          Contribute on GitHub
+        </a>
+
         <!-- Simple landing page - no auth needed -->
 
         <!-- Mode Toggles -->
@@ -59,7 +74,11 @@ const navigation: Array<{ name: string; href: string }> = [
             <UiLanguageSwitcher />
             <!-- Mode Toggle -->
             <UiTooltipTooltip
-              :content="`${mode === 'dark' ? $t('header.theme.switchToLight') : $t('header.theme.switchToDark')}\n${$t('header.theme.shortcutMode')}`"
+              :content="
+                `${mode === 'dark' ? $t('header.theme.switchToLight') : $t('header.theme.switchToDark')}` +
+                '\n' +
+                `${$t('header.theme.shortcutMode')}`
+              "
               side="bottom"
               :delay-duration="200"
             >
@@ -83,7 +102,11 @@ const navigation: Array<{ name: string; href: string }> = [
 
             <!-- Intensity Toggle -->
             <UiTooltipTooltip
-              :content="`${intensity === 'vibrant' ? $t('header.theme.switchToCalm') : $t('header.theme.switchToVibrant')}\n${$t('header.theme.shortcutIntensity')}`"
+              :content="
+                `${intensity === 'vibrant' ? $t('header.theme.switchToCalm') : $t('header.theme.switchToVibrant')}` +
+                '\n' +
+                `${$t('header.theme.shortcutIntensity')}`
+              "
               side="bottom"
               :delay-duration="200"
             >
