@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import { Languages } from "lucide-vue-next";
 import { useI18n } from "vue-i18n";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const { locale } = useI18n();
 
@@ -20,11 +26,15 @@ const currentLanguage = computed(() => {
   return languages.find((lang) => lang.code === locale.value) || languages[0];
 });
 
-const switchLanguage = (langCode: string) => {
-  locale.value = langCode;
-  // Persist language preference
-  if (typeof localStorage !== "undefined") {
-    localStorage.setItem("preferred-language", langCode);
+const switchLanguage = (
+  langCode: string | number | bigint | Record<string, any> | null,
+) => {
+  if (langCode && typeof langCode === "string") {
+    locale.value = langCode;
+    // Persist language preference
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem("preferred-language", langCode);
+    }
   }
 };
 
@@ -46,29 +56,33 @@ onMounted(() => {
     side="bottom"
     :delay-duration="200"
   >
-    <UiDropdownMenuDropdownMenu>
-      <UiDropdownMenuDropdownMenuTrigger as-child>
-        <UiButtonButton
-          variant="ghost"
-          size="icon"
-          class="rounded-full"
-          :aria-label="$t('header.language.switchLanguage')"
-        >
-          <Languages class="h-5 w-5" />
-        </UiButtonButton>
-      </UiDropdownMenuDropdownMenuTrigger>
+    <Select :model-value="locale" @update:model-value="switchLanguage">
+      <SelectTrigger
+        class="w-auto h-9 px-3 border-0 bg-transparent hover:bg-accent hover:text-accent-foreground rounded-full focus:ring-1 focus:ring-ring"
+        :aria-label="$t('header.language.switchLanguage')"
+      >
+        <SelectValue>
+          <div class="flex items-center gap-2">
+            <span>{{ currentLanguage.flag }}</span>
+            <span class="text-sm font-medium">{{
+              currentLanguage.code.toUpperCase()
+            }}</span>
+          </div>
+        </SelectValue>
+      </SelectTrigger>
 
-      <UiDropdownMenuDropdownMenuContent align="end">
-        <UiDropdownMenuDropdownMenuItem
+      <SelectContent align="end">
+        <SelectItem
           v-for="language in languages"
           :key="language.code"
-          @click="switchLanguage(language.code)"
-          :class="{ 'bg-accent': language.code === locale }"
+          :value="language.code"
         >
-          <span class="mr-2">{{ language.flag }}</span>
-          {{ language.name }}
-        </UiDropdownMenuDropdownMenuItem>
-      </UiDropdownMenuDropdownMenuContent>
-    </UiDropdownMenuDropdownMenu>
+          <div class="flex items-center gap-2 ps-5 pe-2">
+            <span>{{ language.flag }}</span>
+            <span>{{ language.name }}</span>
+          </div>
+        </SelectItem>
+      </SelectContent>
+    </Select>
   </UiTooltipTooltip>
 </template>

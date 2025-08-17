@@ -1,6 +1,6 @@
 import { defineConfig } from "vitest/config";
 import vue from "@vitejs/plugin-vue";
-// import { resolve } from "path"; // No longer needed
+import { resolve } from "path";
 import tsconfigPaths from "vite-tsconfig-paths"; // Import the plugin
 
 export default defineConfig({
@@ -8,6 +8,19 @@ export default defineConfig({
     vue(),
     tsconfigPaths(), // Add the plugin
   ],
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, "./src"),
+      "@frontend": resolve(__dirname, "./src/frontend"),
+      "@backend": resolve(__dirname, "./src/backend"),
+      "@shared": resolve(__dirname, "./src/shared"),
+      // Add platform/frontend-style aliases
+      "~": resolve(__dirname, "./src/frontend"),
+      "~/": resolve(__dirname, "./src/frontend/"),
+      "#components": resolve(__dirname, "./src/frontend/components"),
+      "#imports": resolve(__dirname, "./src/frontend/composables"),
+    },
+  },
   test: {
     // Use different environments for frontend and backend tests
     environmentMatchGlobs: [

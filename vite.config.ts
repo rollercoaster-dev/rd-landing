@@ -50,6 +50,8 @@ export default defineConfig({
           "./src/frontend/locales/**",
         ),
       ],
+      strictMessage: false,
+      escapeHtml: false,
     }),
   ],
   resolve: {

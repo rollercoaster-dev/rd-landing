@@ -64,7 +64,11 @@ onMounted(async () => {
             :title="$t('home.features.trackProgress.title')"
             icon="📊"
             :description="$t('home.features.trackProgress.description')"
-            :features="$t('home.features.trackProgress.items')"
+            :features="[
+              $t('home.features.trackProgress.item1'),
+              $t('home.features.trackProgress.item2'),
+              $t('home.features.trackProgress.item3'),
+            ]"
           />
 
           <!-- Feature 2: Visualize Journey -->
@@ -72,7 +76,11 @@ onMounted(async () => {
             :title="$t('home.features.visualizeJourney.title')"
             icon="🎨"
             :description="$t('home.features.visualizeJourney.description')"
-            :features="$t('home.features.visualizeJourney.items')"
+            :features="[
+              $t('home.features.visualizeJourney.item1'),
+              $t('home.features.visualizeJourney.item2'),
+              $t('home.features.visualizeJourney.item3'),
+            ]"
           />
 
           <!-- Feature 3: Flexibility -->
@@ -80,7 +88,11 @@ onMounted(async () => {
             :title="$t('home.features.pauseRestart.title')"
             icon="🌱"
             :description="$t('home.features.pauseRestart.description')"
-            :features="$t('home.features.pauseRestart.items')"
+            :features="[
+              $t('home.features.pauseRestart.item1'),
+              $t('home.features.pauseRestart.item2'),
+              $t('home.features.pauseRestart.item3'),
+            ]"
           />
 
           <!-- Feature 4: Community -->
@@ -88,7 +100,11 @@ onMounted(async () => {
             :title="$t('home.features.connectCommunity.title')"
             icon="🤝"
             :description="$t('home.features.connectCommunity.description')"
-            :features="$t('home.features.connectCommunity.items')"
+            :features="[
+              $t('home.features.connectCommunity.item1'),
+              $t('home.features.connectCommunity.item2'),
+              $t('home.features.connectCommunity.item3'),
+            ]"
           />
         </RdGrid>
 
@@ -122,7 +138,9 @@ onMounted(async () => {
 
         <!-- Goals Section -->
         <div class="space-y-8">
-          <h3 class="text-2xl font-bold text-center">{{ $t("home.vision.goals.title") }}</h3>
+          <h3 class="text-2xl font-bold text-center">
+            {{ $t("home.vision.goals.title") }}
+          </h3>
           <RdGrid :cols="3">
             <RdBaseGoalCard
               :title="$t('home.vision.goals.empower.title')"
@@ -157,7 +175,9 @@ onMounted(async () => {
           <div
             class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"
           ></div>
-          <p class="mt-2 text-muted-foreground">{{ $t("home.currentWork.loading") }}</p>
+          <p class="mt-2 text-muted-foreground">
+            {{ $t("home.currentWork.loading") }}
+          </p>
         </div>
 
         <div v-else-if="error" class="text-center py-8 text-red-500">
@@ -209,7 +229,11 @@ onMounted(async () => {
                   {{ $t("home.getInvolved.users.description") }}
                 </p>
                 <RdBaseFeatureList
-                  :features="$t('home.getInvolved.users.features')"
+                  :features="[
+                    $t('home.getInvolved.users.feature1'),
+                    $t('home.getInvolved.users.feature2'),
+                    $t('home.getInvolved.users.feature3'),
+                  ]"
                 />
               </div>
               <RdBaseLink
@@ -236,7 +260,11 @@ onMounted(async () => {
                   {{ $t("home.getInvolved.contributors.description") }}
                 </p>
                 <RdBaseFeatureList
-                  :features="$t('home.getInvolved.contributors.features')"
+                  :features="[
+                    $t('home.getInvolved.contributors.feature1'),
+                    $t('home.getInvolved.contributors.feature2'),
+                    $t('home.getInvolved.contributors.feature3'),
+                  ]"
                 />
               </div>
               <div class="flex gap-3 flex-wrap mt-auto">

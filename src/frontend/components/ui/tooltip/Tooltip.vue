@@ -3,7 +3,6 @@ import {
   TooltipArrow,
   TooltipContent,
   TooltipPortal,
-  TooltipProvider,
   TooltipRoot,
   TooltipTrigger,
 } from "reka-ui";
@@ -16,7 +15,7 @@ interface Props {
   sideOffset?: number;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   side: "top",
   align: "center",
   delayDuration: 700, // Default from docs

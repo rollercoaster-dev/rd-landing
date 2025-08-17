@@ -20,8 +20,15 @@
     "error": "Fehler",
     "success": "Erfolgreich",
     "warning": "Warnung",
-    "info": "Information"
+    "info": "Information",
+    "inProgress": "In Bearbeitung",
+    "planned": "Geplant",
+    "completed": "Abgeschlossen"
   },
+  "github": "GitHub",
+  "progress": "Fortschritt",
+  "completed": "abgeschlossen",
+  "open": "offen",
   "navigation": {
     "home": "Startseite",
     "about": "Über uns",

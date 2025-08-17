@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { UIButton } from "#components";
+import { Button as UIButton } from "@/frontend/components/ui/button";
 
 export type ButtonProps = {
   variant?:

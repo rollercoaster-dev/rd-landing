@@ -12,30 +12,30 @@
     "trackProgress": {
       "title": "Track and Showcase Progress",
       "description": "Track progress on any goal that matters to you – learning, work, hobbies, community action, personal growth, and more. Our flexible system adapts to your unique journey, letting you document and celebrate achievements in a way that makes sense for you.",
-      "items": [
-        "Flexible goal tracking",
-        "Custom achievement paths",
-        "Progress visualization"
-      ]
+      "item1": "Flexible goal tracking",
+      "item2": "Custom achievement paths",
+      "item3": "Progress visualization"
     },
     "visualizeJourney": {
       "title": "Visualize Your Journey",
       "description": "See your progress and achievements in meaningful, visual ways. Our platform offers different views and representations of your journey, helping you recognize patterns, celebrate milestones, and stay motivated through visual feedback.",
-      "items": [
-        "Multiple view options",
-        "Pattern recognition",
-        "Visual milestone tracking"
-      ]
+      "item1": "Multiple view options",
+      "item2": "Pattern recognition",
+      "item3": "Visual milestone tracking"
     },
     "pauseRestart": {
       "title": "Pause and Restart with Ease",
       "description": "Life isn't linear, and neither is progress. Our system supports natural ebbs and flows, letting you pause during challenging times like burnout or low motivation. When you're ready to return, you'll find your progress preserved and tools to help you pick up where you left off.",
-      "items": ["Flexible pausing", "Progress preservation", "Easy resumption"]
+      "item1": "Flexible pausing",
+      "item2": "Progress preservation",
+      "item3": "Easy resumption"
     },
     "connectCommunity": {
       "title": "Connect with Community",
       "description": "Join a community that understands. Share experiences, learn from others' journeys, and find mutual support. Our platform facilitates meaningful connections through shared achievements and collaborative learning paths.",
-      "items": ["Shared achievements", "Learning communities", "Mutual support"]
+      "item1": "Shared achievements",
+      "item2": "Learning communities",
+      "item3": "Mutual support"
     },
     "buildCommunity": {
       "title": "Build Community",
@@ -111,27 +111,54 @@
     "retry": "Retry",
     "focusNote": "Our focus is on building a solid foundation first, then expanding features based on community feedback and needs."
   },
+  "projects": {
+    "coreEngine": {
+      "title": "Core Badge Engine",
+      "description": "The foundational server that processes and validates Open Badges, handles credential verification, and manages the core badge ecosystem.",
+      "features": {
+        "secure": "Secure badge validation",
+        "tracking": "Progress tracking",
+        "realtime": "Real-time updates"
+      }
+    },
+    "userInterface": {
+      "title": "User Interface (Vue)",
+      "description": "Modern, accessible Vue.js components and interfaces that make badge management intuitive and engaging for neurodivergent users.",
+      "features": {
+        "accessibility": "Accessibility focused",
+        "responsive": "Mobile responsive",
+        "userCentered": "User-centered design"
+      }
+    },
+    "communityFeatures": {
+      "title": "Open Badges System",
+      "description": "The complete open badges platform where server and UI meet to create the first fully open-source Rollercoaster.dev-powered system.",
+      "features": {
+        "integrates": "Integrates core engine & UI",
+        "ecosystem": "Complete badge ecosystem",
+        "openSource": "Fully open source",
+        "production": "Production-ready platform",
+        "reference": "Reference implementation"
+      }
+    }
+  },
   "getInvolved": {
     "title": "Join Our Journey",
     "description": "Rollercoaster.dev is being built by neurodivergent individuals, for neurodivergent individuals. We believe in the power of lived experience to create tools that truly resonate.",
     "users": {
       "title": "👋 Interested in Using the Tools?",
       "description": "Want to know when the platform launches or major updates are released?",
-      "features": [
-        "Get early access to features",
-        "Stay updated on development",
-        "Provide valuable feedback"
-      ],
+      "feature1": "Get early access to features",
+      "feature2": "Stay updated on development",
+      "feature3": "Provide valuable feedback",
       "action": "Follow Progress on GitHub"
     },
     "contributors": {
       "title": "🚀 Interested in Contributing?",
       "description": "We're seeking passionate neurodivergent creators (designers, frontend, backend, full-stack). Explore our work or get in touch!",
-      "features": [
-        "Shape the platform's future",
-        "Work with like-minded creators",
-        "Build tools that matter"
-      ],
+      "feature1": "Shape the platform's future",
+      "feature2": "Work with like-minded creators",
+      "feature3": "Build tools that matter",
       "actions": {
         "explore": "Explore on GitHub",
         "email": "Email Us"

@@ -29,7 +29,7 @@ withDefaults(defineProps<SectionProps>(), {
         {
           'space-y-4': spacing === 'sm',
           'space-y-8': spacing === 'md',
-          'space-y-8': spacing === 'lg', // Default
+          'space-y-12': spacing === 'lg', // Default
         },
         $props.class,
       ]"

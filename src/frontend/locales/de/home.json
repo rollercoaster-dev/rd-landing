@@ -12,38 +12,30 @@
     "trackProgress": {
       "title": "Fortschritt verfolgen und präsentieren",
       "description": "Verfolgen Sie Fortschritte bei jedem Ziel, das Ihnen wichtig ist – Lernen, Arbeit, Hobbys, Gemeinschaftsaktionen, persönliches Wachstum und mehr. Unser flexibles System passt sich Ihrer einzigartigen Reise an und ermöglicht es Ihnen, Erfolge auf eine Weise zu dokumentieren und zu feiern, die für Sie Sinn macht.",
-      "items": [
-        "Flexible Zielverfolgung",
-        "Individuelle Erfolgswege",
-        "Fortschrittsvisualisierung"
-      ]
+      "item1": "Flexible Zielverfolgung",
+      "item2": "Individuelle Erfolgswege",
+      "item3": "Fortschrittsvisualisierung"
     },
     "visualizeJourney": {
       "title": "Ihre Reise visualisieren",
       "description": "Sehen Sie Ihren Fortschritt und Ihre Erfolge auf bedeutungsvolle, visuelle Weise. Unsere Plattform bietet verschiedene Ansichten und Darstellungen Ihrer Reise, die Ihnen helfen, Muster zu erkennen, Meilensteine zu feiern und durch visuelles Feedback motiviert zu bleiben.",
-      "items": [
-        "Mehrere Ansichtsoptionen",
-        "Mustererkennung",
-        "Visuelle Meilenstein-Verfolgung"
-      ]
+      "item1": "Mehrere Ansichtsoptionen",
+      "item2": "Mustererkennung",
+      "item3": "Visuelle Meilenstein-Verfolgung"
     },
     "pauseRestart": {
       "title": "Pausieren und Neustarten mit Leichtigkeit",
       "description": "Das Leben ist nicht linear, und Fortschritt auch nicht. Unser System unterstützt natürliche Höhen und Tiefen und ermöglicht es Ihnen, während herausfordernder Zeiten wie Burnout oder geringer Motivation zu pausieren. Wenn Sie bereit sind zurückzukehren, finden Sie Ihren Fortschritt bewahrt und Werkzeuge, die Ihnen helfen, dort weiterzumachen, wo Sie aufgehört haben.",
-      "items": [
-        "Flexibles Pausieren",
-        "Fortschrittsbewahrung",
-        "Einfache Wiederaufnahme"
-      ]
+      "item1": "Flexibles Pausieren",
+      "item2": "Fortschrittsbewahrung",
+      "item3": "Einfache Wiederaufnahme"
     },
     "connectCommunity": {
       "title": "Mit der Gemeinschaft verbinden",
       "description": "Treten Sie einer Gemeinschaft bei, die versteht. Teilen Sie Erfahrungen, lernen Sie von den Reisen anderer und finden Sie gegenseitige Unterstützung. Unsere Plattform ermöglicht bedeutungsvolle Verbindungen durch geteilte Erfolge und kollaborative Lernwege.",
-      "items": [
-        "Geteilte Erfolge",
-        "Lerngemeinschaften",
-        "Gegenseitige Unterstützung"
-      ]
+      "item1": "Geteilte Erfolge",
+      "item2": "Lerngemeinschaften",
+      "item3": "Gegenseitige Unterstützung"
     },
     "buildCommunity": {
       "title": "Gemeinschaft aufbauen",
@@ -119,27 +111,54 @@
     "retry": "Wiederholen",
     "focusNote": "Unser Fokus liegt darauf, zuerst ein solides Fundament zu schaffen und dann die Funktionen basierend auf Gemeinschaftsfeedback und -bedürfnissen zu erweitern."
   },
+  "projects": {
+    "coreEngine": {
+      "title": "Core Badge Engine",
+      "description": "Der grundlegende Server, der Open Badges verarbeitet und validiert, die Anmeldedatenüberprüfung durchführt und das Kern-Badge-Ökosystem verwaltet.",
+      "features": {
+        "secure": "Sichere Badge-Validierung",
+        "tracking": "Fortschrittsverfolgung",
+        "realtime": "Echtzeit-Updates"
+      }
+    },
+    "userInterface": {
+      "title": "Benutzeroberfläche (Vue)",
+      "description": "Moderne, barrierefreie Vue.js-Komponenten und Schnittstellen, die das Badge-Management intuitiv und ansprechend für neurodivergente Benutzer machen.",
+      "features": {
+        "accessibility": "Barrierefreiheit im Fokus",
+        "responsive": "Mobile Responsivität",
+        "userCentered": "Benutzerzentriertes Design"
+      }
+    },
+    "communityFeatures": {
+      "title": "Open Badges System",
+      "description": "Die vollständige Open Badges Plattform, wo Server und UI zusammentreffen, um das erste vollständig Open-Source Rollercoaster.dev-gestützte System zu schaffen.",
+      "features": {
+        "integrates": "Integriert Core Engine & UI",
+        "ecosystem": "Vollständiges Badge-Ökosystem",
+        "openSource": "Vollständig Open Source",
+        "production": "Produktionsreife Plattform",
+        "reference": "Referenzimplementierung"
+      }
+    }
+  },
   "getInvolved": {
     "title": "Begleiten Sie unsere Reise",
     "description": "Rollercoaster.dev wird von neurodivergenten Personen für neurodivergente Personen entwickelt. Wir glauben an die Kraft gelebter Erfahrung, um Werkzeuge zu schaffen, die wirklich resonieren.",
     "users": {
       "title": "👋 Interessiert an der Nutzung der Werkzeuge?",
       "description": "Möchten Sie wissen, wann die Plattform startet oder wichtige Updates veröffentlicht werden?",
-      "features": [
-        "Frühen Zugang zu Funktionen erhalten",
-        "Über die Entwicklung auf dem Laufenden bleiben",
-        "Wertvolles Feedback geben"
-      ],
+      "feature1": "Frühen Zugang zu Funktionen erhalten",
+      "feature2": "Über die Entwicklung auf dem Laufenden bleiben",
+      "feature3": "Wertvolles Feedback geben",
       "action": "Fortschritt auf GitHub verfolgen"
     },
     "contributors": {
       "title": "🚀 Interessiert am Beitragen?",
       "description": "Wir suchen leidenschaftliche neurodivergente Kreative (Designer, Frontend, Backend, Full-Stack). Erkunden Sie unsere Arbeit oder nehmen Sie Kontakt auf!",
-      "features": [
-        "Die Zukunft der Plattform gestalten",
-        "Mit Gleichgesinnten arbeiten",
-        "Werkzeuge bauen, die wichtig sind"
-      ],
+      "feature1": "Die Zukunft der Plattform gestalten",
+      "feature2": "Mit Gleichgesinnten arbeiten",
+      "feature3": "Werkzeuge bauen, die wichtig sind",
       "actions": {
         "explore": "Auf GitHub erkunden",
         "email": "E-Mail senden"

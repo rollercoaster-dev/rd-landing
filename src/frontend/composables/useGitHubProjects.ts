@@ -1,4 +1,5 @@
-import { ref, reactive } from "vue";
+import { ref, computed } from "vue";
+import { useI18n } from "vue-i18n";
 
 interface StatusCardData {
   title: string;
@@ -20,60 +21,101 @@ interface GitHubProjectsData {
 }
 
 export function useGitHubProjects() {
+  const { t } = useI18n();
   const isLoading = ref(false);
   const error = ref<string | null>(null);
 
-  const projectData = reactive<GitHubProjectsData>({
+  // Store dynamic GitHub data separately
+  const githubData = ref<Record<string, Partial<StatusCardData>>>({});
+
+  const projectData = computed<GitHubProjectsData>(() => ({
     coreEngine: {
-      title: "Core Badge Engine",
+      title: t("home.projects.coreEngine.title"),
       icon: "⚙️",
-      description: "Loading project status...",
+      description: t("home.projects.coreEngine.description"),
       repository: "openbadges-modular-server",
       url: "https://github.com/rollercoaster-dev/openbadges-modular-server",
       progress: 0,
       openIssues: 0,
       totalIssues: 0,
-      features: [{ icon: "🔒", text: "Secure badge validation" }],
+      features: [
+        { icon: "🔒", text: t("home.projects.coreEngine.features.secure") },
+        { icon: "📊", text: t("home.projects.coreEngine.features.tracking") },
+        { icon: "🔄", text: t("home.projects.coreEngine.features.realtime") },
+      ],
       status: "in-progress" as const,
       gradientFrom: "primary" as const,
       lastUpdated: new Date(),
+      // Merge with GitHub data
+      ...githubData.value.coreEngine,
     },
     userInterface: {
-      title: "User Interface (Vue)",
+      title: t("home.projects.userInterface.title"),
       icon: "🎨",
-      description: "Loading project status...",
+      description: t("home.projects.userInterface.description"),
       repository: "openbadges-ui",
       url: "https://github.com/rollercoaster-dev/openbadges-ui",
       progress: 0,
       openIssues: 0,
       totalIssues: 0,
-      features: [{ icon: "♿", text: "Accessibility focused" }],
+      features: [
+        {
+          icon: "♿",
+          text: t("home.projects.userInterface.features.accessibility"),
+        },
+        {
+          icon: "📱",
+          text: t("home.projects.userInterface.features.responsive"),
+        },
+        {
+          icon: "🎯",
+          text: t("home.projects.userInterface.features.userCentered"),
+        },
+      ],
       status: "in-progress" as const,
       gradientFrom: "accent" as const,
       lastUpdated: new Date(),
+      // Merge with GitHub data
+      ...githubData.value.userInterface,
     },
     communityFeatures: {
-      title: "Open Badges System",
+      title: t("home.projects.communityFeatures.title"),
       icon: "🏆",
-      description:
-        "The complete open badges platform where server and UI meet to create the first fully open-source Rollercoaster.dev-powered system.",
+      description: t("home.projects.communityFeatures.description"),
       repository: "openbadges-system",
       url: "https://github.com/rollercoaster-dev/openbadges-system",
       progress: 0,
       openIssues: 0,
       totalIssues: 0,
       features: [
-        { icon: "🔗", text: "Integrates core engine & UI" },
-        { icon: "🌟", text: "Complete badge ecosystem" },
-        { icon: "📖", text: "Fully open source" },
-        // { icon: "🚀", text: "Production-ready platform" },
-        { icon: "🎯", text: "Reference implementation" },
+        {
+          icon: "🔗",
+          text: t("home.projects.communityFeatures.features.integrates"),
+        },
+        {
+          icon: "🌟",
+          text: t("home.projects.communityFeatures.features.ecosystem"),
+        },
+        {
+          icon: "📖",
+          text: t("home.projects.communityFeatures.features.openSource"),
+        },
+        {
+          icon: "🚀",
+          text: t("home.projects.communityFeatures.features.production"),
+        },
+        {
+          icon: "🎯",
+          text: t("home.projects.communityFeatures.features.reference"),
+        },
       ],
       status: "in-progress" as const,
       gradientFrom: "secondary" as const,
       lastUpdated: new Date(),
+      // Merge with GitHub data
+      ...githubData.value.communityFeatures,
     },
-  });
+  }));
 
   const fetchStatusCards = async () => {
     try {
@@ -87,13 +129,16 @@ export function useGitHubProjects() {
 
       const data = await response.json();
 
-      // Update all project data dynamically
+      // Update GitHub data - only extract numeric/date fields, ignore text content
       Object.keys(data).forEach((key) => {
-        if (projectData[key] && data[key]) {
-          Object.assign(projectData[key], {
-            ...data[key],
+        if (data[key]) {
+          githubData.value[key] = {
+            // Only extract the GitHub stats, not the text content
+            progress: data[key].progress,
+            openIssues: data[key].openIssues,
+            totalIssues: data[key].totalIssues,
             lastUpdated: new Date(data[key].lastUpdated),
-          });
+          };
         }
       });
     } catch (err) {
