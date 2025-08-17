@@ -7,7 +7,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/frontend/components/ui/select";
 import { Tooltip } from "@/frontend/components/ui/tooltip";
 
 const { locale } = useI18n();

@@ -56,16 +56,6 @@
       ]
     }
   },
-  "vision": {
-    "challenge": {
-      "title": "Die Herausforderung",
-      "content": "Starre Zeitpläne und lineare Listen passen nicht immer zu der Art, wie unser Verstand am besten funktioniert. Wir verstehen, dass neurodivergente Stärken anders sind, und das Navigieren von Zielen erfordert Werkzeuge, die Flexibilität, klare Schritte und echtes Verständnis bieten – nicht nur einen weiteren Kalender."
-    },
-    "solution": {
-      "title": "Unsere Lösung",
-      "content": "Bei Rollercoaster.dev ist unsere Vision einfach: <strong class='block mt-2 text-xl text-accent'>Die Werkzeuge erschaffen, die wir uns gewünscht hätten, entwickelt <em>von</em> und <em>für</em> die neurodivergente Gemeinschaft.</strong>"
-    }
-  },
   "currentWork": {
     "title": "Aktuelle Arbeit",
     "subtitle": "Das Fundament bauen",
@@ -103,13 +93,14 @@
     },
     "closing": "Wir bauen das, weil wir den Bedarf aus erster Hand verstehen. Es geht darum, Lösungen zu schaffen, die die vielfältigen Wege, wie neurodivergente Köpfe gedeihen, umarmen und unterstützen."
   },
-  "currentWork": {
+  "currentWorkStatus": {
     "title": "Wo wir stehen & wohin wir gehen",
     "description": "Unsere Reise ist im Gange! Hier ist ein Einblick in unseren Fortschritt und geplante nächste Schritte:",
     "loading": "Projektstatus wird geladen...",
     "error": "Fehler beim Laden der Projektdaten:",
     "retry": "Wiederholen",
     "focusNote": "Unser Fokus liegt darauf, zuerst ein solides Fundament zu schaffen und dann die Funktionen basierend auf Gemeinschaftsfeedback und -bedürfnissen zu erweitern."
+  },
   "projects": {
     "coreEngine": {
       "title": "Core Badge Engine",
