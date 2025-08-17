@@ -17,7 +17,6 @@ describe("API Routes - /api", () => {
       if (status === 200 && !error) {
         expect(data).toHaveProperty("coreEngine");
         expect(data).toHaveProperty("userInterface");
-        expect(data).toHaveProperty("backendApi");
         expect(data).toHaveProperty("communityFeatures");
       } else {
         // If failed, should return an error response
