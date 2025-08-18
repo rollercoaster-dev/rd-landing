@@ -12,68 +12,65 @@ A monolithic Open Badges application built with Vue 3 + TypeScript frontend and 
 
 ```bash
 # Install dependencies
-bun install
+pnpm install
 
 # Start development servers (both frontend and backend)
-bun run dev
+pnpm run dev
 
 # Start only frontend (Vite dev server on port 5173)
-bun run dev:frontend
+pnpm run dev:frontend
 
 # Start only backend (Bun + Hono on port 3001)
-bun run dev:backend
+pnpm run dev:backend
 ```
 
 ### Building & Production
 
 ```bash
 # Build entire application (frontend + backend)
-bun run build
+pnpm run build
 
 # Start production server
-bun run start
-
-# Build alternative Elysia backend version
-bun run build:elysia
+pnpm run start
 ```
 
 ### Component Development
 
 ```bash
 # Run Histoire for component development/testing
-bun run histoire
+pnpm run histoire
 ```
 
 ### Testing & Quality
 
 ```bash
 # Run tests
-bun run test
+pnpm test
 
 # Watch mode testing
-bun run test:watch
+pnpm run test:watch
 
 # Linting and formatting
-bun run lint
-bun run lint:fix
-bun run format
+pnpm run lint
+pnpm run lint:fix
+pnpm run format
 
 # Type checking
-bun run type-check        # Backend/shared types
-bun run type-check:vue    # Vue component types
+pnpm run type-check        # Backend/shared types
+pnpm run type-check:vue    # Vue component types
 
 # Run all checks (format + lint + type-check)
-bun run check:all
+pnpm run check:all
 ```
 
 ### Single Test Execution
 
 ```bash
 # Run specific test file
-bun run test src/backend/api/routes.test.ts
+pnpm test src/backend/api/routes.test.ts
 
 # Run tests matching pattern
-bun run test --grep "authentication"
+pnpm test --grep "authentication"
 ```
 
 ## Architecture Overview
@@ -191,14 +188,14 @@ Frontend components should be tested using Vue Testing Utils with Histoire stori
 
 ## Framework Migration Notes
 
-The backend has been migrated from Elysia to Hono framework. Key differences to be aware of:
+The backend has been fully migrated from Elysia to Hono framework. Key differences to be aware of:
 
 - **Context Handling**: Use `c.json()`, `c.redirect()` instead of Elysia's `set` object
 - **Middleware**: Hono uses standard middleware pattern with `(c, next) => {}`
 - **Route Grouping**: Use `app.route()` for mounting sub-applications
 - **Validation**: Zod with `@hono/zod-validator` instead of Elysia's built-in validation
 
-Legacy Elysia implementations may still exist with `.elysia.ts` extensions.
+The migration is complete and no legacy Elysia files remain in the codebase.
 
 ## Deployment
 

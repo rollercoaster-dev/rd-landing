@@ -74,9 +74,7 @@ const navigation = computed(() => [
             <UiLanguageSwitcher />
             <!-- Mode Toggle -->
             <UiTooltipTooltip
-              :content="
-                `${mode === 'dark' ? $t('header.theme.switchToLight') : $t('header.theme.switchToDark')} ${$t('header.theme.shortcutMode')}`
-              "
+              :content="`${mode === 'dark' ? $t('header.theme.switchToLight') : $t('header.theme.switchToDark')} ${$t('header.theme.shortcutMode')}`"
               side="bottom"
               :delay-duration="200"
             >
@@ -100,9 +98,7 @@ const navigation = computed(() => [
 
             <!-- Intensity Toggle -->
             <UiTooltipTooltip
-              :content="
-                `${intensity === 'vibrant' ? $t('header.theme.switchToCalm') : $t('header.theme.switchToVibrant')} ${$t('header.theme.shortcutIntensity')}`
-              "
+              :content="`${intensity === 'vibrant' ? $t('header.theme.switchToCalm') : $t('header.theme.switchToVibrant')} ${$t('header.theme.shortcutIntensity')}`"
               side="bottom"
               :delay-duration="200"
             >

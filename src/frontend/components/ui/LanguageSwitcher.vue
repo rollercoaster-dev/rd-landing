@@ -29,30 +29,11 @@ const currentLanguage = computed(() => {
 });
 
 const switchLanguage = (langCode: AcceptableValue) => {
+  // reka-ui Select emits the value directly as AcceptableValue (string in our case)
   if (
-    typeof e === "object" &&
-    e !== null &&
-    "target" in e &&
-    typeof (e as any).target === "object" &&
-    (e as any).target !== null &&
-    "value" in (e as any).target &&
-    typeof (e as any).target.value === "string"
+    typeof langCode === "string" &&
+    languages.some((lang) => lang.code === langCode)
   ) {
-    return (e as any).target.value;
-  }
-  return null;
-}
-
-const switchLanguage = (value: unknown) => {
-  let langCode: string | null = null;
-
-  if (typeof value === "string") {
-    langCode = value;
-  } else {
-    langCode = extractValueFromEvent(value);
-  }
-
-  if (langCode && languages.some((lang) => lang.code === langCode)) {
     locale.value = langCode;
     if (typeof localStorage !== "undefined") {
       localStorage.setItem("preferred-language", langCode);

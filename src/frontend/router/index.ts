@@ -1,4 +1,4 @@
-import type { RouterScrollBehavior } from "vue-router";
+import type { RouterScrollBehavior, RouteRecordRaw } from "vue-router";
 import { routes as autoRoutes } from "vue-router/auto-routes";
 
 // Use routes as RouteRecordRaw[], preserving compatibility with auto-routes
