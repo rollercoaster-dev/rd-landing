@@ -1,4 +1,6 @@
 import { Octokit } from "@octokit/rest";
+import { mkdirSync, existsSync, readFileSync, writeFileSync } from "fs";
+import { dirname } from "path";
 
 interface StatusCardData {
   title: string;
@@ -21,6 +23,55 @@ interface RepositoryProgress {
   openIssues: number;
   totalIssues: number;
   progress: number;
+}
+
+// Custom error to surface GitHub specifics up to the route
+export class GitHubAPIError extends Error {
+  status?: number;
+  code?: string;
+  rateLimit?: { limit?: number; remaining?: number; reset?: number };
+  op?: string;
+  constructor(
+    message: string,
+    options?: {
+      status?: number;
+      code?: string;
+      rateLimit?: { limit?: number; remaining?: number; reset?: number };
+      op?: string;
+    },
+  ) {
+    super(message);
+    this.name = "GitHubAPIError";
+    this.status = options?.status;
+    this.code = options?.code;
+    this.rateLimit = options?.rateLimit;
+    this.op = options?.op;
+  }
+}
+
+function parseRateLimitHeaders(headers?: Record<string, string | undefined>) {
+  if (!headers) return undefined;
+  const limit = headers["x-ratelimit-limit"]
+    ? Number(headers["x-ratelimit-limit"])
+    : undefined;
+  const remaining = headers["x-ratelimit-remaining"]
+    ? Number(headers["x-ratelimit-remaining"])
+    : undefined;
+  const reset = headers["x-ratelimit-reset"]
+    ? Number(headers["x-ratelimit-reset"])
+    : undefined;
+  if (limit == null && remaining == null && reset == null) return undefined;
+  return { limit, remaining, reset };
+}
+
+function isOctokitRequestError(e: unknown): e is {
+  status?: number;
+  message: string;
+  name?: string;
+  response?: { headers?: Record<string, string | undefined> };
+  request?: unknown;
+} {
+  return !!e && typeof e === "object" && "message" in e;
 }
 
 const REPOSITORIES = [
@@ -88,6 +139,8 @@ const STATUS_CARD_CONFIG = {
 
 export class GitHubProjectsService {
   private octokit: Octokit;
+  private cacheFilePath =
+    process.env.RD_GITHUB_CACHE_FILE || "./.cache/github-status.json";
   private cache: {
     data: {
       coreEngine: StatusCardData;
@@ -106,36 +159,86 @@ export class GitHubProjectsService {
     this.octokit = new Octokit({
       auth: githubToken || process.env.GITHUB_TOKEN,
     });
+    // Attempt to load cache from disk on startup
+    this.loadCacheFromDisk();
   }
 
   /**
-   * Get status card data with in-memory caching
+   * Public: get status card data with optional force refresh and stale allowance
    */
-  async getStatusCardData(): Promise<{
+  async getStatusCardData(options?: {
+    force?: boolean;
+    allowStale?: boolean;
+  }): Promise<{
     coreEngine: StatusCardData;
     userInterface: StatusCardData;
     communityFeatures: StatusCardData;
   }> {
-    // Check cache first
-    if (this.cache.data && Date.now() - this.cache.timestamp < this.cache.ttl) {
+    const force = options?.force === true;
+    const allowStale = options?.allowStale !== false; // default true
+
+    // Return fresh in-memory cache if valid and not forcing
+    if (
+      !force &&
+      this.cache.data &&
+      Date.now() - this.cache.timestamp < this.cache.ttl
+    ) {
       return this.cache.data;
     }
 
-    // Fetch fresh data
+    try {
+      const fresh = await this.fetchAll();
+      this.updateCache(fresh);
+      this.saveCacheToDisk();
+      return fresh;
+    } catch (err) {
+      // If rate-limited or failed, optionally return stale cache
+      if (allowStale) {
+        const stale = this.getCachedStatusCardData();
+        if (stale) return stale;
+      }
+      throw err;
+    }
+  }
+
+  /**
+   * Public: refresh cache from GitHub
+   */
+  async refresh(): Promise<{
+    coreEngine: StatusCardData;
+    userInterface: StatusCardData;
+    communityFeatures: StatusCardData;
+  }> {
+    const fresh = await this.fetchAll();
+    this.updateCache(fresh);
+    this.saveCacheToDisk();
+    return fresh;
+  }
+
+  /**
+   * Get cached data (memory or disk) without fetching
+   */
+  getCachedStatusCardData() {
+    if (this.cache.data) return this.cache.data;
+    // Try disk
+    const disk = this.loadCacheFromDisk();
+    return disk?.data || null;
+  }
+
+  /**
+   * Internal: fetch all repos and map to status cards
+   */
+  private async fetchAll() {
     const repositoryData = await Promise.all(
       REPOSITORIES.map(async (repo) => {
         const progress = await this.fetchRepositoryProgress(
           repo.owner,
           repo.name,
         );
-        return {
-          name: repo.name,
-          progress,
-        };
+        return { name: repo.name, progress };
       }),
     );
 
-    // Map to status cards
     const coreEngineData = repositoryData.find(
       (r) => r.name === "openbadges-modular-server",
     );
@@ -146,32 +249,37 @@ export class GitHubProjectsService {
       (r) => r.name === "openbadges-system",
     );
 
-    const result = {
+    const now = new Date();
+
+    return {
       coreEngine: {
         ...STATUS_CARD_CONFIG.coreEngine,
         ...coreEngineData?.progress,
         repository: coreEngineData?.name || "openbadges-modular-server",
-        lastUpdated: new Date(),
+        lastUpdated: now,
       } as StatusCardData,
       userInterface: {
         ...STATUS_CARD_CONFIG.userInterface,
         ...userInterfaceData?.progress,
         repository: userInterfaceData?.name || "openbadges-ui",
-        lastUpdated: new Date(),
+        lastUpdated: now,
       } as StatusCardData,
       communityFeatures: {
         ...STATUS_CARD_CONFIG.communityFeatures,
         ...communityFeaturesData?.progress,
         repository: communityFeaturesData?.name || "openbadges-system",
-        lastUpdated: new Date(),
+        lastUpdated: now,
       } as StatusCardData,
     };
+  }
 
-    // Update cache
-    this.cache.data = result;
+  private updateCache(data: {
+    coreEngine: StatusCardData;
+    userInterface: StatusCardData;
+    communityFeatures: StatusCardData;
+  }) {
+    this.cache.data = data;
     this.cache.timestamp = Date.now();
-
-    return result;
   }
 
   /**
@@ -196,28 +304,131 @@ export class GitHubProjectsService {
       }
     `;
 
-    const response = await this.octokit.graphql<{
+    type RepoGQLResponse = {
       repository: {
         name: string;
         url: string;
         openIssues: { totalCount: number };
         closedIssues: { totalCount: number };
       };
-    }>(query, { owner, name });
-
-    const repo = response.repository;
-    const openIssues = repo.openIssues.totalCount;
-    const closedIssues = repo.closedIssues.totalCount;
-    const totalIssues = openIssues + closedIssues;
-    const progress =
-      totalIssues > 0 ? Math.round((closedIssues / totalIssues) * 100) : 0;
-
-    return {
-      name: repo.name,
-      url: repo.url,
-      openIssues,
-      totalIssues,
-      progress,
     };
+
+    try {
+      const response = await this.octokit.graphql<RepoGQLResponse>(query, {
+        owner,
+        name,
+      });
+
+      const repo = response.repository;
+      const openIssues = repo.openIssues.totalCount;
+      const closedIssues = repo.closedIssues.totalCount;
+      const totalIssues = openIssues + closedIssues;
+      const progress =
+        totalIssues > 0 ? Math.round((closedIssues / totalIssues) * 100) : 0;
+
+      return {
+        name: repo.name,
+        url: repo.url,
+        openIssues,
+        totalIssues,
+        progress,
+      };
+    } catch (err) {
+      // Surface rate-limit and status info
+      const e = err as unknown;
+      let status: number | undefined;
+      let headers: Record<string, string | undefined> | undefined;
+      let message = "GitHub GraphQL error";
+      let code: string | undefined;
+
+      if (isOctokitRequestError(e)) {
+        status = e.status;
+        headers = e.response?.headers;
+        message = e.message || message;
+        code = e.name;
+      }
+
+      const rateLimit = parseRateLimitHeaders(headers);
+
+      throw new GitHubAPIError(message, {
+        status,
+        code,
+        rateLimit,
+        op: `fetchRepositoryProgress:${owner}/${name}`,
+      });
+    }
+  }
+
+  private ensureCacheDir() {
+    const dir = dirname(this.cacheFilePath);
+    if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
+  }
+
+  private loadCacheFromDisk(): {
+    data: GitHubProjectsService["cache"]["data"];
+    timestamp: number;
+    ttl: number;
+  } | null {
+    try {
+      if (!existsSync(this.cacheFilePath)) return null;
+      const raw = readFileSync(this.cacheFilePath, "utf-8");
+      type CacheData = GitHubProjectsService["cache"]["data"];
+      const parsed = JSON.parse(raw) as {
+        data: CacheData;
+        timestamp: number;
+        ttl: number;
+      };
+      // Convert dates back to Date objects
+      if (parsed?.data) {
+        const d = parsed.data as Record<string, StatusCardData>;
+        for (const k of Object.keys(d)) {
+          const item = d[k];
+          if (item && item.lastUpdated)
+            item.lastUpdated = new Date(item.lastUpdated as unknown as string);
+        }
+      }
+      this.cache = {
+        data: parsed.data || null,
+        timestamp: parsed.timestamp || 0,
+        ttl: parsed.ttl || this.cache.ttl,
+      };
+      return {
+        data: this.cache.data,
+        timestamp: this.cache.timestamp,
+        ttl: this.cache.ttl,
+      };
+    } catch {
+      // Ignore disk cache errors
+      return null;
+    }
+  }
+
+  private saveCacheToDisk() {
+    try {
+      this.ensureCacheDir();
+      const serializable = {
+        data: this.cache.data
+          ? Object.fromEntries(
+              Object.entries(this.cache.data).map(([k, v]) => [
+                k,
+                {
+                  ...v,
+                  lastUpdated:
+                    (v.lastUpdated as Date)?.toISOString?.() || v.lastUpdated,
+                },
+              ]),
+            )
+          : null,
+        timestamp: this.cache.timestamp,
+        ttl: this.cache.ttl,
+      };
+      writeFileSync(
+        this.cacheFilePath,
+        JSON.stringify(serializable, null, 2),
+        "utf-8",
+      );
+    } catch {
+      // Swallow write errors to avoid breaking the API
+    }
   }
 }
