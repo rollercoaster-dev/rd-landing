@@ -10,7 +10,7 @@
           $t("header.brand")
         }}</span>
       </div>
-      <nav class="flex items-center gap-6">
+      <nav class="flex items-center gap-6" aria-label="Footer">
         <RouterLink to="/legal/impressum" class="hover:text-primary">{{
           $t("footer.impressum")
         }}</RouterLink>

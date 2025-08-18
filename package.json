@@ -19,9 +19,10 @@
     "format": "prettier --write \"**/*.{js,ts,vue,json,css,scss,md}\"",
     "type-check": "npx tsc --noEmit --skipLibCheck --project tsconfig.backend.json",
     "type-check:vue": "vue-tsc --noEmit",
-    "check:all": "pnpm run format && pnpm run lint && pnpm run type-check && pnpm run type-check:vue",
+    "check:all": "pnpm run format && pnpm run lint && pnpm run type-check && pnpm run type-check:vue && pnpm run i18n:audit",
     "clean:modules": "rm -rf node_modules && bun install",
-    "screenshots": "node scripts/capture-screenshots.mjs"
+    "screenshots": "node scripts/capture-screenshots.mjs",
+    "i18n:audit": "bun run scripts/i18n-audit.ts"
   },
   "dependencies": {
     "@hono/zod-validator": "^0.4.3",

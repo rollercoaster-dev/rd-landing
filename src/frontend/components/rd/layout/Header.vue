@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { Sun, Moon, Paintbrush } from "lucide-vue-next";
+import { Sun, Moon, Paintbrush, Menu } from "lucide-vue-next";
 import { useTheme } from "@/frontend/composables/useTheme";
 import { ref, onMounted, computed } from "vue";
 import { useI18n } from "vue-i18n";
+import { useRoute, RouterLink } from "vue-router";
+import { navConfig } from "@/frontend/config/navigation";
 
-const { t } = useI18n();
+useI18n();
+const route = useRoute();
 
 // Theme composable
 const { mode, intensity, toggleIntensity } = useTheme();
@@ -18,58 +21,81 @@ onMounted(() => {
   isMounted.value = true;
 });
 
-const navigation = computed(() => [
-  { name: t("header.nav.about"), href: "/about" },
-  { name: t("header.nav.howItWorks"), href: "/how-it-works" },
-  { name: t("header.nav.roadmap"), href: "/roadmap" },
-]);
+const primaryNav = computed(() => navConfig.primary);
+const ctas = computed(() => navConfig.ctas);
+
+type RouteTo = { name?: string; path?: string };
+const isActive = (to?: RouteTo) => {
+  if (!to) return false;
+  if (to.name) return route.name === to.name;
+  if (to.path) return route.path === to.path;
+  return false;
+};
 </script>
 
 <template>
   <header
+    role="banner"
     class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
   >
-    <div class="container flex h-16 items-center">
+    <RdLayoutSkipLink />
+    <div class="container flex h-16 items-center gap-3">
       <!-- Logo -->
-      <RouterLink to="/" class="mr-8">
-        <h1 class="text-2xl font-bold">
+      <RouterLink to="/" class="mr-2 md:mr-6" aria-label="Home">
+        <h1 class="text-xl md:text-2xl font-bold">
           <RdHeadlineGradient>{{ $t("header.brand") }}</RdHeadlineGradient>
         </h1>
       </RouterLink>
 
-      <!-- Navigation -->
-      <nav class="flex items-center space-x-6 text-sm font-medium flex-1">
+      <!-- Desktop Navigation -->
+      <nav
+        aria-label="Primary"
+        class="hidden md:flex items-center gap-6 text-sm font-medium flex-1 min-w-0"
+      >
         <RouterLink
-          v-for="item in navigation"
-          :key="item.name"
-          :to="item.href"
-          class="transition-colors hover:text-primary"
+          v-for="item in primaryNav"
+          :key="item.id"
+          :to="item.to as any"
+          class="transition-colors hover:text-primary whitespace-nowrap"
+          :aria-current="isActive(item.to) ? 'page' : undefined"
         >
-          {{ item.name }}
+          {{ $t(item.i18nKey) }}
         </RouterLink>
       </nav>
 
-      <div class="flex items-center space-x-2">
-        <!-- CTAs -->
-        <RouterLink
-          :to="{ path: '/', hash: '#waitlist' }"
-          class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90"
-        >
-          {{ $t("header.nav.waitlist") }}
-        </RouterLink>
-        <a
-          href="https://github.com/rollercoaster-dev"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-primary text-primary hover:bg-primary/10"
-        >
-          {{ $t("header.nav.contribute") }}
-        </a>
+      <!-- Right utilities and CTAs -->
+      <div class="flex items-center gap-1">
+        <!-- CTAs (smaller on desktop) -->
+        <div class="hidden md:flex items-center gap-1">
+          <template v-for="cta in ctas" :key="cta.id">
+            <RouterLink
+              v-if="cta.to"
+              :to="cta.to as any"
+              class="inline-flex items-center px-3 py-1.5 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 text-sm"
+              :aria-label="
+                cta.ariaLabelKey ? $t(cta.ariaLabelKey) : $t(cta.i18nKey)
+              "
+            >
+              {{ $t(cta.i18nKey) }}
+            </RouterLink>
+            <a
+              v-else-if="cta.href"
+              :href="cta.href"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center px-3 py-1.5 rounded-md border border-primary text-primary hover:bg-primary/10 text-sm"
+              :aria-label="
+                cta.ariaLabelKey ? $t(cta.ariaLabelKey) : $t(cta.i18nKey)
+              "
+            >
+              {{ $t(cta.i18nKey) }}
+            </a>
+          </template>
+        </div>
 
-        <!-- Simple landing page - no auth needed -->
-        <!-- Mode Toggles -->
+        <!-- Language + Theme/Intensity -->
         <UiTooltipTooltipProvider :delay-duration="200">
-          <div v-if="isMounted" class="flex items-center space-x-1">
+          <div v-if="isMounted" class="flex items-center">
             <!-- Language Switcher -->
             <UiLanguageSwitcher />
             <!-- Mode Toggle -->
@@ -82,6 +108,11 @@ const navigation = computed(() => [
                 variant="ghost"
                 size="icon"
                 class="rounded-full"
+                :aria-label="
+                  mode === 'dark'
+                    ? $t('header.theme.switchToLight')
+                    : $t('header.theme.switchToDark')
+                "
                 @click="toggleMode"
               >
                 <Sun v-if="mode === 'dark'" class="h-5 w-5" />
@@ -106,6 +137,11 @@ const navigation = computed(() => [
                 variant="ghost"
                 size="icon"
                 class="rounded-full"
+                :aria-label="
+                  intensity === 'vibrant'
+                    ? $t('header.theme.switchToCalm')
+                    : $t('header.theme.switchToVibrant')
+                "
                 @click="toggleIntensity"
               >
                 <Paintbrush class="h-5 w-5" />
@@ -120,6 +156,54 @@ const navigation = computed(() => [
             </UiTooltipTooltip>
           </div>
         </UiTooltipTooltipProvider>
+
+        <!-- Mobile menu (Dropdown) -->
+        <div class="md:hidden">
+          <UiDropdownMenuDropdownMenu>
+            <UiDropdownMenuDropdownMenuTrigger as-child>
+              <UiButtonButton
+                variant="ghost"
+                size="icon"
+                :aria-label="$t('header.aria.openMenu')"
+              >
+                <Menu class="h-5 w-5" />
+              </UiButtonButton>
+            </UiDropdownMenuDropdownMenuTrigger>
+            <UiDropdownMenuDropdownMenuContent align="end">
+              <div class="px-1 py-1">
+                <RouterLink
+                  v-for="item in primaryNav"
+                  :key="'m-' + item.id"
+                  :to="item.to as any"
+                  class="block rounded px-2 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
+                >
+                  {{ $t(item.i18nKey) }}
+                </RouterLink>
+              </div>
+              <div class="border-t my-1" />
+              <div class="px-1 py-1">
+                <template v-for="cta in ctas" :key="'m-cta-' + cta.id">
+                  <RouterLink
+                    v-if="cta.to"
+                    :to="cta.to as any"
+                    class="block rounded px-2 py-2 text-sm bg-primary text-primary-foreground hover:bg-primary/90"
+                  >
+                    {{ $t(cta.i18nKey) }}
+                  </RouterLink>
+                  <a
+                    v-else-if="cta.href"
+                    :href="cta.href"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="block rounded px-2 py-2 text-sm border border-primary text-primary hover:bg-primary/10"
+                  >
+                    {{ $t(cta.i18nKey) }}
+                  </a>
+                </template>
+              </div>
+            </UiDropdownMenuDropdownMenuContent>
+          </UiDropdownMenuDropdownMenu>
+        </div>
       </div>
     </div>
   </header>

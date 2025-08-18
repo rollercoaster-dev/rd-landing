@@ -60,6 +60,9 @@
     "title": "Current Work",
     "subtitle": "Building the Foundation",
     "description": "We're currently in active development, building the core infrastructure and user experience. Here's what we're working on:",
+    "loading": "Loading project status...",
+    "error": "Error loading project data:",
+    "retry": "Retry",
     "focusNote": "Our focus is on building a solid foundation first, then expanding features based on community feedback and needs."
   },
   "empowerment": {
