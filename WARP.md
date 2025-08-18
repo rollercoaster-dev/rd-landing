@@ -20,7 +20,7 @@ pnpm run dev
 # Start only frontend (Vite dev server on port 5173)
 pnpm run dev:frontend
 
-# Start only backend (Bun + Hono on port 3001)
+# Start only backend (Bun + Hono on port 3000)
 pnpm run dev:backend
 ```
 
