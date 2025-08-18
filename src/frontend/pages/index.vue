@@ -207,7 +207,7 @@ onMounted(async () => {
       </RdSection>
 
       <!-- 5. "Join Our Journey" Section -->
-      <RdSection with-separator>
+      <RdSection id="waitlist" with-separator>
         <RdBaseSectionHeader
           :title="$t('home.getInvolved.title')"
           :description="$t('home.getInvolved.description')"

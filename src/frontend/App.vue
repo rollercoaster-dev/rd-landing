@@ -11,6 +11,7 @@ console.log("App.vue is being loaded");
     <main class="p-8">
       <RouterView />
     </main>
+    <RdLayoutFooter />
   </div>
 </template>
 

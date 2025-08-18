@@ -1,28 +1,28 @@
 <script setup lang="ts">
 import { Sun, Moon, Paintbrush } from "lucide-vue-next";
 import { useTheme } from "@/frontend/composables/useTheme";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 // Theme composable
 const { mode, intensity, toggleIntensity } = useTheme();
 
-// Toggle mode function (replaces toggleDarkMode)
 const toggleMode = () => {
   mode.value = mode.value === "dark" ? "light" : "dark";
 };
 
-// Client-side mounting flag
 const isMounted = ref(false);
 onMounted(() => {
   isMounted.value = true;
 });
 
-const navigation: Array<{ name: string; href: string }> = [
-  // { name: 'Home', href: '/' },
-  // { name: 'About', href: '/about' },
-  // { name: 'Blog', href: '/blog' },
-  // { name: 'Contact', href: '/contact' }
-];
+const navigation = computed(() => [
+  { name: t("header.nav.about"), href: "/about" },
+  { name: t("header.nav.howItWorks"), href: "/how-it-works" },
+  { name: t("header.nav.roadmap"), href: "/roadmap" },
+]);
 </script>
 
 <template>
@@ -33,7 +33,7 @@ const navigation: Array<{ name: string; href: string }> = [
       <!-- Logo -->
       <RouterLink to="/" class="mr-8">
         <h1 class="text-2xl font-bold">
-          <RdHeadlineGradient>rollercoaster.dev</RdHeadlineGradient>
+          <RdHeadlineGradient>{{ $t("header.brand") }}</RdHeadlineGradient>
         </h1>
       </RouterLink>
 
@@ -50,8 +50,23 @@ const navigation: Array<{ name: string; href: string }> = [
       </nav>
 
       <div class="flex items-center space-x-2">
-        <!-- Simple landing page - no auth needed -->
+        <!-- CTAs -->
+        <RouterLink
+          :to="{ path: '/', hash: '#waitlist' }"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90"
+        >
+          {{ $t("header.nav.waitlist") }}
+        </RouterLink>
+        <a
+          href="https://github.com/rollercoaster-dev"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-primary text-primary hover:bg-primary/10"
+        >
+          {{ $t("header.nav.contribute") }}
+        </a>
 
+        <!-- Simple landing page - no auth needed -->
         <!-- Mode Toggles -->
         <UiTooltipTooltipProvider :delay-duration="200">
           <div v-if="isMounted" class="flex items-center space-x-1">
@@ -59,7 +74,9 @@ const navigation: Array<{ name: string; href: string }> = [
             <UiLanguageSwitcher />
             <!-- Mode Toggle -->
             <UiTooltipTooltip
-              :content="`${mode === 'dark' ? $t('header.theme.switchToLight') : $t('header.theme.switchToDark')}\n${$t('header.theme.shortcutMode')}`"
+              :content="
+                `${mode === 'dark' ? $t('header.theme.switchToLight') : $t('header.theme.switchToDark')} ${$t('header.theme.shortcutMode')}`
+              "
               side="bottom"
               :delay-duration="200"
             >
@@ -83,7 +100,9 @@ const navigation: Array<{ name: string; href: string }> = [
 
             <!-- Intensity Toggle -->
             <UiTooltipTooltip
-              :content="`${intensity === 'vibrant' ? $t('header.theme.switchToCalm') : $t('header.theme.switchToVibrant')}\n${$t('header.theme.shortcutIntensity')}`"
+              :content="
+                `${intensity === 'vibrant' ? $t('header.theme.switchToCalm') : $t('header.theme.switchToVibrant')} ${$t('header.theme.shortcutIntensity')}`
+              "
               side="bottom"
               :delay-duration="200"
             >

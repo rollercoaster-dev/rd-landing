@@ -1,5 +1,12 @@
 {
   "brand": "rollercoaster.dev",
+  "nav": {
+    "about": "About",
+    "howItWorks": "How it works",
+    "roadmap": "Roadmap",
+    "waitlist": "Join the waitlist",
+    "contribute": "Contribute on GitHub"
+  },
   "theme": {
     "switchToLight": "Switch to light mode",
     "switchToDark": "Switch to dark mode",
