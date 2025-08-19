@@ -39,12 +39,15 @@ export const navConfig: NavConfig = {
     { id: "roadmap", i18nKey: "header.nav.roadmap", to: { path: "/roadmap" } },
   ],
   ctas: [
-    {
-      id: "waitlist",
-      i18nKey: "header.nav.waitlist",
-      to: { path: "/", hash: "#waitlist" },
-      ariaLabelKey: "header.aria.waitlist",
-    },
+    // TODO: Implement email functionality for waitlist before re-enabling
+    // The current waitlist section lacks proper email collection, storage, and notification system
+    // See GitHub issue for implementation details
+    // {
+    //   id: "waitlist",
+    //   i18nKey: "header.nav.waitlist",
+    //   to: { path: "/", hash: "#waitlist" },
+    //   ariaLabelKey: "header.aria.waitlist",
+    // },
     {
       id: "contribute",
       i18nKey: "header.nav.contribute",
