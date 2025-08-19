@@ -8,6 +8,7 @@ import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 
 import VueRouter from "unplugin-vue-router/vite";
 import { VueRouterAutoImports } from "unplugin-vue-router";
+import Sitemap from "vite-plugin-sitemap";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -53,6 +54,19 @@ export default defineConfig({
       strictMessage: false,
       escapeHtml: false,
     }),
+    Sitemap({
+      hostname: "https://rollercoaster.dev",
+      generateRobotsTxt: true,
+      exclude: ["/admin"],
+      dynamicRoutes: [
+        "/",
+        "/about",
+        "/how-it-works",
+        "/roadmap",
+        "/legal/privacy",
+        "/legal/impressum",
+      ],
+    }),
   ],
   resolve: {
     alias: {
@@ -78,14 +92,12 @@ export default defineConfig({
   ssr: {
     noExternal: ["lucide-vue-next"],
   },
-  /*
   ssgOptions: {
-    script: 'async',
-    formatting: 'minify',
+    script: "async",
+    formatting: "minify",
     beastiesOptions: {
-      preload: 'media',
-      pruneSource: true
-    }
-  }
-  */
+      preload: "media",
+      pruneSource: true,
+    },
+  },
 });
