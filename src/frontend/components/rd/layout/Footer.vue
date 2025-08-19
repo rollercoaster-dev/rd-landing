@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <footer class="border-t bg-background/95">
+  <footer role="contentinfo" class="border-t bg-background/95">
     <div
       class="container py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground"
     >

@@ -8,7 +8,7 @@ console.log("App.vue is being loaded");
 <template>
   <div class="min-h-screen bg-background text-foreground">
     <RdLayoutHeader />
-    <main id="main">
+    <main id="main" role="main">
       <RouterView />
     </main>
     <RdLayoutFooter />
