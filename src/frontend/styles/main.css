@@ -243,6 +243,7 @@ html.dark[data-intensity="calm"] {
   :focus-visible {
     outline: 2px solid hsl(var(--ring));
     outline-offset: 2px;
+    border-radius: 4px;
   }
 
   /* Respect reduced motion for focus/hover transitions */
@@ -291,6 +292,7 @@ html.dark[data-intensity="calm"] {
     box-shadow:
       0 0 0 3px hsl(var(--background)),
       0 0 0 6px hsl(var(--ring));
+    border-radius: 4px;
   }
 
   /* Special handling for elements with existing borders */
