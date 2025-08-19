@@ -1,21 +1,19 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { useGitHubProjects } from "../composables/useGitHubProjects";
+import { useSEO } from "../composables/useSEO";
 
-// TODO: find replacement for seo meta
-// const config = useRuntimeConfig();
-// const siteName = config.public.siteName as string;
-
-// useSeoMeta({
-//   title: 'Rollercoaster.dev: Tools for Neurodivergent Minds',
-//   description:
-//     'Building flexible tools with Open Badges, designed by and for the neurodivergent community to navigate goals and showcase progress.',
-//   ogTitle: 'Rollercoaster.dev: Tools for Neurodivergent Minds',
-//   ogDescription:
-//     'Building flexible tools with Open Badges for the neurodivergent community.',
-//   ogSiteName: siteName,
-//   twitterCard: 'summary_large_image',
-// });
+// SEO with automatic OG image generation
+useSEO({
+  title: "RollerCoaster.dev: Tools for Neurodivergent Minds",
+  description:
+    "Building flexible tools with Open Badges, designed by and for the neurodivergent community to navigate goals and showcase progress.",
+  og: {
+    title: "RollerCoaster.dev",
+    subtitle: "Tools for Neurodivergent Minds",
+    template: "default",
+  },
+});
 
 const { projectData, isLoading, error, fetchStatusCards } = useGitHubProjects();
 

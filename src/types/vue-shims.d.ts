@@ -8,3 +8,18 @@ declare module "*.vue" {
   >;
   export default component;
 }
+
+// Vue i18n global properties
+import { ComposerTranslation } from "vue-i18n";
+
+declare module "@vue/runtime-core" {
+  interface ComponentCustomProperties {
+    $t: ComposerTranslation;
+  }
+}
+
+// Additional module declarations for better compatibility
+declare module "vue-router/auto-routes" {
+  const routes: never[];
+  export { routes };
+}

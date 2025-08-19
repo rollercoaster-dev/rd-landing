@@ -10,13 +10,13 @@
           $t("header.brand")
         }}</span>
       </div>
-      <nav class="flex items-center gap-6">
-        <RouterLink to="/legal/impressum" class="hover:text-primary"
-          >{{ $t("footer.impressum") }}</RouterLink
-        >
-        <RouterLink to="/legal/privacy" class="hover:text-primary"
-          >{{ $t("footer.privacy") }}</RouterLink
-        >
+      <nav class="flex items-center gap-6" aria-label="Footer">
+        <RouterLink to="/legal/impressum" class="hover:text-primary">{{
+          $t("footer.impressum")
+        }}</RouterLink>
+        <RouterLink to="/legal/privacy" class="hover:text-primary">{{
+          $t("footer.privacy")
+        }}</RouterLink>
         <a
           href="https://github.com/rollercoaster-dev"
           target="_blank"

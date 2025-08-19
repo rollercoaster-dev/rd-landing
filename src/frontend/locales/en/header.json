@@ -19,5 +19,23 @@
     "switchLanguage": "Switch Language",
     "english": "English",
     "german": "Deutsch"
+  },
+  "aria": {
+    "skipToContent": "Skip to content",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "primaryNav": "Primary navigation",
+    "waitlist": "Join the waitlist",
+    "contribute": "Contribute on GitHub"
+  },
+  "header": {
+    "aria": {
+      "skipToContent": "Skip to content",
+      "openMenu": "Open menu",
+      "closeMenu": "Close menu",
+      "primaryNav": "Primary navigation",
+      "waitlist": "Join the waitlist",
+      "contribute": "Contribute on GitHub"
+    }
   }
 }

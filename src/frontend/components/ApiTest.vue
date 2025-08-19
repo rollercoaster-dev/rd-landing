@@ -1,9 +1,9 @@
 <template>
-  <div class="bg-white shadow overflow-hidden rounded-lg p-6">
-    <h2 class="text-xl font-semibold text-gray-900 mb-4">API Test</h2>
+  <div class="bg-card shadow overflow-hidden rounded-lg p-6 text-foreground">
+    <h2 class="text-xl font-semibold text-foreground mb-4">API Test</h2>
     <button
       :disabled="loading"
-      class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+      class="bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-ring transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
       @click="fetchApiData"
     >
       {{ loading ? "Loading..." : "Test API Connection" }}
@@ -11,16 +11,19 @@
 
     <div
       v-if="error"
-      class="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded"
+      class="mt-4 p-3 bg-destructive/10 border border-destructive text-destructive rounded"
     >
       <p>Error: {{ error }}</p>
     </div>
 
     <div v-if="apiData" class="mt-4">
-      <h3 class="text-lg font-medium text-gray-900 mb-2">API Response:</h3>
-      <pre class="bg-gray-100 p-3 rounded overflow-x-auto text-sm">{{
+      <h3 class="text-lg font-medium text-foreground mb-2">API Response:</h3>
+      <pre
+        class="bg-muted p-3 rounded overflow-x-auto text-sm text-muted-foreground"
+      >
         JSON.stringify(apiData, null, 2)
-      }}</pre>
+      }}</pre
+      >
     </div>
   </div>
 </template>

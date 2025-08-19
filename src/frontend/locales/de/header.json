@@ -19,5 +19,23 @@
     "switchLanguage": "Sprache wechseln",
     "english": "English",
     "german": "Deutsch"
+  },
+  "aria": {
+    "skipToContent": "Zum Inhalt springen",
+    "openMenu": "Menü öffnen",
+    "closeMenu": "Menü schließen",
+    "primaryNav": "Hauptnavigation",
+    "waitlist": "Warteliste beitreten",
+    "contribute": "Auf GitHub beitragen"
+  },
+  "header": {
+    "aria": {
+      "skipToContent": "Zum Inhalt springen",
+      "openMenu": "Menü öffnen",
+      "closeMenu": "Menü schließen",
+      "primaryNav": "Hauptnavigation",
+      "waitlist": "Warteliste beitreten",
+      "contribute": "Auf GitHub beitragen"
+    }
   }
 }

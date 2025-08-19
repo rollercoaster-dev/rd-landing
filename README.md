@@ -17,6 +17,14 @@ A monolithic application for Open Badges, built with Vue 3 + TypeScript frontend
 - Bun
 - Elysia (TypeScript Framework)
 
+## Design
+
+- Vision & UX Strategy: docs/design-document.md
+- Style Guide (source of truth): docs/design/styleguide.md
+- Design Plan (fast-track): docs/design/design-plan.md
+- A11y QA Checklist: docs/design/checklists/a11y-qa.md
+- Page Patterns: docs/design/patterns/page-composition.md
+
 ## Documentation
 
 - [Backend Authentication](./docs/backend/authentication.md)

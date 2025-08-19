@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "target": "ES2022",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "types": ["node", "bun"]
+  },
+  "include": ["src/backend/**/*.ts", "src/shared/**/*.ts"],
+  "exclude": ["src/frontend/**/*", "src/types/**/*", "node_modules", "dist"]
+}

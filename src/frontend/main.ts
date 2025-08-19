@@ -14,12 +14,16 @@ import enHeader from "./locales/en/header.json";
 import enHome from "./locales/en/home.json";
 import enAbout from "./locales/en/about.json";
 import enAdmin from "./locales/en/admin.json";
+import enFooter from "./locales/en/footer.json";
+import enPrivacy from "./locales/en/privacy.json";
 
 import deCommon from "./locales/de/common.json";
 import deHeader from "./locales/de/header.json";
 import deHome from "./locales/de/home.json";
 import deAbout from "./locales/de/about.json";
 import deAdmin from "./locales/de/admin.json";
+import deFooter from "./locales/de/footer.json";
+import dePrivacy from "./locales/de/privacy.json";
 
 // Create i18n instance
 const messages = {
@@ -29,6 +33,8 @@ const messages = {
     home: enHome,
     about: enAbout,
     admin: enAdmin,
+    footer: enFooter,
+    privacy: enPrivacy,
   },
   de: {
     common: deCommon,
@@ -36,6 +42,8 @@ const messages = {
     home: deHome,
     about: deAbout,
     admin: deAdmin,
+    footer: deFooter,
+    privacy: dePrivacy,
   },
 };
 
