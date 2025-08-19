@@ -3,7 +3,7 @@ import { onMounted } from "vue";
 import { useGitHubProjects } from "../composables/useGitHubProjects";
 import { useSEO } from "../composables/useSEO";
 
-// SEO with automatic OG image generation
+// SEO with automatic OG image generation and JSON-LD organization schema
 useSEO({
   title: "RollerCoaster.dev: Tools for Neurodivergent Minds",
   description:
@@ -12,6 +12,9 @@ useSEO({
     title: "RollerCoaster.dev",
     subtitle: "Tools for Neurodivergent Minds",
     template: "default",
+  },
+  jsonLd: {
+    organization: true,
   },
 });
 

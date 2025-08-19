@@ -24,9 +24,6 @@
           class="hover:text-primary"
           >GitHub</a
         >
-        <a href="mailto:dev@rollercoaster.dev" class="hover:text-primary"
-          >Email</a
-        >
       </nav>
     </div>
   </footer>

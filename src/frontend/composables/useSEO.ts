@@ -10,6 +10,9 @@ interface SEOOptions {
     subtitle?: string;
     template?: "default" | "page" | "feature";
   };
+  jsonLd?: {
+    organization?: boolean;
+  };
 }
 
 /**
@@ -69,6 +72,11 @@ export function useSEO(options: SEOOptions) {
   const ogImageUrl = new URL(ogImagePath, siteUrl).toString();
   const pageUrl = new URL(route.path, siteUrl).toString();
 
+  // Generate JSON-LD organization schema if requested
+  const jsonLdScript = options.jsonLd?.organization
+    ? generateOrganizationJsonLd(siteUrl, siteName)
+    : null;
+
   // Handle all meta tags automatically using @unhead/vue
   useHead({
     // Page title
@@ -103,6 +111,9 @@ export function useSEO(options: SEOOptions) {
 
     // Canonical link
     link: [{ rel: "canonical", href: pageUrl }],
+
+    // JSON-LD structured data
+    script: jsonLdScript ? [jsonLdScript] : undefined,
   });
 
   // Return useful information for debugging or further use
@@ -182,4 +193,35 @@ function formatRouteTitle(routeName: string): string {
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
+}
+
+/**
+ * Generate JSON-LD Organization schema for the homepage
+ */
+function generateOrganizationJsonLd(siteUrl: string, siteName: string) {
+  const organizationData = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: siteName,
+    url: siteUrl,
+    logo: new URL("/og/og-default-1200x630.png", siteUrl).toString(),
+    description:
+      "Building flexible tools with Open Badges, designed by and for the neurodivergent community to navigate goals and showcase progress.",
+    foundingDate: "2024",
+    sameAs: ["https://github.com/rollercoaster-dev"],
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: "dev@rollercoaster.dev",
+      contactType: "customer service",
+    },
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "DE",
+    },
+  };
+
+  return {
+    type: "application/ld+json",
+    innerHTML: JSON.stringify(organizationData, null, 2),
+  };
 }

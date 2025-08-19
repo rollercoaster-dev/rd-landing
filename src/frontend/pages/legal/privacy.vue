@@ -1,8 +1,22 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useI18n } from "vue-i18n";
+import { useSEO } from "../../composables/useSEO";
+
+const { t } = useI18n();
+
+useSEO({
+  title: t("privacy.title"),
+  description: t("privacy.meta.description"),
+  og: {
+    template: "page",
+  },
+});
+</script>
+
 <template>
   <RdLayoutBaseLayout
-    :title="$t('privacy.title')"
-    subtitle="Information on data protection and privacy compliance."
+    :title="$t('privacy.heading')"
+    :subtitle="$t('privacy.subtitle')"
   >
     <div class="prose max-w-none text-muted-foreground">
       <p>
