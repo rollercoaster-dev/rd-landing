@@ -107,7 +107,7 @@ const isActive = (to?: RouteTo) => {
               <UiButtonButton
                 variant="ghost"
                 size="icon"
-                class="rounded-full"
+                class="rounded-full hit-44"
                 :aria-label="
                   mode === 'dark'
                     ? $t('header.theme.switchToLight')
@@ -136,7 +136,7 @@ const isActive = (to?: RouteTo) => {
               <UiButtonButton
                 variant="ghost"
                 size="icon"
-                class="rounded-full"
+                class="rounded-full hit-44"
                 :aria-label="
                   intensity === 'vibrant'
                     ? $t('header.theme.switchToCalm')
@@ -164,6 +164,7 @@ const isActive = (to?: RouteTo) => {
               <UiButtonButton
                 variant="ghost"
                 size="icon"
+                class="hit-44 rounded-full"
                 :aria-label="$t('header.aria.openMenu')"
               >
                 <Menu class="h-5 w-5" />
