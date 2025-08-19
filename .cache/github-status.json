@@ -26,7 +26,7 @@
       "totalIssues": 23,
       "progress": 74,
       "repository": "openbadges-modular-server",
-      "lastUpdated": "2025-08-19T11:02:42.038Z"
+      "lastUpdated": "2025-08-19T13:29:08.579Z"
     },
     "userInterface": {
       "title": "User Interface (Vue)",
@@ -54,7 +54,7 @@
       "totalIssues": 36,
       "progress": 50,
       "repository": "openbadges-ui",
-      "lastUpdated": "2025-08-19T11:02:42.038Z"
+      "lastUpdated": "2025-08-19T13:29:08.579Z"
     },
     "communityFeatures": {
       "title": "Open Badges System",
@@ -90,9 +90,9 @@
       "totalIssues": 21,
       "progress": 48,
       "repository": "openbadges-system",
-      "lastUpdated": "2025-08-19T11:02:42.038Z"
+      "lastUpdated": "2025-08-19T13:29:08.579Z"
     }
   },
-  "timestamp": 1755601362038,
+  "timestamp": 1755610148579,
   "ttl": 300000
 }

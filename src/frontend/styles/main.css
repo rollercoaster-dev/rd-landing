@@ -233,6 +233,40 @@ html.dark[data-intensity="calm"] {
     -moz-osx-font-smoothing: grayscale;
   }
 
+  /* WCAG 2.2 focus visibility: clear, offset outline on keyboard focus */
+  :focus-visible {
+    outline: 3px solid hsl(var(--ring));
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Ensure focus is visible on links that otherwise have no default outline */
+  a:focus-visible,
+  [role="button"]:focus-visible {
+    outline: 3px solid hsl(var(--ring));
+    outline-offset: 3px;
+  }
+
+  /* Respect reduced motion for focus/hover transitions */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* Minimum interactive target size (approx 44x44 css px) */
+  .hit-44 {
+    min-width: 2.75rem; /* 44px */
+    min-height: 2.75rem; /* 44px */
+  }
+
   /* Enhanced focus indicators for WCAG 2.2 AA+ compliance */
   /* WCAG 2.4.11 (Focus Not Obscured), 2.4.12 (Focus Not Obscured Enhanced), 2.4.13 (Focus Appearance) */
   :focus-visible {
