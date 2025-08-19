@@ -64,7 +64,7 @@ onMounted(() => {
       @update:model-value="switchLanguage"
     >
       <SelectTrigger
-        class="w-auto h-9 px-3 border-0 bg-transparent hover:bg-accent hover:text-accent-foreground rounded-full focus:ring-1 focus:ring-ring"
+        class="w-auto h-9 px-3 border-0 bg-transparent hover:bg-accent hover:text-accent-foreground rounded-full focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background focus-enhanced"
         :aria-label="$t('header.language.switchLanguage')"
       >
         <SelectValue>
