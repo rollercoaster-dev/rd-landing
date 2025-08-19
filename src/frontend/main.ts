@@ -16,6 +16,9 @@ import enAbout from "./locales/en/about.json";
 import enAdmin from "./locales/en/admin.json";
 import enFooter from "./locales/en/footer.json";
 import enPrivacy from "./locales/en/privacy.json";
+import enHowItWorks from "./locales/en/how-it-works.json";
+import enRoadmap from "./locales/en/roadmap.json";
+import enImpressum from "./locales/en/impressum.json";
 
 import deCommon from "./locales/de/common.json";
 import deHeader from "./locales/de/header.json";
@@ -24,6 +27,9 @@ import deAbout from "./locales/de/about.json";
 import deAdmin from "./locales/de/admin.json";
 import deFooter from "./locales/de/footer.json";
 import dePrivacy from "./locales/de/privacy.json";
+import deHowItWorks from "./locales/de/how-it-works.json";
+import deRoadmap from "./locales/de/roadmap.json";
+import deImpressum from "./locales/de/impressum.json";
 
 // Create i18n instance
 const messages = {
@@ -35,6 +41,9 @@ const messages = {
     admin: enAdmin,
     footer: enFooter,
     privacy: enPrivacy,
+    "how-it-works": enHowItWorks,
+    roadmap: enRoadmap,
+    impressum: enImpressum,
   },
   de: {
     common: deCommon,
@@ -44,6 +53,9 @@ const messages = {
     admin: deAdmin,
     footer: deFooter,
     privacy: dePrivacy,
+    "how-it-works": deHowItWorks,
+    roadmap: deRoadmap,
+    impressum: deImpressum,
   },
 };
 

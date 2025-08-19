@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
+import { useSEO } from "../../composables/useSEO";
 
 const { t } = useI18n();
 
-useHead({
-  title: () => t("about.title"),
-  meta: [{ name: "description", content: () => t("about.meta.description") }],
+useSEO({
+  title: t("about.title"),
+  description: t("about.meta.description"),
+  og: {
+    template: "page",
+  },
 });
 </script>
 
