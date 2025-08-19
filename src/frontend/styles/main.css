@@ -233,18 +233,16 @@ html.dark[data-intensity="calm"] {
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* WCAG 2.2 focus visibility: clear, offset outline on keyboard focus */
-  :focus-visible {
-    outline: 3px solid hsl(var(--ring));
-    outline-offset: 3px;
-    border-radius: 4px;
+  /* Base focus styles - these can be overridden by utility classes */
+  /* Intentionally minimal to allow utilities to take precedence */
+  :focus {
+    outline: none; /* Remove default outline */
   }
 
-  /* Ensure focus is visible on links that otherwise have no default outline */
-  a:focus-visible,
-  [role="button"]:focus-visible {
-    outline: 3px solid hsl(var(--ring));
-    outline-offset: 3px;
+  /* Base focus-visible styles - these will be enhanced in utilities layer */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
   }
 
   /* Respect reduced motion for focus/hover transitions */
@@ -269,8 +267,9 @@ html.dark[data-intensity="calm"] {
 
   /* Enhanced focus indicators for WCAG 2.2 AA+ compliance */
   /* WCAG 2.4.11 (Focus Not Obscured), 2.4.12 (Focus Not Obscured Enhanced), 2.4.13 (Focus Appearance) */
-  :focus-visible {
-    outline: 3px solid hsl(var(--ring));
+  .focus-enhanced:focus-visible {
+    /* Ensure minimum contrast ratio of 3:1 per WCAG 2.4.13 */
+    outline: 2px solid hsl(var(--ring));
     outline-offset: 3px;
     border-radius: calc(var(--radius) * 0.5);
     /* Ensure focus is never obscured */
@@ -295,7 +294,7 @@ html.dark[data-intensity="calm"] {
   }
 
   /* Special handling for elements with existing borders */
-  .focus-enhanced:focus-visible {
+  .focus-double:focus-visible {
     outline: none;
     box-shadow:
       0 0 0 2px hsl(var(--background)),
