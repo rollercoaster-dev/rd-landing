@@ -49,7 +49,7 @@ const isActive = (to?: RouteTo) => {
 
       <!-- Desktop Navigation -->
       <nav
-        aria-label="Primary"
+        aria-label="Main navigation"
         class="hidden md:flex items-center gap-6 text-sm font-medium flex-1 min-w-0"
       >
         <RouterLink
