@@ -232,6 +232,64 @@ html.dark[data-intensity="calm"] {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  /* Enhanced focus indicators for WCAG 2.2 AA+ compliance */
+  /* WCAG 2.4.11 (Focus Not Obscured), 2.4.12 (Focus Not Obscured Enhanced), 2.4.13 (Focus Appearance) */
+  :focus-visible {
+    outline: 3px solid hsl(var(--ring));
+    outline-offset: 3px;
+    border-radius: calc(var(--radius) * 0.5);
+    /* Ensure focus is never obscured */
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Enhanced focus ring for interactive elements */
+  button:focus-visible,
+  a:focus-visible,
+  [role="button"]:focus-visible,
+  [role="link"]:focus-visible,
+  [role="menuitem"]:focus-visible,
+  [role="tab"]:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 3px solid hsl(var(--ring));
+    outline-offset: 3px;
+    border-radius: calc(var(--radius) * 0.5);
+    /* Ensure minimum contrast ratio of 3:1 */
+    box-shadow:
+      0 0 0 3px hsl(var(--background)),
+      0 0 0 6px hsl(var(--ring));
+  }
+
+  /* Special handling for elements with existing borders */
+  .focus-enhanced:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px hsl(var(--background)),
+      0 0 0 5px hsl(var(--ring)),
+      0 0 0 7px hsl(var(--background));
+  }
+
+  /* Focus for elements on colored backgrounds - ensure contrast */
+  .bg-primary *:focus-visible,
+  .bg-secondary *:focus-visible,
+  .bg-accent *:focus-visible {
+    outline-color: hsl(var(--background));
+    box-shadow:
+      0 0 0 3px hsl(var(--ring)),
+      0 0 0 6px hsl(var(--background));
+  }
+
+  /* Skip links enhancement */
+  .skip-link:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 3px hsl(var(--primary)),
+      0 0 0 6px hsl(var(--primary-foreground)),
+      0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 }
 
 /* Custom Scrollbar Styling */
