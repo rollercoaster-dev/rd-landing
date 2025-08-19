@@ -254,9 +254,6 @@ html.dark[data-intensity="calm"] {
   input:focus-visible,
   select:focus-visible,
   textarea:focus-visible {
-    outline: 3px solid hsl(var(--ring));
-    outline-offset: 3px;
-    border-radius: calc(var(--radius) * 0.5);
     /* Ensure minimum contrast ratio of 3:1 */
     box-shadow:
       0 0 0 3px hsl(var(--background)),
