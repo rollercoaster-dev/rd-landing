@@ -20,6 +20,7 @@
     "format": "prettier --write \"**/*.{js,ts,vue,json,css,scss,md}\"",
     "type-check": "npx tsc --noEmit --skipLibCheck --project tsconfig.backend.json",
     "type-check:vue": "vue-tsc --noEmit",
+    "type-check:tests": "vue-tsc --noEmit -p tsconfig.tests.json --composite false",
     "check:all": "pnpm run format && pnpm run lint && pnpm run type-check && pnpm run type-check:vue && pnpm run i18n:audit",
     "clean:modules": "rm -rf node_modules && bun install",
     "screenshots": "node scripts/capture-screenshots.mjs",

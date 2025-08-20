@@ -45,6 +45,6 @@
     "src/types/**/*.d.ts",
     "env.d.ts"
   ],
-  "exclude": ["node_modules", "dist", "tests", "**/*.test.ts"],
+  "exclude": ["node_modules", "dist"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
