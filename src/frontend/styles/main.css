@@ -97,6 +97,7 @@
   --border: var(--gray-200);
   --input: var(--gray-200);
   --input-border: var(--gray-300);
+  /* Accessibility: --ring must maintain ≥3:1 contrast with --background across themes */
   --ring: var(--accent);
 
   /* Chart colors */
@@ -157,6 +158,7 @@
   --border: var(--gray-800);
   --input: var(--gray-800);
   --input-border: var(--gray-700);
+  /* Accessibility: --ring must maintain ≥3:1 contrast with --background across themes */
   --ring: var(--accent);
 
   /* Chart colors */
@@ -233,10 +235,10 @@ html.dark[data-intensity="calm"] {
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Base focus styles - these can be overridden by utility classes */
-  /* Intentionally minimal to allow utilities to take precedence */
-  :focus {
-    outline: none; /* Remove default outline */
+  /* Base focus styles - safe default */
+  /* Do not remove visible focus for non-:focus-visible environments */
+  :focus:not(:focus-visible) {
+    outline: none;
   }
 
   /* Base focus-visible styles - these will be enhanced in utilities layer */

@@ -29,6 +29,8 @@ export default defineConfig({
       // Use node for backend tests
       ["**/backend/**/*.test.ts", "node"],
     ],
+    // Exclude Playwright E2E tests; run them via `playwright test`
+    exclude: ["tests/e2e/**"],
     globals: true,
     setupFiles: ["src/frontend/vitest.setup.ts"],
     deps: {
