@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Sun, Moon, Paintbrush, Menu } from "lucide-vue-next";
+import { Sun, Moon, Paintbrush, Menu, X } from "lucide-vue-next";
 import { useTheme } from "@/frontend/composables/useTheme";
 import { ref, onMounted, onBeforeUnmount, computed, nextTick } from "vue";
 import { useI18n } from "vue-i18n";
@@ -287,7 +287,7 @@ const isActive = (to?: RouteTo) => {
                 role="dialog"
                 aria-modal="true"
                 :aria-label="$t('header.aria.primaryNav')"
-                class="absolute right-0 top-0 h-full w-80 max-w-[90vw] bg-background shadow-lg border-l flex flex-col focus:outline-none"
+                class="absolute right-0 top-0 h-full w-80 max-w-[90vw] bg-background shadow-lg border-l flex flex-col"
                 tabindex="-1"
                 @keydown="onDialogKeydown"
               >
@@ -302,7 +302,7 @@ const isActive = (to?: RouteTo) => {
                     :aria-label="$t('header.aria.closeMenu')"
                     @click="closeMenu"
                   >
-                    <span aria-hidden="true">✕</span>
+                    <X aria-hidden="true" class="h-5 w-5" />
                   </UiButtonButton>
                 </div>
 
