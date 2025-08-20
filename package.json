@@ -13,6 +13,7 @@
     "histoire": "histoire dev",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:repo": "vitest run --passWithNoTests --reporter=dot \"src/**/*.test.ts\"",
     "prepare": "husky",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

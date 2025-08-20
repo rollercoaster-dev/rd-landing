@@ -5,4 +5,5 @@ npx lint-staged
 npm run format
 npm run lint
 npm run type-check
-npm run test
+# Run a targeted test suite that only includes our repo tests (not node_modules)
+npm run test:repo
