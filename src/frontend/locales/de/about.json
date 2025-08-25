@@ -1,19 +1,42 @@
 {
-  "title": "Über uns - Rollercoaster.dev",
+  "title": "Über uns - RollerCoaster.dev",
   "meta": {
-    "description": "Erfahren Sie mehr über Rollercoaster.dev - Eine Open Badges Plattform"
+    "description": "RollerCoaster.dev ist ein Toolkit von und für neurodivergente Köpfe, das neu denkt, wie wir Fortschritte verfolgen, Ziele setzen und unsere Reisen feiern."
   },
-  "heading": "Über Rollercoaster.dev",
-  "description": "Rollercoaster.dev ist eine Open Badges Plattform, die speziell für neurodivergente Kreative und Lernende entwickelt wurde. Wir glauben daran, vielfältige Erfolge zu feiern und flexible Werkzeuge zur Verfolgung von Fortschritten und zur Präsentation von Fähigkeiten bereitzustellen.",
-  "techStack": {
-    "title": "Unser Technologie-Stack",
-    "frontend": "Frontend:",
-    "frontendTech": "Vue 3, TypeScript, Vite, vite-ssg",
-    "backend": "Backend:",
-    "backendTech": "Bun, Elysia",
-    "database": "Datenbank:",
-    "databaseTech": "PostgreSQL",
-    "componentDev": "Komponentenentwicklung:",
-    "componentDevTech": "Histoire"
+  "heading": "Über RollerCoaster.dev",
+  "intro": "RollerCoaster.dev ist ein Toolkit von und für neurodivergente Köpfe, das neu denkt, wie wir Fortschritte verfolgen, Ziele setzen und unsere Reisen feiern.",
+  "mission": {
+    "title": "Unsere Mission",
+    "content": "Wir entwickeln neuro-zentrierte Werkzeuge – verwurzelt in neurodivergenter Lebenserfahrung – um flexibles, selbstbestimmtes Lernen und Wachstum zu ermöglichen. Herkömmliche Produktivitäts-Apps gehen von linearem Fortschritt und festen Zeitplänen aus. Wir nicht."
+  },
+  "whoWeAre": {
+    "title": "Wer wir sind",
+    "content": "Ein gemeinschaftsgeführtes Kollektiv aus Designern, Entwicklern und neurodivergenten Mitarbeitern, die sich dem Aufbau besserer digitaler Werkzeuge verschrieben haben."
+  },
+  "values": {
+    "title": "Was uns wichtig ist",
+    "flexibility": {
+      "name": "Flexibilität",
+      "description": "Unterstützung von Höhen, Tiefen und Ruhepausen ohne Verurteilung."
+    },
+    "clarity": {
+      "name": "Klarheit",
+      "description": "Visuelles Feedback, einfache Benutzeroberfläche, optionale tiefere Informationen."
+    },
+    "community": {
+      "name": "Gemeinschaft",
+      "description": "Gemeinsame Reisen, gegenseitige Unterstützung, Lebenserfahrung im Mittelpunkt."
+    }
+  },
+  "benefits": {
+    "title": "Wie Sie profitieren",
+    "item1": "Setzen Sie Ziele, die zu Ihrem Rhythmus passen.",
+    "item2": "Dokumentieren Sie Erfolge mit offenen, verifizierbaren Badges.",
+    "item3": "Visualisieren Sie Ihr Wachstum auf bedeutungsvolle Weise.",
+    "item4": "Verbinden Sie sich mit anderen, die die Reise verstehen."
+  },
+  "cta": {
+    "joinWaitlist": "Zur Warteliste",
+    "contribute": "Auf GitHub beitragen"
   }
 }

@@ -1,19 +1,42 @@
 {
-  "title": "About - Rollercoaster.dev",
+  "title": "About - RollerCoaster.dev",
   "meta": {
-    "description": "Learn about Rollercoaster.dev - An Open Badges platform"
+    "description": "RollerCoaster.dev is a toolkit by and for neurodivergent minds, reimagining how we track progress, set goals, and celebrate our journeys."
   },
-  "heading": "About Rollercoaster.dev",
-  "description": "Rollercoaster.dev is an Open Badges platform designed specifically for neurodivergent creators and learners. We believe in celebrating diverse achievements and providing flexible tools for tracking progress and showcasing skills.",
-  "techStack": {
-    "title": "Our Technology Stack",
-    "frontend": "Frontend:",
-    "frontendTech": "Vue 3, TypeScript, Vite, vite-ssg",
-    "backend": "Backend:",
-    "backendTech": "Bun, Elysia",
-    "database": "Database:",
-    "databaseTech": "PostgreSQL",
-    "componentDev": "Component Development:",
-    "componentDevTech": "Histoire"
+  "heading": "About RollerCoaster.dev",
+  "intro": "RollerCoaster.dev is a toolkit by and for neurodivergent minds, reimagining how we track progress, set goals, and celebrate our journeys.",
+  "mission": {
+    "title": "Our Mission",
+    "content": "We build neuro-centered tools—rooted in neurodivergent lived experience—to empower flexible, self-paced learning and growth. Traditional productivity apps assume linear progress and fixed schedules. We don't."
+  },
+  "whoWeAre": {
+    "title": "Who We Are",
+    "content": "A community-led collective of designers, developers, and neurodivergent collaborators committed to building better digital tools."
+  },
+  "values": {
+    "title": "What We Value",
+    "flexibility": {
+      "name": "Flexibility",
+      "description": "Support ebbs, flows, and rest without judgment."
+    },
+    "clarity": {
+      "name": "Clarity",
+      "description": "Visual feedback, simple UI, optional deeper info."
+    },
+    "community": {
+      "name": "Community",
+      "description": "Shared journeys, mutual support, lived experience at the core."
+    }
+  },
+  "benefits": {
+    "title": "How You Benefit",
+    "item1": "Set goals that fit your rhythm.",
+    "item2": "Document achievements with open, verifiable badges.",
+    "item3": "Visualize your growth in ways that feel meaningful.",
+    "item4": "Connect with others who understand the journey."
+  },
+  "cta": {
+    "joinWaitlist": "Join the waitlist",
+    "contribute": "Contribute on GitHub"
   }
 }

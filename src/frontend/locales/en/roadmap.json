@@ -1,9 +1,41 @@
 {
-  "title": "Roadmap - Rollercoaster.dev",
+  "title": "Roadmap - RollerCoaster.dev",
   "meta": {
-    "description": "Explore our current milestones and upcoming plans for the neurodivergent-centered tools and what's next for 2025."
+    "description": "Our vision for neurodivergent-centered tools and what's next for 2025."
   },
   "heading": "Roadmap",
-  "subtitle": "Explore our current milestones and upcoming plans for the project.",
-  "comingSoon": "We're preparing a public roadmap. Stay tuned."
+  "lastUpdated": "Last updated:",
+  "timeline": {
+    "item1": {
+      "timeframe": "Now – Q3 2025",
+      "description": "Public waitlist; contributor docs",
+      "status": "In progress"
+    },
+    "item2": {
+      "timeframe": "Q4 2025",
+      "description": "Self-issued badge wallet; VC export (Open Badges 3.0)",
+      "status": "Planned"
+    },
+    "item3": {
+      "timeframe": "Q1 2026",
+      "description": "Peer/mentor verification pilot; feedback loops",
+      "status": "Planned"
+    },
+    "item4": {
+      "timeframe": "TBD",
+      "description": "Enhanced visualizations; mobile layout polish",
+      "status": "Upcoming"
+    },
+    "item5": {
+      "timeframe": "Ongoing",
+      "description": "Community, outreach, funding",
+      "status": "Ongoing"
+    }
+  },
+  "transparency": "Link items to GitHub issues/PRs for transparency.",
+  "tableHeaders": {
+    "timeframe": "Timeframe",
+    "description": "What's Next",
+    "status": "Status"
+  }
 }
