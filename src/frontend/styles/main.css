@@ -269,18 +269,19 @@ html.dark[data-intensity="calm"] {
   }
 
   /* Enhanced focus indicators for WCAG 2.2 AA+ compliance */
-  /* WCAG 2.4.11 (Focus Not Obscured), 2.4.12 (Focus Not Obscured Enhanced), 2.4.13 (Focus Appearance) */
+  /* WCAG 2.4.7 (Focus Visible) - ensure focus indicators are clearly visible */
   .focus-enhanced:focus-visible {
-    /* Ensure minimum contrast ratio of 3:1 per WCAG 2.4.13 */
-    outline: 2px solid hsl(var(--ring));
-    outline-offset: 3px;
-    border-radius: calc(var(--radius) * 0.5);
+    /* Use box-shadow for enhanced visibility and consistency */
+    box-shadow:
+      0 0 0 3px hsl(var(--background)),
+      0 0 0 6px hsl(var(--ring));
+    border-radius: 4px;
     /* Ensure focus is never obscured */
     position: relative;
     z-index: 10;
   }
 
-  /* Enhanced focus ring for interactive elements */
+  /* Enhanced focus ring for interactive elements - inherits base focus-visible styles */
   button:focus-visible,
   a:focus-visible,
   [role="button"]:focus-visible,
@@ -290,15 +291,15 @@ html.dark[data-intensity="calm"] {
   input:focus-visible,
   select:focus-visible,
   textarea:focus-visible {
-    /* Ensure minimum contrast ratio of 3:1 */
+    /* Enhanced visibility with double ring for better contrast */
     box-shadow:
       0 0 0 3px hsl(var(--background)),
       0 0 0 6px hsl(var(--ring));
     border-radius: 4px;
   }
 
-  /* Special handling for elements with existing borders */
-  .focus-double:focus-visible {
+  /* Special handling for elements with existing borders or complex backgrounds */
+  .focus-with-border:focus-visible {
     outline: none;
     box-shadow:
       0 0 0 2px hsl(var(--background)),

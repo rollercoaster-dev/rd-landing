@@ -140,12 +140,15 @@ describe("useSEO", () => {
     // Check that JSON-LD script is included
     expect(headCall.script).toBeDefined();
     expect(headCall.script).toHaveLength(1);
-    expect(headCall.script[0]!.type).toBe("application/ld+json");
+
+    const script = headCall.script[0];
+    expect(script).toBeDefined();
+    expect(script?.type).toBe("application/ld+json");
 
     // Parse and validate JSON-LD content
-    const organizationData = JSON.parse(
-      headCall.script[0]!.innerHTML as string,
-    );
+    const innerHTML = script?.innerHTML;
+    expect(typeof innerHTML).toBe("string");
+    const organizationData = JSON.parse(innerHTML as string);
     expect(organizationData["@type"]).toBe("Organization");
     expect(organizationData.name).toBe("RollerCoaster.dev");
     expect(organizationData["@context"]).toBe("https://schema.org");
@@ -169,9 +172,10 @@ describe("useSEO", () => {
     const headCall = mockUseHead.mock.calls[0][0] as MinimalHead;
     const ogImage = headCall.meta.find(
       (meta: { property?: string }) => meta.property === "og:image",
-    ) as { property?: string; content: string };
+    );
 
-    expect(ogImage.content).toMatch(/og\/about-page-1200x630\.png$/);
+    expect(ogImage).toBeDefined();
+    expect(ogImage?.content).toMatch(/og\/about-page-1200x630\.png$/);
   });
 
   it("should handle different route names and canonical URLs", () => {
@@ -187,11 +191,12 @@ describe("useSEO", () => {
     const headCall = mockUseHead.mock.calls[0][0] as MinimalHead;
     const ogImage = headCall.meta.find(
       (meta: { property?: string }) => meta.property === "og:image",
-    ) as { property?: string; content: string };
+    );
     const canonicalLink = headCall.link[0];
 
-    expect(ogImage.content).toMatch(/og\/how-it-works-feature-1200x630\.png$/);
-    expect(canonicalLink.href).toMatch(/\/how-it-works$/);
+    expect(ogImage).toBeDefined();
+    expect(ogImage?.content).toMatch(/og\/how-it-works-feature-1200x630\.png$/);
+    expect(canonicalLink?.href).toMatch(/\/how-it-works$/);
   });
 
   it("should return debug information", () => {
