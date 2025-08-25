@@ -1,9 +1,41 @@
 {
-  "title": "Fahrplan - Rollercoaster.dev",
+  "title": "Fahrplan - RollerCoaster.dev",
   "meta": {
-    "description": "Erkunden Sie unsere aktuellen Meilensteine und kommenden Pläne für die neurodivergent-zentrierten Tools und was für 2025 geplant ist."
+    "description": "Unsere Vision für neurodivergent-zentrierte Tools und was für 2025 geplant ist."
   },
   "heading": "Fahrplan",
-  "subtitle": "Erkunden Sie unsere aktuellen Meilensteine und kommenden Pläne für das Projekt.",
-  "comingSoon": "Wir bereiten einen öffentlichen Fahrplan vor. Bleiben Sie dran."
+  "lastUpdated": "Zuletzt aktualisiert:",
+  "timeline": {
+    "item1": {
+      "timeframe": "Jetzt – Q3 2025",
+      "description": "Öffentliche Warteliste; Mitwirkenden-Dokumentation",
+      "status": "In Bearbeitung"
+    },
+    "item2": {
+      "timeframe": "Q4 2025",
+      "description": "Selbst ausgestellte Badge-Wallet; VC-Export (Open Badges 3.0)",
+      "status": "Geplant"
+    },
+    "item3": {
+      "timeframe": "Q1 2026",
+      "description": "Peer/Mentor-Verifizierungs-Pilot; Feedback-Schleifen",
+      "status": "Geplant"
+    },
+    "item4": {
+      "timeframe": "TBD",
+      "description": "Erweiterte Visualisierungen; Mobile Layout-Verbesserungen",
+      "status": "Anstehend"
+    },
+    "item5": {
+      "timeframe": "Laufend",
+      "description": "Gemeinschaft, Öffentlichkeitsarbeit, Finanzierung",
+      "status": "Laufend"
+    }
+  },
+  "transparency": "Verknüpfen Sie Elemente mit GitHub Issues/PRs für Transparenz.",
+  "tableHeaders": {
+    "timeframe": "Zeitrahmen",
+    "description": "Was als nächstes kommt",
+    "status": "Status"
+  }
 }

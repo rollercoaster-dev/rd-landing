@@ -1,9 +1,41 @@
 {
-  "title": "How It Works - Rollercoaster.dev",
+  "title": "How It Works - RollerCoaster.dev",
   "meta": {
-    "description": "Learn how rollercoaster.dev helps you track progress, visualize your journey, and contribute to a community-driven ecosystem."
+    "description": "Flexible progress tracking with Open Badges - your journey, your pace."
   },
   "heading": "How It Works",
-  "subtitle": "Learn how rollercoaster.dev helps you track progress, visualize your journey, and contribute to a community-driven ecosystem.",
-  "comingSoon": "More details coming soon."
+  "steps": {
+    "step1": {
+      "number": "1",
+      "title": "Define Your Goal",
+      "description": "Break big aims into small, meaningful steps."
+    },
+    "step2": {
+      "number": "2",
+      "title": "Earn Badges",
+      "description": "Each step can produce an Open Badge—portable, verifiable, yours."
+    },
+    "step3": {
+      "number": "3",
+      "title": "Visualize Progress",
+      "description": "Choose timeline, grid, or tree views to spot patterns."
+    },
+    "step4": {
+      "number": "4",
+      "title": "Pause — and Resume",
+      "description": "Pick up where you left off, pressure-free, with context intact."
+    },
+    "step5": {
+      "number": "5",
+      "title": "Share & Connect",
+      "description": "Export badges, showcase progress, and learn from peers."
+    }
+  },
+  "neuroInclusive": {
+    "title": "Neuro-inclusive by Design",
+    "feature1": "Short chunks + \"Show more\" toggles",
+    "feature2": "Predictable layout & labels",
+    "feature3": "Respects prefers-reduced-motion",
+    "feature4": "High-contrast typography and generous spacing"
+  }
 }

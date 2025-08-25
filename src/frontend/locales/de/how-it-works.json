@@ -1,9 +1,41 @@
 {
-  "title": "Wie es funktioniert - Rollercoaster.dev",
+  "title": "Wie es funktioniert - RollerCoaster.dev",
   "meta": {
-    "description": "Erfahren Sie, wie rollercoaster.dev Ihnen hilft, Fortschritte zu verfolgen, Ihre Reise zu visualisieren und zu einem gemeinschaftsgetriebenen Ökosystem beizutragen."
+    "description": "Flexible Fortschrittsverfolgung mit Open Badges - Ihre Reise, Ihr Tempo."
   },
   "heading": "Wie es funktioniert",
-  "subtitle": "Erfahren Sie, wie rollercoaster.dev Ihnen hilft, Fortschritte zu verfolgen, Ihre Reise zu visualisieren und zu einem gemeinschaftsgetriebenen Ökosystem beizutragen.",
-  "comingSoon": "Weitere Details folgen bald."
+  "steps": {
+    "step1": {
+      "number": "1",
+      "title": "Definieren Sie Ihr Ziel",
+      "description": "Zerlegen Sie große Ziele in kleine, bedeutungsvolle Schritte."
+    },
+    "step2": {
+      "number": "2",
+      "title": "Badges verdienen",
+      "description": "Jeder Schritt kann ein Open Badge erzeugen – portabel, verifizierbar, Ihres."
+    },
+    "step3": {
+      "number": "3",
+      "title": "Fortschritt visualisieren",
+      "description": "Wählen Sie Zeitleisten-, Raster- oder Baumansichten, um Muster zu erkennen."
+    },
+    "step4": {
+      "number": "4",
+      "title": "Pausieren — und fortsetzen",
+      "description": "Machen Sie dort weiter, wo Sie aufgehört haben, druckfrei, mit intaktem Kontext."
+    },
+    "step5": {
+      "number": "5",
+      "title": "Teilen & vernetzen",
+      "description": "Exportieren Sie Badges, zeigen Sie Fortschritte und lernen Sie von Gleichgesinnten."
+    }
+  },
+  "neuroInclusive": {
+    "title": "Neuro-inklusiv durch Design",
+    "feature1": "Kurze Abschnitte + \"Mehr anzeigen\" Umschalter",
+    "feature2": "Vorhersagbares Layout & Beschriftungen",
+    "feature3": "Respektiert prefers-reduced-motion",
+    "feature4": "Kontrastreiche Typografie und großzügige Abstände"
+  }
 }
