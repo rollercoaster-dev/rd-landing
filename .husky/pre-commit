@@ -2,7 +2,10 @@
 
 # Run lint-staged
 npx lint-staged
-npm run format
-npm run lint
-npm run type-check
-npm run test
+pnpm run format
+pnpm run lint
+pnpm run type-check
+pnpm run type-check:vue
+pnpm run i18n:audit
+# Run a targeted test suite that only includes our repo tests (not node_modules)
+pnpm run test:repo

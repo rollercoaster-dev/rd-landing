@@ -116,6 +116,16 @@ describe("useSEO", () => {
     });
   });
 
+  // Minimal shape of the head object captured from useHead for test assertions
+  type MinimalHead = {
+    script?: Array<{ type?: string; innerHTML?: string }>;
+    meta: Array<{ property?: string; content?: string }>;
+    link: Array<{ rel?: string; href?: string }>;
+  };
+  type JsonLdHead = Omit<MinimalHead, "script"> & {
+    script: Array<{ type?: string; innerHTML?: string }>;
+  };
+
   it("should generate JSON-LD Organization schema when requested", () => {
     useSEO({
       title: "Home",
@@ -125,15 +135,20 @@ describe("useSEO", () => {
       },
     });
 
-    const headCall = mockUseHead.mock.calls[0][0];
+    const headCall = mockUseHead.mock.calls[0][0] as JsonLdHead;
 
     // Check that JSON-LD script is included
     expect(headCall.script).toBeDefined();
     expect(headCall.script).toHaveLength(1);
-    expect(headCall.script[0].type).toBe("application/ld+json");
+
+    const script = headCall.script[0];
+    expect(script).toBeDefined();
+    expect(script?.type).toBe("application/ld+json");
 
     // Parse and validate JSON-LD content
-    const organizationData = JSON.parse(headCall.script[0].innerHTML);
+    const innerHTML = script?.innerHTML;
+    expect(typeof innerHTML).toBe("string");
+    const organizationData = JSON.parse(innerHTML as string);
     expect(organizationData["@type"]).toBe("Organization");
     expect(organizationData.name).toBe("RollerCoaster.dev");
     expect(organizationData["@context"]).toBe("https://schema.org");
@@ -154,12 +169,13 @@ describe("useSEO", () => {
       og: { template: "page" },
     });
 
-    const headCall = mockUseHead.mock.calls[0][0];
+    const headCall = mockUseHead.mock.calls[0][0] as MinimalHead;
     const ogImage = headCall.meta.find(
       (meta: { property?: string }) => meta.property === "og:image",
     );
 
-    expect(ogImage.content).toMatch(/og\/about-page-1200x630\.png$/);
+    expect(ogImage).toBeDefined();
+    expect(ogImage?.content).toMatch(/og\/about-page-1200x630\.png$/);
   });
 
   it("should handle different route names and canonical URLs", () => {
@@ -172,14 +188,15 @@ describe("useSEO", () => {
       og: { template: "feature" },
     });
 
-    const headCall = mockUseHead.mock.calls[0][0];
+    const headCall = mockUseHead.mock.calls[0][0] as MinimalHead;
     const ogImage = headCall.meta.find(
       (meta: { property?: string }) => meta.property === "og:image",
     );
     const canonicalLink = headCall.link[0];
 
-    expect(ogImage.content).toMatch(/og\/how-it-works-feature-1200x630\.png$/);
-    expect(canonicalLink.href).toMatch(/\/how-it-works$/);
+    expect(ogImage).toBeDefined();
+    expect(ogImage?.content).toMatch(/og\/how-it-works-feature-1200x630\.png$/);
+    expect(canonicalLink?.href).toMatch(/\/how-it-works$/);
   });
 
   it("should return debug information", () => {
