@@ -1,20 +1,12 @@
 <script setup lang="ts">
-import { Sun, Moon, Paintbrush, Menu, X } from "lucide-vue-next";
-import { useTheme } from "@/frontend/composables/useTheme";
-import { ref, onMounted, onBeforeUnmount, computed, nextTick } from "vue";
+import { Menu, X } from "lucide-vue-next";
+import { ref, onMounted, computed, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute, RouterLink } from "vue-router";
 import { navConfig } from "@/frontend/config/navigation";
 
-useI18n();
+const { t } = useI18n();
 const route = useRoute();
-
-// Theme composable
-const { mode, intensity, toggleIntensity } = useTheme();
-
-const toggleMode = () => {
-  mode.value = mode.value === "dark" ? "light" : "dark";
-};
 
 const isMounted = ref(false);
 onMounted(() => {
@@ -24,95 +16,14 @@ onMounted(() => {
 const primaryNav = computed(() => navConfig.primary);
 const ctas = computed(() => navConfig.ctas);
 
-// Mobile menu (accessible dialog) state and helpers
-const isMenuOpen = ref(false);
-const dialogEl = ref<HTMLElement | null>(null);
+// Computed translations for mobile menu
+const mobileMenuToggleText = computed(() =>
+  mobileOpen.value ? t("header.aria.closeMenu") : t("header.aria.openMenu"),
+);
 
-const getTabbables = (root: HTMLElement | null): HTMLElement[] => {
-  if (!root) return [];
-  const nodes = Array.from(
-    root.querySelectorAll(
-      'a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])',
-    ),
-  ) as HTMLElement[];
-  return nodes.filter(
-    (el) =>
-      !el.hasAttribute("disabled") &&
-      el.tabIndex !== -1 &&
-      el.offsetParent !== null,
-  );
-};
+const closeMenuText = computed(() => t("header.aria.closeMenu"));
 
-const focusFirst = () => {
-  const tabbables = getTabbables(dialogEl.value);
-  (tabbables[0] ?? dialogEl.value)?.focus();
-};
-
-const openMenu = async () => {
-  isMenuOpen.value = true;
-  // Prevent background scroll while dialog is open
-  document.documentElement.style.overflow = "hidden";
-  await nextTick();
-  focusFirst();
-};
-
-const closeMenu = () => {
-  isMenuOpen.value = false;
-  // Restore scroll
-  document.documentElement.style.overflow = "";
-  // restore focus to trigger
-  (
-    document.getElementById("mobile-menu-trigger") as HTMLElement | null
-  )?.focus();
-};
-
-const onDialogKeydown = (e: KeyboardEvent) => {
-  if (e.key === "Escape") {
-    e.preventDefault();
-    closeMenu();
-    return;
-  }
-  if (e.key === "Tab") {
-    const tabbables = getTabbables(dialogEl.value);
-    if (tabbables.length === 0) {
-      e.preventDefault();
-      (dialogEl.value as HTMLElement)?.focus();
-      return;
-    }
-    const first = tabbables[0];
-    const last = tabbables[tabbables.length - 1];
-    const active = document.activeElement as HTMLElement | null;
-    if (e.shiftKey) {
-      if (!active || active === first) {
-        e.preventDefault();
-        last.focus();
-      }
-    } else {
-      if (!active || active === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    }
-  }
-};
-
-const onFocusIn = (e: FocusEvent) => {
-  if (!isMenuOpen.value) return;
-  const target = e.target as HTMLElement | null;
-  if (dialogEl.value && target && !dialogEl.value.contains(target)) {
-    // keep focus inside dialog
-    focusFirst();
-  }
-};
-
-onMounted(() => {
-  document.addEventListener("focusin", onFocusIn);
-});
-
-onBeforeUnmount(() => {
-  document.removeEventListener("focusin", onFocusIn);
-});
-
+// For aria-current highlighting
 type RouteTo = { name?: string; path?: string };
 const isActive = (to?: RouteTo) => {
   if (!to) return false;
@@ -120,6 +31,15 @@ const isActive = (to?: RouteTo) => {
   if (to.path) return route.path === to.path;
   return false;
 };
+
+// Mobile Sheet open state, to allow closing on route change
+const mobileOpen = ref(false);
+watch(
+  () => route.fullPath,
+  () => {
+    if (mobileOpen.value) mobileOpen.value = false;
+  },
+);
 </script>
 
 <template>
@@ -128,7 +48,7 @@ const isActive = (to?: RouteTo) => {
     class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
   >
     <RdLayoutSkipLink />
-    <div class="container flex h-16 items-center gap-3">
+    <div class="container relative flex h-16 items-center gap-3 pr-14 md:pr-0">
       <!-- Logo -->
       <RouterLink to="/" class="mr-2 md:mr-6" aria-label="Home">
         <h1 class="text-xl md:text-2xl font-bold">
@@ -153,7 +73,7 @@ const isActive = (to?: RouteTo) => {
       </nav>
 
       <!-- Right utilities and CTAs -->
-      <div class="flex items-center gap-1">
+      <div class="flex items-center gap-1 ml-auto">
         <!-- CTAs (smaller on desktop) -->
         <div class="hidden md:flex items-center gap-1">
           <template v-for="cta in ctas" :key="cta.id">
@@ -181,173 +101,65 @@ const isActive = (to?: RouteTo) => {
             </a>
           </template>
         </div>
+        <RdLayoutHeaderControls v-if="isMounted" class="hidden md:flex" />
+      </div>
+    </div>
 
-        <!-- Language + Theme/Intensity -->
-        <UiTooltipTooltipProvider :delay-duration="200">
-          <div v-if="isMounted" class="flex items-center">
-            <!-- Language Switcher -->
-            <UiLanguageSwitcher />
-            <!-- Mode Toggle -->
-            <UiTooltipTooltip
-              :content="`${mode === 'dark' ? $t('header.theme.switchToLight') : $t('header.theme.switchToDark')} ${$t('header.theme.shortcutMode')}`"
-              side="bottom"
-              :delay-duration="200"
-            >
-              <UiButtonButton
-                variant="ghost"
-                size="icon"
-                class="rounded-full hit-44"
-                :aria-label="
-                  mode === 'dark'
-                    ? $t('header.theme.switchToLight')
-                    : $t('header.theme.switchToDark')
-                "
-                @click="toggleMode"
-              >
-                <Sun v-if="mode === 'dark'" class="h-5 w-5" />
-                <Moon v-else class="h-5 w-5" />
-                <span class="sr-only">
-                  {{
-                    mode === "dark"
-                      ? $t("header.theme.switchToLight")
-                      : $t("header.theme.switchToDark")
-                  }}
-                </span>
-              </UiButtonButton>
-            </UiTooltipTooltip>
-
-            <!-- Intensity Toggle -->
-            <UiTooltipTooltip
-              :content="`${intensity === 'vibrant' ? $t('header.theme.switchToCalm') : $t('header.theme.switchToVibrant')} ${$t('header.theme.shortcutIntensity')}`"
-              side="bottom"
-              :delay-duration="200"
-            >
-              <UiButtonButton
-                variant="ghost"
-                size="icon"
-                class="rounded-full hit-44"
-                :aria-label="
-                  intensity === 'vibrant'
-                    ? $t('header.theme.switchToCalm')
-                    : $t('header.theme.switchToVibrant')
-                "
-                @click="toggleIntensity"
-              >
-                <Paintbrush class="h-5 w-5" />
-                <span class="sr-only">
-                  {{
-                    intensity === "vibrant"
-                      ? $t("header.theme.switchToCalm")
-                      : $t("header.theme.switchToVibrant")
-                  }}
-                </span>
-              </UiButtonButton>
-            </UiTooltipTooltip>
-          </div>
-        </UiTooltipTooltipProvider>
-
-        <!-- Mobile menu (Accessible Dialog) -->
-        <div class="md:hidden">
+    <!-- Mobile menu trigger anchored to the header edge -->
+    <div class="absolute right-2 top-1/2 -translate-y-1/2 md:hidden">
+      <UiSheetSheet v-model:open="mobileOpen">
+        <UiSheetSheetTrigger as-child>
           <UiButtonButton
             id="mobile-menu-trigger"
             variant="ghost"
             size="icon"
-            class="hit-44 rounded-full"
-            :aria-label="
-              isMenuOpen
-                ? $t('header.aria.closeMenu')
-                : $t('header.aria.openMenu')
-            "
+            class="rounded-full h-11 w-11"
+            :aria-label="mobileMenuToggleText"
             aria-haspopup="dialog"
-            :aria-expanded="isMenuOpen ? 'true' : 'false'"
+            :aria-expanded="mobileOpen ? 'true' : 'false'"
             aria-controls="mobile-menu"
-            @click="isMenuOpen ? closeMenu() : openMenu()"
           >
-            <Menu class="h-5 w-5" />
-            <span class="sr-only">
-              {{
-                isMenuOpen
-                  ? $t("header.aria.closeMenu")
-                  : $t("header.aria.openMenu")
-              }}
-            </span>
+            <Menu class="h-5 w-5" aria-hidden="true" />
+            <span class="sr-only">{{ mobileMenuToggleText }}</span>
           </UiButtonButton>
+        </UiSheetSheetTrigger>
 
-          <!-- Overlay (teleported to body to avoid header stacking context issues) -->
-          <teleport to="body">
-            <div
-              v-if="isMenuOpen"
-              class="fixed inset-0 z-[100] bg-black/50"
-              @click.self="closeMenu"
-            >
-              <!-- Dialog Panel -->
-              <div
-                id="mobile-menu"
-                ref="dialogEl"
-                role="dialog"
-                aria-modal="true"
-                :aria-label="$t('header.aria.primaryNav')"
-                class="absolute right-0 top-0 h-full w-80 max-w-[90vw] bg-background shadow-lg border-l flex flex-col"
-                tabindex="-1"
-                @keydown="onDialogKeydown"
+        <UiSheetSheetContent
+          id="mobile-menu"
+          side="right"
+          :aria-labelledby="'mobile-menu-title'"
+          class="w-80 max-w-[90vw]"
+        >
+          <template #overlay>
+            <UiSheetSheetOverlay />
+          </template>
+          <div class="flex items-center justify-between px-3 py-2 border-b">
+            <UiSheetSheetTitle id="mobile-menu-title">{{
+              $t("header.brand")
+            }}</UiSheetSheetTitle>
+            <UiSheetSheetClose as-child>
+              <UiButtonButton
+                variant="ghost"
+                size="icon"
+                class="rounded-full h-9 w-9 ml-2"
               >
-                <div class="flex items-center justify-between p-3 border-b">
-                  <span class="text-sm font-medium">{{
-                    $t("header.brand")
-                  }}</span>
-                  <UiButtonButton
-                    variant="ghost"
-                    size="icon"
-                    class="hit-44"
-                    :aria-label="$t('header.aria.closeMenu')"
-                    @click="closeMenu"
-                  >
-                    <X aria-hidden="true" class="h-5 w-5" />
-                  </UiButtonButton>
-                </div>
+                <X aria-hidden="true" />
+                <span class="sr-only">{{ closeMenuText }}</span>
+              </UiButtonButton>
+            </UiSheetSheetClose>
+          </div>
+          <UiSheetSheetDescription class="sr-only">{{
+            t("header.aria.primaryNav")
+          }}</UiSheetSheetDescription>
 
-                <nav
-                  class="flex-1 overflow-auto p-2"
-                  :aria-label="$t('header.aria.primaryNav')"
-                >
-                  <RouterLink
-                    v-for="item in primaryNav"
-                    :key="'m-' + item.id"
-                    :to="item.to as any"
-                    class="block rounded px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
-                    @click="closeMenu"
-                  >
-                    {{ $t(item.i18nKey) }}
-                  </RouterLink>
-
-                  <div class="border-t my-2" />
-
-                  <template v-for="cta in ctas" :key="'m-cta-' + cta.id">
-                    <RouterLink
-                      v-if="cta.to"
-                      :to="cta.to as any"
-                      class="block rounded px-3 py-2 text-sm bg-primary text-primary-foreground hover:bg-primary/90 mt-1"
-                      @click="closeMenu"
-                    >
-                      {{ $t(cta.i18nKey) }}
-                    </RouterLink>
-                    <a
-                      v-else-if="cta.href"
-                      :href="cta.href"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="block rounded px-3 py-2 text-sm border border-primary text-primary hover:bg-primary/10 mt-1"
-                      @click="closeMenu"
-                    >
-                      {{ $t(cta.i18nKey) }}
-                    </a>
-                  </template>
-                </nav>
-              </div>
-            </div>
-          </teleport>
-        </div>
-      </div>
+          <RdLayoutMobileMenuContent
+            :items="primaryNav"
+            :ctas="ctas"
+            labelledby-id="mobile-menu-title"
+            @close="mobileOpen = false"
+          />
+        </UiSheetSheetContent>
+      </UiSheetSheet>
     </div>
   </header>
 </template>

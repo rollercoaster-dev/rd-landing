@@ -20,6 +20,9 @@
     "english": "English",
     "german": "Deutsch"
   },
+  "settings": {
+    "title": "Einstellungen"
+  },
   "aria": {
     "skipToContent": "Zum Inhalt springen",
     "openMenu": "Menü öffnen",
@@ -27,15 +30,5 @@
     "primaryNav": "Hauptnavigation",
     "waitlist": "Warteliste beitreten",
     "contribute": "Auf GitHub beitragen"
-  },
-  "header": {
-    "aria": {
-      "skipToContent": "Zum Inhalt springen",
-      "openMenu": "Menü öffnen",
-      "closeMenu": "Menü schließen",
-      "primaryNav": "Hauptnavigation",
-      "waitlist": "Warteliste beitreten",
-      "contribute": "Auf GitHub beitragen"
-    }
   }
 }
