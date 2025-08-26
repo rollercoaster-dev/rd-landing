@@ -12,6 +12,10 @@ import Sitemap from "vite-plugin-sitemap";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  define: {
+    // Inject build date at build time
+    "import.meta.env.VITE_BUILD_DATE": JSON.stringify(new Date().toISOString()),
+  },
   plugins: [
     // Vue Router needs to be installed before Vue
     VueRouter({

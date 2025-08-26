@@ -28,17 +28,19 @@ useSEO({
 
 const buildDate = computed(() => getFormattedBuildDate(locale.value));
 
-// Status to Badge variant mapping using item key
-const getStatusVariant = (itemKey: string): BadgeVariants["variant"] => {
+// Status to Badge variant mapping using status value
+const getStatusVariant = (status: string): BadgeVariants["variant"] => {
+  // Map semantic status values to badge variants
   const statusMap: Record<string, BadgeVariants["variant"]> = {
-    item0: "default", // In progress (Working prototypes)
-    item1: "default", // In progress
-    item2: "secondary", // Exploration
-    item3: "outline", // On hold
-    item4: "secondary", // Backlog
-    item5: "default", // Ongoing
+    "In progress": "default",
+    Exploration: "secondary",
+    "On hold": "outline",
+    Backlog: "secondary",
+    Ongoing: "default",
+    "Working prototypes": "default",
   };
-  return statusMap[itemKey] || "secondary";
+  // Fallback to "secondary" if not found
+  return statusMap[status] || "secondary";
 };
 
 // Create computed roadmap items array with keys for i18n Ally
@@ -100,7 +102,7 @@ const getStatusTooltip = (itemKey: string): string => {
                 </TableCell>
                 <TableCell>
                   <Tooltip :content="getStatusTooltip(item.key)" side="top">
-                    <Badge :variant="getStatusVariant(item.key)">
+                    <Badge :variant="getStatusVariant(item.status)">
                       {{ item.status }}
                     </Badge>
                   </Tooltip>

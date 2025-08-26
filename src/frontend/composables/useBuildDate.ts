@@ -4,21 +4,28 @@
  */
 
 /**
- * Get the current date in YYYY-MM-DD format
- * This will be the build date when the site is generated
+ * Get the build date in YYYY-MM-DD format
+ * Uses build-time injected date, fallback to current date if not set
  */
 export function useBuildDate() {
+  // Use build-time injected date, fallback to current date if not set
+  const BUILD_DATE_STRING =
+    typeof import.meta !== "undefined" &&
+    import.meta.env &&
+    import.meta.env.VITE_BUILD_DATE
+      ? import.meta.env.VITE_BUILD_DATE
+      : new Date().toISOString();
+
+  const buildDate = new Date(BUILD_DATE_STRING);
+
   const getBuildDate = (): string => {
-    const now = new Date();
-    return now.toISOString().split("T")[0]; // YYYY-MM-DD format
+    return buildDate.toISOString().split("T")[0]; // YYYY-MM-DD format
   };
 
   const getFormattedBuildDate = (locale: string = "en"): string => {
-    const now = new Date();
-
     // Format based on locale
     if (locale === "de") {
-      return now.toLocaleDateString("de-DE", {
+      return buildDate.toLocaleDateString("de-DE", {
         year: "numeric",
         month: "2-digit",
         day: "2-digit",
