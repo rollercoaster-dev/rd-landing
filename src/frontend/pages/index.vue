@@ -55,6 +55,7 @@ onMounted(async () => {
           :subtitle="$t('home.whatWeBuild.subtitle')"
         >
           <template #description>
+            <!-- v-html is safe here: static translation content with trusted links -->
             <span v-html="$t('home.whatWeBuild.description')"></span>
           </template>
         </RdBaseSectionHeader>

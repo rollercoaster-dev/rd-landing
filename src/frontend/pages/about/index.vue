@@ -83,6 +83,7 @@ useSEO({
         </h2>
         <ul class="space-y-2 list-disc pl-5 text-muted-foreground">
           <li>{{ $t("about.benefits.item1") }}</li>
+          <!-- v-html is safe here: static translation content with trusted links -->
           <li v-html="$t('about.benefits.item2')"></li>
           <li>{{ $t("about.benefits.item3") }}</li>
           <li>{{ $t("about.benefits.item4") }}</li>

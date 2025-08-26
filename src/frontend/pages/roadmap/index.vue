@@ -50,6 +50,19 @@ const roadmapItems = computed(() => {
     status: t(`roadmap.timeline.${key}.status`),
   }));
 });
+
+// Helper function for tooltip content
+const getStatusTooltip = (itemKey: string): string => {
+  const tooltipMap: Record<string, string> = {
+    item0: t("roadmap.statusTooltips.inProgressPrototypes"),
+    item1: t("roadmap.statusTooltips.inProgress"),
+    item2: t("roadmap.statusTooltips.exploration"),
+    item3: t("roadmap.statusTooltips.onHold"),
+    item4: t("roadmap.statusTooltips.backlog"),
+    item5: t("roadmap.statusTooltips.ongoing"),
+  };
+  return tooltipMap[itemKey] || t("roadmap.statusTooltips.default");
+};
 </script>
 
 <template>
@@ -86,24 +99,7 @@ const roadmapItems = computed(() => {
                   {{ item.description }}
                 </TableCell>
                 <TableCell>
-                  <Tooltip
-                    :content="
-                      item.key === 'item0'
-                        ? $t('roadmap.statusTooltips.inProgressPrototypes')
-                        : item.key === 'item1'
-                          ? $t('roadmap.statusTooltips.inProgress')
-                          : item.key === 'item2'
-                            ? $t('roadmap.statusTooltips.exploration')
-                            : item.key === 'item3'
-                              ? $t('roadmap.statusTooltips.onHold')
-                              : item.key === 'item4'
-                                ? $t('roadmap.statusTooltips.backlog')
-                                : item.key === 'item5'
-                                  ? $t('roadmap.statusTooltips.ongoing')
-                                  : $t('roadmap.statusTooltips.default')
-                    "
-                    side="top"
-                  >
+                  <Tooltip :content="getStatusTooltip(item.key)" side="top">
                     <Badge :variant="getStatusVariant(item.key)">
                       {{ item.status }}
                     </Badge>

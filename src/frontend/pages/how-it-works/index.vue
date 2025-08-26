@@ -26,9 +26,9 @@ useSEO({
               {{ $t("how-it-works.steps.step1.number") }}
             </div>
             <div class="space-y-2">
-              <h2 class="text-xl font-bold text-foreground">
+              <h3 class="text-xl font-bold text-foreground">
                 {{ $t("how-it-works.steps.step1.title") }}
-              </h2>
+              </h3>
               <p class="text-base text-muted-foreground">
                 {{ $t("how-it-works.steps.step1.description") }}
               </p>
@@ -41,9 +41,10 @@ useSEO({
               {{ $t("how-it-works.steps.step2.number") }}
             </div>
             <div class="space-y-2">
-              <h2 class="text-xl font-bold text-foreground">
+              <h3 class="text-xl font-bold text-foreground">
                 {{ $t("how-it-works.steps.step2.title") }}
-              </h2>
+              </h3>
+              <!-- v-html is safe here: static translation content with trusted links -->
               <p
                 class="text-base text-muted-foreground"
                 v-html="$t('how-it-works.steps.step2.description')"
@@ -57,9 +58,9 @@ useSEO({
               {{ $t("how-it-works.steps.step3.number") }}
             </div>
             <div class="space-y-2">
-              <h2 class="text-xl font-bold text-foreground">
+              <h3 class="text-xl font-bold text-foreground">
                 {{ $t("how-it-works.steps.step3.title") }}
-              </h2>
+              </h3>
               <p class="text-base text-muted-foreground">
                 {{ $t("how-it-works.steps.step3.description") }}
               </p>
@@ -72,9 +73,9 @@ useSEO({
               {{ $t("how-it-works.steps.step4.number") }}
             </div>
             <div class="space-y-2">
-              <h2 class="text-xl font-bold text-foreground">
+              <h3 class="text-xl font-bold text-foreground">
                 {{ $t("how-it-works.steps.step4.title") }}
-              </h2>
+              </h3>
               <p class="text-base text-muted-foreground">
                 {{ $t("how-it-works.steps.step4.description") }}
               </p>
@@ -87,9 +88,9 @@ useSEO({
               {{ $t("how-it-works.steps.step5.number") }}
             </div>
             <div class="space-y-2">
-              <h2 class="text-xl font-bold text-foreground">
+              <h3 class="text-xl font-bold text-foreground">
                 {{ $t("how-it-works.steps.step5.title") }}
-              </h2>
+              </h3>
               <p class="text-base text-muted-foreground">
                 {{ $t("how-it-works.steps.step5.description") }}
               </p>

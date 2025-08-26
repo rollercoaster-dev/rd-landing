@@ -77,16 +77,20 @@ describe("i18n Integration Tests", () => {
     it("should translate common buttons correctly", () => {
       // Test English
       i18n.global.locale.value = "en";
-      expect(i18n.global.t("common.buttons.learnMore")).toBe("Learn More");
+      expect(i18n.global.t("common.buttons.learnMore")).toBe(
+        "Explore features",
+      );
       expect(i18n.global.t("common.buttons.viewOnGitHub")).toBe(
-        "View on GitHub",
+        "Contribute on GitHub",
       );
 
       // Test German
       i18n.global.locale.value = "de";
-      expect(i18n.global.t("common.buttons.learnMore")).toBe("Mehr erfahren");
+      expect(i18n.global.t("common.buttons.learnMore")).toBe(
+        "Features erkunden",
+      );
       expect(i18n.global.t("common.buttons.viewOnGitHub")).toBe(
-        "Auf GitHub ansehen",
+        "Auf GitHub beitragen",
       );
     });
 
@@ -151,12 +155,12 @@ describe("i18n Integration Tests", () => {
       // Start with English
       i18n.global.locale.value = "en";
       await wrapper.vm.$nextTick();
-      expect(wrapper.text()).toBe("Learn More");
+      expect(wrapper.text()).toBe("Explore features");
 
       // Switch to German
       i18n.global.locale.value = "de";
       await wrapper.vm.$nextTick();
-      expect(wrapper.text()).toBe("Mehr erfahren");
+      expect(wrapper.text()).toBe("Features erkunden");
     });
   });
 
