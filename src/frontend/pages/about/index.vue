@@ -88,18 +88,6 @@ useSEO({
           <li>{{ $t("about.benefits.item4") }}</li>
         </ul>
       </section>
-
-      <!-- Call to Action -->
-      <section class="space-y-4 pt-4">
-        <div class="flex flex-wrap gap-4">
-          <UiButtonButton size="lg" class="font-medium">
-            {{ $t("about.cta.joinWaitlist") }}
-          </UiButtonButton>
-          <UiButtonButton variant="outline" size="lg" class="font-medium">
-            {{ $t("about.cta.contribute") }}
-          </UiButtonButton>
-        </div>
-      </section>
     </div>
   </RdLayoutBaseLayout>
 </template>
