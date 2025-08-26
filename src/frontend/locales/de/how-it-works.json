@@ -1,34 +1,34 @@
 {
   "title": "Wie es funktioniert - RollerCoaster.dev",
   "meta": {
-    "description": "Flexible Fortschrittsverfolgung mit Open Badges - Ihre Reise, Ihr Tempo."
+    "description": "Flexible Fortschrittsverfolgung mit Open Badges - deine Reise, dein Tempo."
   },
   "heading": "Wie es funktioniert",
   "steps": {
     "step1": {
       "number": "1",
-      "title": "Definieren Sie Ihr Ziel",
-      "description": "Zerlegen Sie große Ziele in kleine, bedeutungsvolle Schritte."
+      "title": "Definiere dein Ziel",
+      "description": "Zerlege große Ziele in kleine, bedeutungsvolle Schritte."
     },
     "step2": {
       "number": "2",
       "title": "Badges verdienen",
-      "description": "Jeder Schritt kann ein Open Badge erzeugen – portabel, verifizierbar, Ihres."
+      "description": "Jeder Schritt kann ein Open Badge erzeugen – digitale Nachweise deiner Erfolge. Sie sind portabel, verifizierbar und für immer deins."
     },
     "step3": {
       "number": "3",
       "title": "Fortschritt visualisieren",
-      "description": "Wählen Sie Zeitleisten-, Raster- oder Baumansichten, um Muster zu erkennen."
+      "description": "Wähle Zeitleisten-, Raster- oder Baumansichten, um Muster zu erkennen."
     },
     "step4": {
       "number": "4",
       "title": "Pausieren — und fortsetzen",
-      "description": "Machen Sie dort weiter, wo Sie aufgehört haben, druckfrei, mit intaktem Kontext. Das Leben passiert—wir verstehen das."
+      "description": "Mache dort weiter, wo du aufgehört hast, druckfrei, mit intaktem Kontext. Das Leben passiert—wir verstehen das."
     },
     "step5": {
       "number": "5",
       "title": "Teilen & vernetzen",
-      "description": "Exportieren Sie Badges, zeigen Sie Fortschritte und lernen Sie von Gleichgesinnten."
+      "description": "Exportiere Badges, zeige Fortschritte und lerne von Gleichgesinnten."
     }
   },
   "neuroInclusive": {
