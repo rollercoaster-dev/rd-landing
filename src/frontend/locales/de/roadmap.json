@@ -1,41 +1,55 @@
 {
   "title": "Fahrplan - RollerCoaster.dev",
   "meta": {
-    "description": "Unsere Vision für neurodivergent-zentrierte Tools und was für 2025 geplant ist."
+    "description": "Ein realistischer Stand: wo wir stehen und was als Nächstes kommt (2025–2026)."
   },
   "heading": "Fahrplan",
   "lastUpdated": "Zuletzt aktualisiert:",
   "timeline": {
+    "item0": {
+      "timeframe": "2024–2025",
+      "description": "Prototypen funktionsfähig, aber noch in Arbeit: modular-server, UI und system. Über die GitHub-Issue-Karten auf der Landingpage nachverfolgt. Ziel: System-Prototyp bis Ende 2025 veröffentlichen.",
+      "status": "In Bearbeitung (funktionierende Prototypen)"
+    },
     "item1": {
-      "timeframe": "Jetzt – Q3 2025",
-      "description": "Öffentliche Warteliste; Mitwirkenden-Dokumentation",
+      "timeframe": "Jetzt – Q4 2025",
+      "description": "Modular-Server & UI stabilisieren; MVP-Scope definieren; erste Contributor-Dokumentation veröffentlichen; \"help wanted\"-Issues öffnen.",
       "status": "In Bearbeitung"
     },
     "item2": {
-      "timeframe": "Q4 2025",
-      "description": "Selbst ausgestellte Badge-Wallet; VC-Export (Open Badges 3.0)",
-      "status": "Geplant"
+      "timeframe": "Q1–Q2 2026 (vorläufig)",
+      "description": "MVP: selbst ausgestellte Badge-Wallet auf Basis des modular-Servers; begrenzter VC-Export (Open Badges 3.x).",
+      "status": "Exploration"
     },
     "item3": {
-      "timeframe": "Q1 2026",
-      "description": "Peer/Mentor-Verifizierungs-Pilot; Feedback-Schleifen",
-      "status": "Geplant"
+      "timeframe": "Nicht terminiert",
+      "description": "Peer-/Mentor-Verifizierungspilot und Feedback-Schleifen (abhängig von Partnern & Finanzierung).",
+      "status": "Pausiert"
     },
     "item4": {
-      "timeframe": "TBD",
-      "description": "Erweiterte Visualisierungen; Mobile Layout-Verbesserungen",
-      "status": "Anstehend"
+      "timeframe": "Zukunft",
+      "description": "Erweiterte Visualisierungen und Mobile-Layout-Feinschliff.",
+      "status": "Backlog"
     },
     "item5": {
       "timeframe": "Laufend",
-      "description": "Gemeinschaft, Öffentlichkeitsarbeit, Finanzierung",
+      "description": "Community-Aufbau, Outreach, Partnerschaften und Fundraising.",
       "status": "Laufend"
     }
   },
-  "transparency": "Verknüpfen Sie Elemente mit GitHub Issues/PRs für Transparenz.",
+  "transparency": "Wir halten das realistisch: Punkte können sich verschieben. Links zu GitHub-Issues/PRs, sobald vorhanden.",
   "tableHeaders": {
     "timeframe": "Zeitrahmen",
-    "description": "Was als nächstes kommt",
+    "description": "Was als Nächstes kommt",
     "status": "Status"
+  },
+  "statusTooltips": {
+    "inProgressPrototypes": "Aktive Entwicklung mit funktionsfähigen Prototypen. Aktuelle Updates auf GitHub verfügbar.",
+    "inProgress": "Wird derzeit bearbeitet. Erwarteter Abschluss bis Q4 2025.",
+    "exploration": "Forschungs- und Planungsphase. Anforderungen und Machbarkeit werden evaluiert.",
+    "onHold": "Pausiert aufgrund externer Faktoren wie Partnerschaften oder Finanzierung.",
+    "backlog": "Für zukünftige Entwicklung geplant. Priorität kann sich je nach Community-Bedürfnissen ändern.",
+    "ongoing": "Kontinuierliche Aktivität ohne spezifisches Enddatum.",
+    "default": "Statusinformationen nicht verfügbar."
   }
 }

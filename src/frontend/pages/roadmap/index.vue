@@ -2,6 +2,18 @@
 import { useI18n } from "vue-i18n";
 import { useSEO } from "../../composables/useSEO";
 import { useBuildDate } from "../../composables/useBuildDate";
+import { Badge } from "@/frontend/components/ui/badge";
+import type { BadgeVariants } from "@/frontend/components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/frontend/components/ui/table";
+import { Tooltip, TooltipProvider } from "@/frontend/components/ui/tooltip";
+import { Alert, AlertDescription } from "@/frontend/components/ui/alert";
 
 const { t, locale } = useI18n();
 const { getFormattedBuildDate } = useBuildDate();
@@ -15,6 +27,29 @@ useSEO({
 });
 
 const buildDate = computed(() => getFormattedBuildDate(locale.value));
+
+// Status to Badge variant mapping using item key
+const getStatusVariant = (itemKey: string): BadgeVariants["variant"] => {
+  const statusMap: Record<string, BadgeVariants["variant"]> = {
+    item0: "default", // In progress (Working prototypes)
+    item1: "default", // In progress
+    item2: "secondary", // Exploration
+    item3: "outline", // On hold
+    item4: "secondary", // Backlog
+    item5: "default", // Ongoing
+  };
+  return statusMap[itemKey] || "secondary";
+};
+
+// Create computed roadmap items array with keys for i18n Ally
+const roadmapItems = computed(() => {
+  return ["item0", "item1", "item2", "item3", "item4", "item5"].map((key) => ({
+    key,
+    timeframe: t(`roadmap.timeline.${key}.timeframe`),
+    description: t(`roadmap.timeline.${key}.description`),
+    status: t(`roadmap.timeline.${key}.status`),
+  }));
+});
 </script>
 
 <template>
@@ -27,106 +62,65 @@ const buildDate = computed(() => getFormattedBuildDate(locale.value));
 
       <!-- Roadmap Table -->
       <section class="space-y-4">
-        <div class="overflow-x-auto">
-          <table class="w-full border-collapse">
-            <thead>
-              <tr class="border-b border-border">
-                <th class="text-left py-3 px-4 font-semibold text-foreground">
+        <TooltipProvider>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead class="font-semibold text-foreground">
                   {{ $t("roadmap.tableHeaders.timeframe") }}
-                </th>
-                <th class="text-left py-3 px-4 font-semibold text-foreground">
+                </TableHead>
+                <TableHead class="font-semibold text-foreground">
                   {{ $t("roadmap.tableHeaders.description") }}
-                </th>
-                <th class="text-left py-3 px-4 font-semibold text-foreground">
+                </TableHead>
+                <TableHead class="font-semibold text-foreground">
                   {{ $t("roadmap.tableHeaders.status") }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b border-border/50">
-                <td class="py-3 px-4 font-medium text-foreground">
-                  {{ $t("roadmap.timeline.item1.timeframe") }}
-                </td>
-                <td class="py-3 px-4 text-muted-foreground">
-                  {{ $t("roadmap.timeline.item1.description") }}
-                </td>
-                <td class="py-3 px-4">
-                  <span
-                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow v-for="(item, index) in roadmapItems" :key="index">
+                <TableCell class="font-medium text-foreground">
+                  {{ item.timeframe }}
+                </TableCell>
+                <TableCell class="text-muted-foreground">
+                  {{ item.description }}
+                </TableCell>
+                <TableCell>
+                  <Tooltip
+                    :content="
+                      item.key === 'item0'
+                        ? $t('roadmap.statusTooltips.inProgressPrototypes')
+                        : item.key === 'item1'
+                          ? $t('roadmap.statusTooltips.inProgress')
+                          : item.key === 'item2'
+                            ? $t('roadmap.statusTooltips.exploration')
+                            : item.key === 'item3'
+                              ? $t('roadmap.statusTooltips.onHold')
+                              : item.key === 'item4'
+                                ? $t('roadmap.statusTooltips.backlog')
+                                : item.key === 'item5'
+                                  ? $t('roadmap.statusTooltips.ongoing')
+                                  : $t('roadmap.statusTooltips.default')
+                    "
+                    side="top"
                   >
-                    {{ $t("roadmap.timeline.item1.status") }}
-                  </span>
-                </td>
-              </tr>
-              <tr class="border-b border-border/50">
-                <td class="py-3 px-4 font-medium text-foreground">
-                  {{ $t("roadmap.timeline.item2.timeframe") }}
-                </td>
-                <td class="py-3 px-4 text-muted-foreground">
-                  {{ $t("roadmap.timeline.item2.description") }}
-                </td>
-                <td class="py-3 px-4">
-                  <span
-                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200"
-                  >
-                    {{ $t("roadmap.timeline.item2.status") }}
-                  </span>
-                </td>
-              </tr>
-              <tr class="border-b border-border/50">
-                <td class="py-3 px-4 font-medium text-foreground">
-                  {{ $t("roadmap.timeline.item3.timeframe") }}
-                </td>
-                <td class="py-3 px-4 text-muted-foreground">
-                  {{ $t("roadmap.timeline.item3.description") }}
-                </td>
-                <td class="py-3 px-4">
-                  <span
-                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200"
-                  >
-                    {{ $t("roadmap.timeline.item3.status") }}
-                  </span>
-                </td>
-              </tr>
-              <tr class="border-b border-border/50">
-                <td class="py-3 px-4 font-medium text-foreground">
-                  {{ $t("roadmap.timeline.item4.timeframe") }}
-                </td>
-                <td class="py-3 px-4 text-muted-foreground">
-                  {{ $t("roadmap.timeline.item4.description") }}
-                </td>
-                <td class="py-3 px-4">
-                  <span
-                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-                  >
-                    {{ $t("roadmap.timeline.item4.status") }}
-                  </span>
-                </td>
-              </tr>
-              <tr class="border-b border-border/50">
-                <td class="py-3 px-4 font-medium text-foreground">
-                  {{ $t("roadmap.timeline.item5.timeframe") }}
-                </td>
-                <td class="py-3 px-4 text-muted-foreground">
-                  {{ $t("roadmap.timeline.item5.description") }}
-                </td>
-                <td class="py-3 px-4">
-                  <span
-                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                  >
-                    {{ $t("roadmap.timeline.item5.status") }}
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+                    <Badge :variant="getStatusVariant(item.key)">
+                      {{ item.status }}
+                    </Badge>
+                  </Tooltip>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TooltipProvider>
       </section>
 
       <!-- Transparency Note -->
-      <section class="text-sm text-muted-foreground italic">
-        {{ $t("roadmap.transparency") }}
-      </section>
+      <Alert>
+        <AlertDescription>
+          {{ $t("roadmap.transparency") }}
+        </AlertDescription>
+      </Alert>
     </div>
   </RdLayoutBaseLayout>
 </template>
