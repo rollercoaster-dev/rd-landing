@@ -4,5 +4,220 @@
     "description": "Informationen zum Datenschutz und zur Datenschutz-Compliance für Rollercoaster.dev."
   },
   "heading": "Datenschutzerklärung",
-  "subtitle": "Informationen zum Datenschutz und zur Datenschutz-Compliance."
+  "subtitle": "Informationen zum Datenschutz und zur Datenschutz-Compliance.",
+  "intro": {
+    "text": "Wir respektieren deine Privatsphäre und verpflichten uns, deine personenbezogenen Daten zu schützen. Diese Datenschutzerklärung erklärt, wie wir deine Informationen sammeln, verwenden und schützen, wenn du unsere Website und Dienste nutzt.",
+    "commitment": "Wir glauben an Datenminimierung — wir sammeln nur, was wir brauchen, und verwenden es transparent."
+  },
+  "controller": {
+    "title": "Verantwortlicher",
+    "text": "Der für deine personenbezogenen Daten verantwortliche Datenverantwortliche ist:",
+    "name": "Rollercoaster.dev",
+    "address": "[Adresse wie im Impressum angegeben]",
+    "email": "dev{'@'}rollercoaster.dev"
+  },
+  "dataCollection": {
+    "title": "Welche Daten wir sammeln",
+    "intro": "Wir praktizieren Datenminimierung und sammeln derzeit minimale Informationen:",
+    "categories": {
+      "websiteUsage": {
+        "title": "Website-Nutzungsdaten",
+        "items": [
+          "Grundlegende Server-Logs (IP-Adressen, Browser-Info, besuchte Seiten)",
+          "GitHub-API-Anfragen zur Anzeige des Projektstatus"
+        ],
+        "purpose": "Wir verwenden minimale Server-Logs für grundlegende Funktionalität und Sicherheit. Wir machen GitHub-API-Aufrufe, um unsere Projektstatus-Karten auf der Homepage anzuzeigen."
+      },
+      "communication": {
+        "title": "Kommunikationsdaten",
+        "items": [
+          "E-Mail-Adresse (wenn du uns kontaktierst)",
+          "Nachrichteninhalt",
+          "Antwort-Verlauf"
+        ],
+        "purpose": "Wir verwenden diese Informationen ausschließlich, um auf deine Anfragen zu antworten und Support zu bieten."
+      }
+    }
+  },
+  "legalBasis": {
+    "title": "Rechtsgrundlage für die Verarbeitung",
+    "intro": "Wir verarbeiten deine personenbezogenen Daten auf Grundlage folgender Rechtsgrundlagen nach DSGVO:",
+    "grounds": [
+      {
+        "basis": "Berechtigtes Interesse (Art. 6 Abs. 1 lit. f DSGVO)",
+        "description": "Für Website-Analysen und Sicherheit, wo unser berechtigtes Interesse am Betrieb und der Verbesserung unseres Dienstes mögliche Auswirkungen auf deine Privatsphäre überwiegt."
+      },
+      {
+        "basis": "Einwilligung (Art. 6 Abs. 1 lit. a DSGVO)",
+        "description": "Wenn du freiwillig Informationen bereitstellst, indem du uns kontaktierst oder ein Konto erstellst."
+      },
+      {
+        "basis": "Vertragserfüllung (Art. 6 Abs. 1 lit. b DSGVO)",
+        "description": "Wenn die Verarbeitung notwendig ist, um dir unsere Dienste zu erbringen."
+      }
+    ]
+  },
+  "dataUse": {
+    "title": "Wie wir deine Daten verwenden",
+    "intro": "Wir verwenden deine personenbezogenen Daten nur für folgende Zwecke:",
+    "purposes": [
+      "Bereitstellung und Wartung unserer Website",
+      "Anzeige von GitHub-Projektstatus-Informationen",
+      "Beantwortung deiner Anfragen und Support-Bereitstellung",
+      "Gewährleistung der Website-Sicherheit und Missbrauchsverhinderung",
+      "Erfüllung rechtlicher Verpflichtungen"
+    ],
+    "noSelling": "Wir verkaufen, vermieten oder teilen deine personenbezogenen Daten niemals mit Dritten für Marketingzwecke."
+  },
+  "thirdParty": {
+    "title": "Drittanbieter-Dienste",
+    "intro": "Wir nutzen folgende Drittanbieter-Dienste:",
+    "services": {
+      "github": {
+        "name": "GitHub API (Microsoft Corporation)",
+        "purpose": "Abrufen öffentlicher Repository-Informationen für die Projektstatus-Anzeige",
+        "dataShared": "Keine personenbezogenen Daten geteilt - wir greifen nur auf öffentliche Repository-Informationen zu",
+        "privacy": "https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement",
+        "location": "Vereinigte Staaten (angemessener Schutz unter EU-US Data Privacy Framework)"
+      },
+      "hosting": {
+        "name": "Web-Hosting-Anbieter",
+        "purpose": "Website-Hosting und Content-Delivery",
+        "dataShared": "Website-Nutzungsdaten, IP-Adressen",
+        "note": "Unser Hosting-Anbieter verarbeitet Daten nur als Auftragsverarbeiter nach unseren Weisungen."
+      }
+    }
+  },
+  "cookies": {
+    "title": "Cookies und lokale Speicherung",
+    "intro": "Wir verwenden minimale clientseitige Speicherung, um deine Erfahrung zu verbessern:",
+    "localStorage": {
+      "title": "Lokale Speicherung (Browser-Speicher)",
+      "description": "Wir speichern folgende Einstellungen im lokalen Speicher deines Browsers:",
+      "items": [
+        {
+          "name": "theme-intensity",
+          "purpose": "Merkt sich deine Theme-Präferenz (lebhaft oder ruhig)",
+          "duration": "Bis du Browser-Daten löschst",
+          "type": "Einstellungsparameter"
+        },
+        {
+          "name": "preferred-language",
+          "purpose": "Merkt sich deine Sprachwahl (Deutsch oder Englisch)",
+          "duration": "Bis du Browser-Daten löschst",
+          "type": "Einstellungsparameter"
+        }
+      ],
+      "note": "Diese Daten bleiben auf deinem Gerät und werden nicht an unsere Server übertragen."
+    },
+    "cookies": {
+      "title": "Cookies",
+      "description": "Wir verwenden derzeit keine Cookies. Wenn wir in Zukunft Benutzerkonten implementieren, werden wir verwenden:",
+      "items": [
+        {
+          "name": "rd_auth_token (zukünftig)",
+          "purpose": "Wird deine Anmeldesitzung aufrechterhalten, wenn Authentifizierung implementiert wird",
+          "duration": "1 Stunde (konfigurierbar)",
+          "type": "HttpOnly, Secure"
+        }
+      ]
+    },
+    "noTracking": {
+      "title": "Was wir nicht verwenden",
+      "items": [
+        "Keine Marketing- oder Werbe-Cookies",
+        "Kein seitenübergreifendes Tracking",
+        "Keine Analyse-Cookies, die Personen identifizieren",
+        "Keine Social-Media-Tracking-Pixel"
+      ]
+    }
+  },
+  "dataRetention": {
+    "title": "Datenspeicherung",
+    "intro": "Wir bewahren deine personenbezogenen Daten nur so lange auf, wie es notwendig ist:",
+    "periods": [
+      {
+        "category": "Kommunikationsaufzeichnungen",
+        "duration": "3 Jahre für Support-Zwecke"
+      },
+      {
+        "category": "Website-Logs",
+        "duration": "30 Tage (automatisch gelöscht)"
+      }
+    ],
+    "deletion": "Wenn Daten nicht mehr benötigt werden, werden sie sicher aus unseren Systemen gelöscht."
+  },
+  "yourRights": {
+    "title": "Deine Rechte nach DSGVO",
+    "intro": "Du hast folgende Rechte bezüglich deiner personenbezogenen Daten:",
+    "rights": [
+      {
+        "right": "Recht auf Auskunft (Art. 15 DSGVO)",
+        "description": "Eine Kopie der personenbezogenen Daten anfordern, die wir über dich gespeichert haben"
+      },
+      {
+        "right": "Recht auf Berichtigung (Art. 16 DSGVO)",
+        "description": "Korrektur unrichtiger oder unvollständiger Daten anfordern"
+      },
+      {
+        "right": "Recht auf Löschung (Art. 17 DSGVO)",
+        "description": "Löschung deiner personenbezogenen Daten anfordern ('Recht auf Vergessenwerden')"
+      },
+      {
+        "right": "Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO)",
+        "description": "Einschränkung der Verarbeitung deiner Daten anfordern"
+      },
+      {
+        "right": "Recht auf Datenübertragbarkeit (Art. 20 DSGVO)",
+        "description": "Deine Daten in einem übertragbaren Format anfordern"
+      },
+      {
+        "right": "Widerspruchsrecht (Art. 21 DSGVO)",
+        "description": "Der Verarbeitung auf Grundlage berechtigter Interessen widersprechen"
+      },
+      {
+        "right": "Recht auf Widerruf der Einwilligung",
+        "description": "Einwilligung jederzeit widerrufen, wenn die Verarbeitung auf Einwilligung basiert"
+      }
+    ],
+    "exercise": "Um diese Rechte auszuüben, kontaktiere uns unter dev{'@'}rollercoaster.dev. Wir antworten innerhalb von 30 Tagen.",
+    "complaint": "Du hast auch das Recht, eine Beschwerde bei deiner örtlichen Datenschutzbehörde einzureichen."
+  },
+  "security": {
+    "title": "Datensicherheit",
+    "intro": "Wir setzen angemessene technische und organisatorische Maßnahmen zum Schutz deiner Daten um:",
+    "measures": [
+      "HTTPS-Verschlüsselung für alle Datenübertragungen",
+      "Sichere Authentifizierung mit branchenüblichen Protokollen",
+      "Regelmäßige Sicherheitsupdates und -überwachung",
+      "Zugangskontrollen und Datenminimierungspraktiken",
+      "Sichere Datenspeicherung mit Verschlüsselung im Ruhezustand"
+    ],
+    "breach": "Im unwahrscheinlichen Fall einer Datenschutzverletzung, die deine personenbezogenen Daten betrifft, werden wir dich und die zuständigen Behörden wie gesetzlich vorgeschrieben benachrichtigen."
+  },
+  "international": {
+    "title": "Internationale Datenübertragungen",
+    "text": "Einige unserer Dienstanbieter (wie GitHub) befinden sich außerhalb des Europäischen Wirtschaftsraums. Wir gewährleisten angemessenen Schutz durch:",
+    "safeguards": [
+      "EU-US Data Privacy Framework Angemessenheitsbeschlüsse",
+      "Von der Europäischen Kommission genehmigte Standardvertragsklauseln",
+      "Regelmäßige Bewertung der Datenschutzstandards"
+    ]
+  },
+  "children": {
+    "title": "Datenschutz für Kinder",
+    "text": "Unsere Dienste richten sich nicht an Kinder unter 16 Jahren. Wir sammeln wissentlich keine personenbezogenen Daten von Kindern unter 16 Jahren. Wenn du glaubst, dass wir solche Daten gesammelt haben, kontaktiere uns bitte umgehend."
+  },
+  "changes": {
+    "title": "Änderungen an dieser Datenschutzerklärung",
+    "text": "Wir können diese Datenschutzerklärung von Zeit zu Zeit aktualisieren. Wir werden dich über wesentliche Änderungen informieren, indem wir die neue Richtlinie auf dieser Seite veröffentlichen und das Datum der letzten Aktualisierung aktualisieren.",
+    "notification": "Bei wesentlichen Änderungen können wir dich auch per E-Mail benachrichtigen, wenn du ein Konto bei uns hast."
+  },
+  "contact": {
+    "title": "Kontakt",
+    "text": "Wenn du Fragen zu dieser Datenschutzerklärung oder unseren Datenpraktiken hast, kontaktiere uns bitte:",
+    "email": "dev{'@'}rollercoaster.dev",
+    "response": "Wir bemühen uns, alle datenschutzbezogenen Anfragen innerhalb von 2-3 Werktagen zu beantworten."
+  },
+  "lastUpdated": "Zuletzt aktualisiert: [Datum]"
 }
