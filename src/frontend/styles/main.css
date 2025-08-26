@@ -248,6 +248,28 @@ html.dark[data-intensity="calm"] {
     border-radius: 4px;
   }
 
+  /* Global link styling - only for content links, exclude styled button components */
+  p a:not([class*="inline-flex"]),
+  li a:not([class*="inline-flex"]),
+  span a:not([class*="inline-flex"]),
+  div:not([class]) a:not([class*="inline-flex"]) {
+    @apply text-accent no-underline transition-colors duration-200;
+  }
+
+  p a:not([class*="inline-flex"]):hover,
+  li a:not([class*="inline-flex"]):hover,
+  span a:not([class*="inline-flex"]):hover,
+  div:not([class]) a:not([class*="inline-flex"]):hover {
+    @apply text-accent/80;
+  }
+
+  p a:not([class*="inline-flex"]):focus-visible,
+  li a:not([class*="inline-flex"]):focus-visible,
+  span a:not([class*="inline-flex"]):focus-visible,
+  div:not([class]) a:not([class*="inline-flex"]):focus-visible {
+    @apply text-accent/80 outline-2 outline-accent outline-offset-2;
+  }
+
   /* Respect reduced motion for focus/hover transitions */
   @media (prefers-reduced-motion: reduce) {
     *,

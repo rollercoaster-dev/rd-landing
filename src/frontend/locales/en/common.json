@@ -1,9 +1,10 @@
 {
   "buttons": {
-    "learnMore": "Learn More",
-    "viewOnGitHub": "View on GitHub",
-    "followProgress": "Follow Progress on GitHub",
-    "getInTouch": "Get in Touch"
+    "learnMore": "Explore features",
+    "viewOnGitHub": "Contribute on GitHub",
+    "followProgress": "Track progress",
+    "getInTouch": "Contact us",
+    "seeHowItWorks": "See how it works"
   },
   "actions": {
     "switchLanguage": "Switch Language",
@@ -16,14 +17,20 @@
     "update": "Update"
   },
   "status": {
-    "loading": "Loading...",
-    "error": "Error",
-    "success": "Success",
+    "loading": "Loading (~5 seconds)",
+    "error": "Something went wrong",
+    "success": "Success! 🎉",
     "warning": "Warning",
     "info": "Information",
     "inProgress": "In Progress",
     "planned": "Planned",
     "completed": "Completed"
+  },
+  "emptyStates": {
+    "noData": "Nothing here yet. Ready to get started?",
+    "noResults": "No matches found. Try adjusting your search.",
+    "noProjects": "No projects yet. Time to create your first one!",
+    "noBadges": "Your badge collection is waiting to grow. Earn your first badge!"
   },
   "github": "GitHub",
   "progress": "Progress",

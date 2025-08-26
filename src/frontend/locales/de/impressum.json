@@ -5,5 +5,51 @@
   },
   "heading": "Impressum",
   "subtitle": "Impressum und Kontaktinformationen.",
-  "contact": "Rollercoaster.dev – Kontakt: dev{'@'}rollercoaster.dev"
+  "intro": "Diese Seite enthält die gesetzlich vorgeschriebenen Informationen über den Betreiber dieser Website und wie du uns erreichen kannst.",
+  "operator": {
+    "title": "Betreiber der Website",
+    "name": "Rollercoaster.dev",
+    "legalForm": "Einzelunternehmen",
+    "address": {
+      "street": "[Straße und Hausnummer]",
+      "city": "[Stadt]",
+      "postalCode": "[Postleitzahl]",
+      "country": "Deutschland"
+    }
+  },
+  "contact": {
+    "title": "Kontaktinformationen",
+    "email": "dev{'@'}rollercoaster.dev",
+    "phone": "[Telefonnummer auf Anfrage verfügbar]",
+    "responseTime": "Wir antworten normalerweise innerhalb von 2-3 Werktagen auf Anfragen."
+  },
+  "legal": {
+    "title": "Rechtliche Informationen",
+    "representative": "[Name des gesetzlichen Vertreters]",
+    "registration": {
+      "court": "[Registergericht]",
+      "number": "[Registernummer]",
+      "note": "Registrierungsdetails werden bereitgestellt, sobald die Gewerbeanmeldung abgeschlossen ist."
+    },
+    "vatId": {
+      "number": "[Umsatzsteuer-ID falls zutreffend]",
+      "note": "Die Umsatzsteuer-Identifikationsnummer wird hinzugefügt, falls gesetzlich erforderlich."
+    }
+  },
+  "responsibility": {
+    "title": "Verantwortlich für den Inhalt",
+    "text": "Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:",
+    "person": "[Name der verantwortlichen Person]",
+    "contact": "dev{'@'}rollercoaster.dev"
+  },
+  "disclaimer": {
+    "title": "Haftungsausschluss",
+    "content": "Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.",
+    "externalLinks": "Externe Links sind deutlich gekennzeichnet und führen zu Websites Dritter. Wir haben keinen Einfluss auf deren Inhalte und sind nicht dafür verantwortlich."
+  },
+  "updates": {
+    "title": "Aktualisierungen dieser Informationen",
+    "text": "Dieses Impressum kann aktualisiert werden, wenn sich unsere Geschäftsstruktur weiterentwickelt. Die aktuelle Version ist immer auf dieser Seite verfügbar.",
+    "lastUpdated": "Zuletzt aktualisiert: [Datum]"
+  }
 }

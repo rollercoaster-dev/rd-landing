@@ -32,11 +32,11 @@ const rel = computed(() =>
     :href="href"
     :target="target"
     :rel="rel"
-    class="inline-flex items-center gap-2 px-6 py-2 rounded-md transition-colors"
+    class="inline-flex items-center gap-2 px-6 py-2 rounded-md transition-all duration-200 transform hover:scale-[1.02]"
     :class="{
-      'bg-primary text-primary-foreground hover:bg-primary/90':
+      'bg-primary text-primary-foreground shadow hover:bg-primary/75 hover:shadow-lg':
         variant === 'primary',
-      'border border-primary text-primary hover:bg-primary/10':
+      'border border-primary text-primary shadow-sm hover:bg-primary/20 hover:shadow-md':
         variant === 'secondary',
       'text-primary hover:underline': variant === 'text',
     }"

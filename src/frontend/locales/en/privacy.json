@@ -4,5 +4,220 @@
     "description": "Information on data protection and privacy compliance for Rollercoaster.dev."
   },
   "heading": "Privacy Policy",
-  "subtitle": "Information on data protection and privacy compliance."
+  "subtitle": "Information on data protection and privacy compliance.",
+  "intro": {
+    "text": "We respect your privacy and are committed to protecting your personal data. This privacy policy explains how we collect, use, and safeguard your information when you use our website and services.",
+    "commitment": "We believe in data minimization — we only collect what we need and use it transparently."
+  },
+  "controller": {
+    "title": "Data Controller",
+    "text": "The data controller responsible for your personal data is:",
+    "name": "Rollercoaster.dev",
+    "address": "[Address as listed in Impressum]",
+    "email": "dev@rollercoaster.dev"
+  },
+  "dataCollection": {
+    "title": "What Data We Collect",
+    "intro": "We practice data minimization and currently collect minimal information:",
+    "categories": {
+      "websiteUsage": {
+        "title": "Website Usage Data",
+        "items": [
+          "Basic server logs (IP addresses, browser info, pages visited)",
+          "GitHub API requests for displaying project status"
+        ],
+        "purpose": "We use minimal server logs for basic functionality and security. We make GitHub API calls to display our project status cards on the homepage."
+      },
+      "communication": {
+        "title": "Communication Data",
+        "items": [
+          "Email address (when you contact us)",
+          "Message content",
+          "Response history"
+        ],
+        "purpose": "We use this information solely to respond to your inquiries and provide support."
+      }
+    }
+  },
+  "legalBasis": {
+    "title": "Legal Basis for Processing",
+    "intro": "We process your personal data based on the following legal grounds under GDPR:",
+    "grounds": [
+      {
+        "basis": "Legitimate Interest (Art. 6(1)(f) GDPR)",
+        "description": "For website analytics and security, where our legitimate interest in operating and improving our service outweighs any potential impact on your privacy."
+      },
+      {
+        "basis": "Consent (Art. 6(1)(a) GDPR)",
+        "description": "When you voluntarily provide information by contacting us or creating an account."
+      },
+      {
+        "basis": "Contract Performance (Art. 6(1)(b) GDPR)",
+        "description": "When processing is necessary to provide our services to you."
+      }
+    ]
+  },
+  "dataUse": {
+    "title": "How We Use Your Data",
+    "intro": "We use your personal data only for the following purposes:",
+    "purposes": [
+      "Providing and maintaining our website",
+      "Displaying GitHub project status information",
+      "Responding to your inquiries and providing support",
+      "Ensuring website security and preventing abuse",
+      "Complying with legal obligations"
+    ],
+    "noSelling": "We never sell, rent, or share your personal data with third parties for marketing purposes."
+  },
+  "thirdParty": {
+    "title": "Third-Party Services",
+    "intro": "We use the following third-party services:",
+    "services": {
+      "github": {
+        "name": "GitHub API (Microsoft Corporation)",
+        "purpose": "Fetching public repository information for project status display",
+        "dataShared": "No personal data shared - we only access public repository information",
+        "privacy": "https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement",
+        "location": "United States (adequate protection under EU-US Data Privacy Framework)"
+      },
+      "hosting": {
+        "name": "Web Hosting Provider",
+        "purpose": "Website hosting and content delivery",
+        "dataShared": "Website usage data, IP addresses",
+        "note": "Our hosting provider processes data only as a data processor under our instructions."
+      }
+    }
+  },
+  "cookies": {
+    "title": "Cookies and Local Storage",
+    "intro": "We use minimal client-side storage to enhance your experience:",
+    "localStorage": {
+      "title": "Local Storage (Browser Storage)",
+      "description": "We store the following preferences in your browser's local storage:",
+      "items": [
+        {
+          "name": "theme-intensity",
+          "purpose": "Remembers your theme preference (vibrant or calm)",
+          "duration": "Until you clear browser data",
+          "type": "Preference setting"
+        },
+        {
+          "name": "preferred-language",
+          "purpose": "Remembers your language choice (English or German)",
+          "duration": "Until you clear browser data",
+          "type": "Preference setting"
+        }
+      ],
+      "note": "This data stays on your device and is not transmitted to our servers."
+    },
+    "cookies": {
+      "title": "Cookies",
+      "description": "We do not currently use any cookies. When we implement user accounts in the future, we will use:",
+      "items": [
+        {
+          "name": "rd_auth_token (future)",
+          "purpose": "Will maintain your login session when authentication is implemented",
+          "duration": "1 hour (configurable)",
+          "type": "HttpOnly, Secure"
+        }
+      ]
+    },
+    "noTracking": {
+      "title": "What We Don't Use",
+      "items": [
+        "No marketing or advertising cookies",
+        "No cross-site tracking",
+        "No analytics cookies that identify individuals",
+        "No social media tracking pixels"
+      ]
+    }
+  },
+  "dataRetention": {
+    "title": "Data Retention",
+    "intro": "We keep your personal data only as long as necessary:",
+    "periods": [
+      {
+        "category": "Communication records",
+        "duration": "3 years for support purposes"
+      },
+      {
+        "category": "Website logs",
+        "duration": "30 days (automatically deleted)"
+      }
+    ],
+    "deletion": "When data is no longer needed, it is securely deleted from our systems."
+  },
+  "yourRights": {
+    "title": "Your Rights Under GDPR",
+    "intro": "You have the following rights regarding your personal data:",
+    "rights": [
+      {
+        "right": "Right of Access (Art. 15 GDPR)",
+        "description": "Request a copy of the personal data we hold about you"
+      },
+      {
+        "right": "Right to Rectification (Art. 16 GDPR)",
+        "description": "Request correction of inaccurate or incomplete data"
+      },
+      {
+        "right": "Right to Erasure (Art. 17 GDPR)",
+        "description": "Request deletion of your personal data ('right to be forgotten')"
+      },
+      {
+        "right": "Right to Restrict Processing (Art. 18 GDPR)",
+        "description": "Request limitation of how we process your data"
+      },
+      {
+        "right": "Right to Data Portability (Art. 20 GDPR)",
+        "description": "Request your data in a portable format"
+      },
+      {
+        "right": "Right to Object (Art. 21 GDPR)",
+        "description": "Object to processing based on legitimate interests"
+      },
+      {
+        "right": "Right to Withdraw Consent",
+        "description": "Withdraw consent at any time where processing is based on consent"
+      }
+    ],
+    "exercise": "To exercise these rights, contact us at dev{'@'}rollercoaster.dev. We will respond within 30 days.",
+    "complaint": "You also have the right to lodge a complaint with your local data protection authority."
+  },
+  "security": {
+    "title": "Data Security",
+    "intro": "We implement appropriate technical and organizational measures to protect your data:",
+    "measures": [
+      "HTTPS encryption for all data transmission",
+      "Secure authentication using industry-standard protocols",
+      "Regular security updates and monitoring",
+      "Access controls and data minimization practices",
+      "Secure data storage with encryption at rest"
+    ],
+    "breach": "In the unlikely event of a data breach affecting your personal data, we will notify you and relevant authorities as required by law."
+  },
+  "international": {
+    "title": "International Data Transfers",
+    "text": "Some of our service providers (like GitHub) are located outside the European Economic Area. We ensure adequate protection through:",
+    "safeguards": [
+      "EU-US Data Privacy Framework adequacy decisions",
+      "Standard Contractual Clauses approved by the European Commission",
+      "Regular assessment of data protection standards"
+    ]
+  },
+  "children": {
+    "title": "Children's Privacy",
+    "text": "Our services are not directed at children under 16. We do not knowingly collect personal data from children under 16. If you believe we have collected such data, please contact us immediately."
+  },
+  "changes": {
+    "title": "Changes to This Privacy Policy",
+    "text": "We may update this privacy policy from time to time. We will notify you of any material changes by posting the new policy on this page and updating the 'last updated' date.",
+    "notification": "For significant changes, we may also notify you via email if you have an account with us."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "text": "If you have any questions about this privacy policy or our data practices, please contact us:",
+    "email": "dev{'@'}rollercoaster.dev",
+    "response": "We aim to respond to all privacy-related inquiries within 2-3 business days."
+  },
+  "lastUpdated": "Last updated: [Date]"
 }

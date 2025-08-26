@@ -1,9 +1,41 @@
 {
-  "title": "Wie es funktioniert - Rollercoaster.dev",
+  "title": "Wie es funktioniert - RollerCoaster.dev",
   "meta": {
-    "description": "Erfahren Sie, wie rollercoaster.dev Ihnen hilft, Fortschritte zu verfolgen, Ihre Reise zu visualisieren und zu einem gemeinschaftsgetriebenen Ökosystem beizutragen."
+    "description": "Flexible Fortschrittsverfolgung mit Open Badges - deine Reise, dein Tempo."
   },
   "heading": "Wie es funktioniert",
-  "subtitle": "Erfahren Sie, wie rollercoaster.dev Ihnen hilft, Fortschritte zu verfolgen, Ihre Reise zu visualisieren und zu einem gemeinschaftsgetriebenen Ökosystem beizutragen.",
-  "comingSoon": "Weitere Details folgen bald."
+  "steps": {
+    "step1": {
+      "number": "1",
+      "title": "Definiere dein Ziel",
+      "description": "Zerlege große Ziele in kleine, bedeutungsvolle Schritte."
+    },
+    "step2": {
+      "number": "2",
+      "title": "Badges verdienen",
+      "description": "Jeder Schritt kann ein <a href=\"https://openbadges.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Open Badge</a> erzeugen – digitale Nachweise deiner Erfolge. Sie sind portabel, verifizierbar und für immer deins."
+    },
+    "step3": {
+      "number": "3",
+      "title": "Fortschritt visualisieren",
+      "description": "Wähle Zeitleisten-, Raster- oder Baumansichten, um Muster zu erkennen."
+    },
+    "step4": {
+      "number": "4",
+      "title": "Pausieren — und fortsetzen",
+      "description": "Mache dort weiter, wo du aufgehört hast, druckfrei, mit intaktem Kontext. Das Leben passiert—wir verstehen das."
+    },
+    "step5": {
+      "number": "5",
+      "title": "Teilen & vernetzen",
+      "description": "Exportiere Badges, zeige Fortschritte und lerne von Gleichgesinnten."
+    }
+  },
+  "neuroInclusive": {
+    "title": "Neuro-inklusiv durch Design",
+    "feature1": "Kurze Abschnitte + \"Mehr anzeigen\" Umschalter",
+    "feature2": "Vorhersagbares Layout & Beschriftungen",
+    "feature3": "Respektiert prefers-reduced-motion",
+    "feature4": "Kontrastreiche Typografie und großzügige Abstände"
+  }
 }

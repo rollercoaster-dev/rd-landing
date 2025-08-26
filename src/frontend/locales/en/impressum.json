@@ -5,5 +5,51 @@
   },
   "heading": "Impressum",
   "subtitle": "Legal notice and contact information.",
-  "contact": "Rollercoaster.dev – Contact: dev{'@'}rollercoaster.dev"
+  "intro": "This page provides legally required information about who operates this website and how to reach us.",
+  "operator": {
+    "title": "Website Operator",
+    "name": "Rollercoaster.dev",
+    "legalForm": "Individual/Sole Proprietorship",
+    "address": {
+      "street": "[Street Address]",
+      "city": "[City]",
+      "postalCode": "[Postal Code]",
+      "country": "Germany"
+    }
+  },
+  "contact": {
+    "title": "Contact Information",
+    "email": "dev{'@'}rollercoaster.dev",
+    "phone": "[Phone number available upon request]",
+    "responseTime": "We typically respond to inquiries within 2-3 business days."
+  },
+  "legal": {
+    "title": "Legal Information",
+    "representative": "[Legal Representative Name]",
+    "registration": {
+      "court": "[Registration Court]",
+      "number": "[Registration Number]",
+      "note": "Registration details will be provided once business registration is complete."
+    },
+    "vatId": {
+      "number": "[VAT ID if applicable]",
+      "note": "VAT identification number will be added if required by law."
+    }
+  },
+  "responsibility": {
+    "title": "Content Responsibility",
+    "text": "Responsible for content according to § 55 Abs. 2 RStV (German Interstate Broadcasting Agreement):",
+    "person": "[Responsible Person Name]",
+    "contact": "dev{'@'}rollercoaster.dev"
+  },
+  "disclaimer": {
+    "title": "Disclaimer",
+    "content": "Despite careful content control, we assume no liability for the content of external links. The operators of linked pages are solely responsible for their content.",
+    "externalLinks": "External links are clearly marked and lead to third-party websites. We have no influence on their content and are not responsible for it."
+  },
+  "updates": {
+    "title": "Updates to This Information",
+    "text": "This impressum may be updated as our business structure evolves. The current version is always available at this page.",
+    "lastUpdated": "Last updated: [Date]"
+  }
 }

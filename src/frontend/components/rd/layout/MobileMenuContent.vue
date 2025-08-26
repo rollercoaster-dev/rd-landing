@@ -1,22 +1,10 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
-import type { RouteLocationRaw } from "vue-router";
-
-interface NavItem {
-  id: string | number;
-  i18nKey: string;
-  to?: RouteLocationRaw;
-}
-interface CtaItem {
-  id: string | number;
-  i18nKey: string;
-  to?: RouteLocationRaw;
-  href?: string;
-}
+import type { NavItem } from "@/frontend/composables/useNavigation";
 
 const props = defineProps<{
   items: NavItem[];
-  ctas: CtaItem[];
+  ctas: NavItem[];
   labelledbyId?: string;
 }>();
 
@@ -37,7 +25,7 @@ const emit = defineEmits<{
       class="block rounded px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-inset"
       @click="emit('close')"
     >
-      {{ $t(item.i18nKey) }}
+      {{ item.label }}
     </RouterLink>
 
     <div class="border-t my-2" />
@@ -49,7 +37,7 @@ const emit = defineEmits<{
         class="block rounded px-3 py-2 text-sm bg-primary text-primary-foreground hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-inset"
         @click="emit('close')"
       >
-        {{ $t(cta.i18nKey) }}
+        {{ cta.label }}
       </RouterLink>
       <a
         v-else-if="cta.href"
@@ -59,7 +47,7 @@ const emit = defineEmits<{
         class="block rounded px-3 py-2 text-sm border border-primary text-primary hover:bg-primary/10 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-inset"
         @click="emit('close')"
       >
-        {{ $t(cta.i18nKey) }}
+        {{ cta.label }}
       </a>
 
       <div class="border-t my-3" />

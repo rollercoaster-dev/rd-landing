@@ -1,12 +1,12 @@
 {
   "hero": {
     "title": "Rollercoaster.dev",
-    "subtitle": "ist ein Raum, in dem neurodivergente Köpfe Werkzeuge erschaffen und entdecken, die für unsere Denkweise entwickelt wurden."
+    "subtitle": "Werkzeuge von und für neurodivergente Köpfe. Entwickelt für flexibles Lernen und Wachstum."
   },
   "whatWeBuild": {
     "title": "Was wir entwickeln",
     "subtitle": "Open Badges Plattform für neurodivergente Kreative",
-    "description": "Wir erschaffen ein umfassendes Open Badges Ökosystem, das vielfältige Erfolge und Lernwege würdigt. Unsere Plattform erkennt an, dass Erfolg nicht für alle gleich aussieht."
+    "description": "Wir erschaffen ein umfassendes <a href=\"https://openbadges.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Open Badges</a> Ökosystem, das vielfältige Erfolge und Lernwege würdigt. Open Badges (ein offener Standard für digitale Abzeichen) sind digitale Nachweise, die du besitzt und kontrollierst—portabel, verifizierbar und für immer dein. Unsere Plattform erkennt an, dass Erfolg nicht für alle gleich aussieht."
   },
   "features": {
     "trackProgress": {
@@ -60,9 +60,9 @@
     "title": "Aktuelle Arbeit",
     "subtitle": "Das Fundament bauen",
     "description": "Wir befinden uns derzeit in aktiver Entwicklung und bauen die Kerninfrastruktur und Benutzererfahrung auf. Hier ist, woran wir arbeiten:",
-    "loading": "Projektstatus wird geladen...",
-    "error": "Fehler beim Laden der Projektdaten:",
-    "retry": "Wiederholen",
+    "loading": "Projektstatus wird geladen (~5 Sekunden). Gleich geschafft!",
+    "error": "Projektdaten konnten nicht geladen werden.",
+    "retry": "Erneut versuchen",
     "focusNote": "Unser Fokus liegt darauf, zuerst ein solides Fundament zu schaffen und dann die Funktionen basierend auf Gemeinschaftsfeedback und -bedürfnissen zu erweitern."
   },
   "empowerment": {
@@ -99,9 +99,9 @@
   "currentWorkStatus": {
     "title": "Wo wir stehen & wohin wir gehen",
     "description": "Unsere Reise ist im Gange! Hier ist ein Einblick in unseren Fortschritt und geplante nächste Schritte:",
-    "loading": "Projektstatus wird geladen...",
-    "error": "Fehler beim Laden der Projektdaten:",
-    "retry": "Wiederholen",
+    "loading": "Projektstatus wird geladen (~5 Sekunden). Gleich geschafft!",
+    "error": "Projektdaten konnten nicht geladen werden.",
+    "retry": "Erneut versuchen",
     "focusNote": "Unser Fokus liegt darauf, zuerst ein solides Fundament zu schaffen und dann die Funktionen basierend auf Gemeinschaftsfeedback und -bedürfnissen zu erweitern."
   },
   "projects": {

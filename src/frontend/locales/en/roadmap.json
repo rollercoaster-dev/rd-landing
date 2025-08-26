@@ -1,9 +1,55 @@
 {
-  "title": "Roadmap - Rollercoaster.dev",
+  "title": "Roadmap - RollerCoaster.dev",
   "meta": {
-    "description": "Explore our current milestones and upcoming plans for the neurodivergent-centered tools and what's next for 2025."
+    "description": "A realistic snapshot of where we are and what's next (2025–2026)."
   },
   "heading": "Roadmap",
-  "subtitle": "Explore our current milestones and upcoming plans for the project.",
-  "comingSoon": "We're preparing a public roadmap. Stay tuned."
+  "lastUpdated": "Last updated:",
+  "timeline": {
+    "item0": {
+      "timeframe": "2024–2025",
+      "description": "Prototyped and working, but in progress: modular-server, UI, and system. Tracked via GitHub issue cards on the landing page. Target: publish the system prototype by end of 2025.",
+      "status": "In progress (Working prototypes)"
+    },
+    "item1": {
+      "timeframe": "Now – Q4 2025",
+      "description": "Stabilize modular-server & UI; define MVP scope; publish first contributor docs; open \u201chelp wanted\u201d issues.",
+      "status": "In progress"
+    },
+    "item2": {
+      "timeframe": "Q1\u2013Q2 2026 (tentative)",
+      "description": "MVP: self\u2011issued badge wallet backed by modular-server; limited VC export (Open Badges 3.x).",
+      "status": "Exploration"
+    },
+    "item3": {
+      "timeframe": "Not scheduled",
+      "description": "Peer/mentor verification pilot and feedback loops (depends on partners & funding).",
+      "status": "On hold"
+    },
+    "item4": {
+      "timeframe": "Future",
+      "description": "Enhanced visualizations and mobile layout polish.",
+      "status": "Backlog"
+    },
+    "item5": {
+      "timeframe": "Ongoing",
+      "description": "Community building, outreach, partnerships, and fundraising.",
+      "status": "Ongoing"
+    }
+  },
+  "transparency": "We keep this realistic: items may shift. We’ll link to GitHub issues/PRs as they exist.",
+  "tableHeaders": {
+    "timeframe": "Timeframe",
+    "description": "What's Next",
+    "status": "Status"
+  },
+  "statusTooltips": {
+    "inProgressPrototypes": "Active development with working prototypes. Check GitHub for latest updates.",
+    "inProgress": "Currently being worked on. Expected completion by Q4 2025.",
+    "exploration": "Research and planning phase. Requirements and feasibility being evaluated.",
+    "onHold": "Paused pending external factors like partnerships or funding.",
+    "backlog": "Planned for future development. Priority may change based on community needs.",
+    "ongoing": "Continuous activity without a specific end date.",
+    "default": "Status information not available."
+  }
 }

@@ -58,24 +58,47 @@ export const createApp = () => {
     );
 
     if (err.message === "Unauthorized") {
-      return c.json({ message: "Unauthorized" }, 401);
+      return c.json(
+        {
+          message: "Access denied",
+          action: "Please check your credentials and try again",
+          helpUrl: "/contact",
+        },
+        401,
+      );
     }
 
     if (err.message.includes("Not Found")) {
-      return c.json({ message: "Not Found" }, 404);
+      return c.json(
+        {
+          message: "Resource not found",
+          action: "Please check the URL and try again",
+          helpUrl: "/contact",
+        },
+        404,
+      );
     }
 
     if (err.message.includes("Validation")) {
       return c.json(
         {
-          message: "Validation Error",
-          errors: err.message,
+          message: "Invalid data provided",
+          action: "Please check your input and try again",
+          details: err.message,
+          helpUrl: "/contact",
         },
         400,
       );
     }
 
-    return c.json({ message: "Internal Server Error" }, 500);
+    return c.json(
+      {
+        message: "Something went wrong",
+        action: "Please try again or contact support if the problem persists",
+        helpUrl: "/contact",
+      },
+      500,
+    );
   });
 
   return app;

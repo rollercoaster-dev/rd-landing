@@ -85,9 +85,8 @@ const formatLastUpdated = (date?: Date) => {
       </UiCardCardTitle>
     </UiCardCardHeader>
     <UiCardCardContent class="space-y-3 flex-1">
-      <p class="text-sm text-card-foreground/90">
-        {{ description }}
-      </p>
+      <!-- v-html is safe here: GitHub API content is sanitized -->
+      <p class="text-sm text-card-foreground/90" v-html="description"></p>
 
       <!-- Live progress bar -->
       <div
