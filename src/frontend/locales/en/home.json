@@ -1,7 +1,7 @@
 {
   "hero": {
     "title": "Rollercoaster.dev",
-    "subtitle": "is a space where neurodivergent minds create and discover tools designed for the way we think."
+    "subtitle": "Tools by and for neurodivergent minds. Built to support flexible learning and growth."
   },
   "whatWeBuild": {
     "title": "What We're Building",
@@ -60,9 +60,9 @@
     "title": "Current Work",
     "subtitle": "Building the Foundation",
     "description": "We're currently in active development, building the core infrastructure and user experience. Here's what we're working on:",
-    "loading": "Loading project status...",
-    "error": "Error loading project data:",
-    "retry": "Retry",
+    "loading": "Loading project status (~5 seconds). Almost there!",
+    "error": "Unable to load project data.",
+    "retry": "Try again",
     "focusNote": "Our focus is on building a solid foundation first, then expanding features based on community feedback and needs."
   },
   "empowerment": {
@@ -99,9 +99,9 @@
   "currentWorkStatus": {
     "title": "Where We Are & Where We're Going",
     "description": "Our journey is underway! Here's a glimpse of our progress and planned next steps:",
-    "loading": "Loading project status...",
-    "error": "Error loading project data:",
-    "retry": "Retry",
+    "loading": "Loading project status (~5 seconds). Almost there!",
+    "error": "Unable to load project data.",
+    "retry": "Try again",
     "focusNote": "Our focus is on building a solid foundation first, then expanding features based on community feedback and needs."
   },
   "projects": {

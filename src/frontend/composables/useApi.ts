@@ -50,11 +50,20 @@ export function useApi() {
       }
 
       if (!response.ok) {
-        // For other errors (e.g., 404, 500), log and throw.
-        const errorBody = await response.text();
-        const errorMessage = `API error: ${response.status} - ${response.statusText}. Body: ${errorBody}`;
-        console.error(`Error fetching from ${endpoint}:`, errorMessage);
-        throw new Error(errorMessage);
+        // Try to parse error response as JSON for user-friendly messages
+        try {
+          const errorData = await response.json();
+          const userMessage = errorData.message || "Something went wrong";
+          const actionMessage = errorData.action || "Please try again";
+          const fullMessage = `${userMessage}. ${actionMessage}`;
+          console.error(`API error ${response.status}:`, errorData);
+          throw new Error(fullMessage);
+        } catch {
+          // Fallback to generic message if JSON parsing fails
+          const errorMessage = `Something went wrong (${response.status}). Please try again.`;
+          console.error(`Error fetching from ${endpoint}:`, errorMessage);
+          throw new Error(errorMessage);
+        }
       }
 
       // Handle cases where the response might be empty (e.g., 204 No Content)
@@ -75,20 +84,13 @@ export function useApi() {
       const errorMessage =
         error instanceof Error
           ? error.message
-          : "An unknown network error occurred";
+          : "Unable to connect. Please check your internet connection and try again.";
       console.error(
         `Network or parsing error fetching from ${endpoint}:`,
         errorMessage,
       );
-      // Re-throw or handle as needed. If we already threw an error for !response.ok, this might catch that too.
-      // Avoid throwing duplicate errors.
-      if (!(error instanceof Error && error.message.startsWith("API error:"))) {
-        throw new Error(errorMessage);
-      }
-      // If it was an API error already thrown, return null or let the original throw propagate
-      // Depending on desired behavior. Returning null here might mask the original status code.
-      // Let's re-throw the original error to preserve status info.
-      throw error;
+      // Re-throw the error with user-friendly message
+      throw new Error(errorMessage);
     } finally {
       loading.value = false;
     }

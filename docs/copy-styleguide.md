@@ -172,3 +172,56 @@ Run tiny A/Bs (1 variable at a time; headline verb, CTA verb, transparency note)
     • Nielsen Norman Group — homepage & fold principles.
 
 ⸻
+
+## Humor & Playfulness
+
+> We’re friendly and human—but clarity always wins. Use light playfulness where it helps people feel welcomed, never where it risks confusion or stress.
+
+### Principles
+
+- **Clarity before cleverness.** If a joke competes with comprehension, the joke loses. (Mailchimp: clarity over entertainment; Microsoft: simple and human.)
+- **Delight sits on top of usability.** Add playfulness only after the core flow is strong. (NN/g & general UX guidance.)
+- **Gently human, not goofy.** Warm, conversational, and brief; avoid sarcasm and inside jokes.
+
+### Where humor belongs vs. never belongs
+
+- **Play zones (OK to be light):** marketing/landing sections, success moments, non‑critical empty states, helper tips, and non‑blocking loading text.
+- **No‑joke zones (keep it straight):** errors, permissions, payments, privacy/legal, security, account recovery, anything high‑stakes. (NN/g error‑message guidance.)
+
+### Tone ladder (pick the lightest level that still stays clear)
+
+- **Neutral helpful** → default everywhere.
+- **Light & friendly** → marketing, success, onboarding, empty states.
+- **Straight & precise** → errors, legal, payments, security.
+
+### Humor guardrails (checklist for writers)
+
+1. **Scan test:** remove the playful clause—does the meaning and task still hold? If not, cut it.
+2. **No ambiguity:** users can still predict the action/result of CTAs and steps.
+3. **Inclusive & literal:** avoid idioms/wordplay; keep bias‑free; prefer plain language that localizes cleanly.
+4. **De‑stress, don’t distress:** never add humor where users are stuck or anxious (especially errors and payments).
+5. **Keep it short:** microcopy stays concise and scannable; never bury instructions inside a joke.
+
+### Microcopy patterns (templates only; do not ship verbatim)
+
+- **Success/confirmation:** `{Result}. {Next step}. {Optional tiny aside}.`
+- **Empty state:** `{What this is} + {How to start} + {Effort hint} + {Soft encouragement}.`
+- **Loading (non‑critical):** `Loading {object} (~{x} seconds). {Optional light aside}.`
+- **Helper text:** `{Instruction in plain language}. {Optional friendly nudge}.`
+- **Errors (no humor):** `What happened → Why (if useful) → What to do next → Help link`.
+
+### DE localization rules for playful text
+
+- Use **du**; keep it literal and warm (no puns).
+- Mirror EN tone level (neutral/helpful ↔ light/friendly ↔ straight/precise).
+- **Never** add humor in DE where EN is serious (e.g., errors, legal, payments).
+
+---
+
+### Humor QA (add to PR template)
+
+- **Zone check:** is this in a Play zone, not a No‑joke zone?
+- **Scan test:** remove the joke—does the task remain clear and actionable?
+- **Accessibility:** plain‑language + headings/lists; readable for ND users.
+- **Localization:** DE can carry the wording without added complexity.
+- **Legal/standards:** no implied endorsements; Open Badges naming rules respected.
