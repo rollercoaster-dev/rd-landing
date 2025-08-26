@@ -13,7 +13,7 @@
     "step2": {
       "number": "2",
       "title": "Badges verdienen",
-      "description": "Jeder Schritt kann ein Open Badge erzeugen – digitale Nachweise deiner Erfolge. Sie sind portabel, verifizierbar und für immer deins."
+      "description": "Jeder Schritt kann ein <a href=\"https://openbadges.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Open Badge</a> erzeugen – digitale Nachweise deiner Erfolge. Sie sind portabel, verifizierbar und für immer deins."
     },
     "step3": {
       "number": "3",

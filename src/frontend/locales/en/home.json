@@ -5,8 +5,8 @@
   },
   "whatWeBuild": {
     "title": "What We're Building",
-    "subtitle": "Open Badges Platform for Neurodivergent Creators",
-    "description": "We're creating a comprehensive Open Badges ecosystem that celebrates diverse achievements and learning paths. Open Badges are digital credentials you own and control—portable, verifiable proof of your skills and accomplishments. Our platform recognizes that success isn't one-size-fits-all."
+    "subtitle": "<a href=\"https://openbadges.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Open Badges</a> Platform for Neurodivergent Creators",
+    "description": "We're creating a comprehensive <a href=\"https://openbadges.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Open Badges</a> ecosystem that celebrates diverse achievements and learning paths. Open Badges are digital credentials you own and control—portable, verifiable proof of your skills and accomplishments. Our platform recognizes that success isn't one-size-fits-all."
   },
   "features": {
     "trackProgress": {
@@ -107,7 +107,7 @@
   "projects": {
     "coreEngine": {
       "title": "Core Badge Engine",
-      "description": "The foundational server that processes and validates Open Badges, handles credential verification, and manages the core badge ecosystem.",
+      "description": "The foundational server that processes and validates <a href=\"https://openbadges.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Open Badges</a>, handles credential verification, and manages the core badge ecosystem.",
       "features": {
         "secure": "Secure badge validation",
         "tracking": "Progress tracking",

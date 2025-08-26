@@ -55,7 +55,7 @@ onMounted(async () => {
           :subtitle="$t('home.whatWeBuild.subtitle')"
         >
           <template #description>
-            {{ $t("home.whatWeBuild.description") }}
+            <span v-html="$t('home.whatWeBuild.description')"></span>
           </template>
         </RdBaseSectionHeader>
 

@@ -13,7 +13,7 @@
     "step2": {
       "number": "2",
       "title": "Earn Badges",
-      "description": "Each step can produce an Open Badge—digital credentials that prove your achievements. They're portable, verifiable, and yours to keep forever."
+      "description": "Each step can produce an <a href=\"https://openbadges.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Open Badge</a>—digital credentials that prove your achievements. They're portable, verifiable, and yours to keep forever."
     },
     "step3": {
       "number": "3",

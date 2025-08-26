@@ -44,9 +44,10 @@ useSEO({
               <h2 class="text-xl font-bold text-foreground">
                 {{ $t("how-it-works.steps.step2.title") }}
               </h2>
-              <p class="text-base text-muted-foreground">
-                {{ $t("how-it-works.steps.step2.description") }}
-              </p>
+              <p
+                class="text-base text-muted-foreground"
+                v-html="$t('how-it-works.steps.step2.description')"
+              ></p>
             </div>
           </li>
           <li class="flex gap-4">
