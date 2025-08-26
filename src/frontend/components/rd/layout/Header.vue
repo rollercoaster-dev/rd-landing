@@ -1,27 +1,18 @@
 <script setup lang="ts">
 import { Menu, X } from "lucide-vue-next";
-import { ref, onMounted, computed, watch } from "vue";
-import { useI18n } from "vue-i18n";
+import { ref, onMounted, watch } from "vue";
 import { useRoute, RouterLink } from "vue-router";
-import { navConfig } from "@/frontend/config/navigation";
+import { useNavigation } from "@/frontend/composables/useNavigation";
 
-const { t } = useI18n();
 const route = useRoute();
+const { primaryNav, ctas } = useNavigation();
 
 const isMounted = ref(false);
 onMounted(() => {
   isMounted.value = true;
 });
 
-const primaryNav = computed(() => navConfig.primary);
-const ctas = computed(() => navConfig.ctas);
-
-// Computed translations for mobile menu
-const mobileMenuToggleText = computed(() =>
-  mobileOpen.value ? t("header.aria.closeMenu") : t("header.aria.openMenu"),
-);
-
-const closeMenuText = computed(() => t("header.aria.closeMenu"));
+// Remove computed translations - use $t() directly in template for i18n Ally compatibility
 
 // For aria-current highlighting
 type RouteTo = { name?: string; path?: string };
@@ -68,24 +59,22 @@ watch(
           class="transition-colors hover:text-primary whitespace-nowrap"
           :aria-current="isActive(item.to) ? 'page' : undefined"
         >
-          {{ $t(item.i18nKey) }}
+          {{ item.label }}
         </RouterLink>
       </nav>
 
       <!-- Right utilities and CTAs -->
       <div class="flex items-center gap-1 ml-auto">
         <!-- CTAs (smaller on desktop) -->
-        <div class="hidden md:flex items-center gap-1">
+        <div class="hidden md:flex items-center gap-1 me-2">
           <template v-for="cta in ctas" :key="cta.id">
             <RouterLink
               v-if="cta.to"
               :to="cta.to as any"
               class="inline-flex items-center px-3 py-1.5 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 text-sm"
-              :aria-label="
-                cta.ariaLabelKey ? $t(cta.ariaLabelKey) : $t(cta.i18nKey)
-              "
+              :aria-label="cta.ariaLabel || cta.label"
             >
-              {{ $t(cta.i18nKey) }}
+              {{ cta.label }}
             </RouterLink>
             <a
               v-else-if="cta.href"
@@ -93,11 +82,9 @@ watch(
               target="_blank"
               rel="noopener noreferrer"
               class="inline-flex items-center px-3 py-1.5 rounded-md border border-primary text-primary hover:bg-primary/10 text-sm"
-              :aria-label="
-                cta.ariaLabelKey ? $t(cta.ariaLabelKey) : $t(cta.i18nKey)
-              "
+              :aria-label="cta.ariaLabel || cta.label"
             >
-              {{ $t(cta.i18nKey) }}
+              {{ cta.label }}
             </a>
           </template>
         </div>
@@ -114,13 +101,21 @@ watch(
             variant="ghost"
             size="icon"
             class="rounded-full h-11 w-11"
-            :aria-label="mobileMenuToggleText"
+            :aria-label="
+              mobileOpen
+                ? $t('header.aria.closeMenu')
+                : $t('header.aria.openMenu')
+            "
             aria-haspopup="dialog"
             :aria-expanded="mobileOpen ? 'true' : 'false'"
             aria-controls="mobile-menu"
           >
             <Menu class="h-5 w-5" aria-hidden="true" />
-            <span class="sr-only">{{ mobileMenuToggleText }}</span>
+            <span class="sr-only">{{
+              mobileOpen
+                ? $t("header.aria.closeMenu")
+                : $t("header.aria.openMenu")
+            }}</span>
           </UiButtonButton>
         </UiSheetSheetTrigger>
 
@@ -144,12 +139,12 @@ watch(
                 class="rounded-full h-9 w-9 ml-2"
               >
                 <X aria-hidden="true" />
-                <span class="sr-only">{{ closeMenuText }}</span>
+                <span class="sr-only">{{ $t("header.aria.closeMenu") }}</span>
               </UiButtonButton>
             </UiSheetSheetClose>
           </div>
           <UiSheetSheetDescription class="sr-only">{{
-            t("header.aria.primaryNav")
+            $t("header.aria.primaryNav")
           }}</UiSheetSheetDescription>
 
           <RdLayoutMobileMenuContent
