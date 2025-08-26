@@ -104,9 +104,9 @@ useSEO({
 
       <!-- Neuro-inclusive by Design -->
       <section class="space-y-4">
-        <h2 class="text-2xl font-bold text-foreground">
+        <h3 class="text-2xl font-bold text-foreground">
           {{ $t("how-it-works.neuroInclusive.title") }}
-        </h2>
+        </h3>
         <ul class="space-y-2 list-disc pl-5 text-muted-foreground">
           <li>{{ $t("how-it-works.neuroInclusive.feature1") }}</li>
           <li>{{ $t("how-it-works.neuroInclusive.feature2") }}</li>
