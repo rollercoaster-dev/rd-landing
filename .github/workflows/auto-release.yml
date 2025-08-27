@@ -5,6 +5,11 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  actions: read
+  pull-requests: read
+
 jobs:
   # Check if this is a merge commit (not just a direct push to main)
   check-merge:
