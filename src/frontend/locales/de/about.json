@@ -1,17 +1,17 @@
 {
   "title": "Über uns - RollerCoaster.dev",
   "meta": {
-    "description": "RollerCoaster.dev ist ein Toolkit von und für neurodivergente Köpfe, das neu denkt, wie wir Fortschritte verfolgen, Ziele setzen und unsere Reisen feiern."
+    "description": "RollerCoaster.dev ist ein Toolkit von und für neurodivergente Menschen – wir denken neu darüber nach, wie wir Fortschritte verfolgen, Ziele setzen und unsere Wege feiern."
   },
   "heading": "Über RollerCoaster.dev",
-  "intro": "RollerCoaster.dev ist ein Toolkit von und für neurodivergente Köpfe, das neu denkt, wie wir Fortschritte verfolgen, Ziele setzen und unsere Reisen feiern.",
+  "intro": "RollerCoaster.dev ist ein Toolkit von und für neurodivergente Menschen – wir denken neu darüber nach, wie wir Fortschritte verfolgen, Ziele setzen und unsere Wege feiern.",
   "mission": {
     "title": "Unsere Mission",
-    "content": "Wir entwickeln neuro-zentrierte Werkzeuge – verwurzelt in neurodivergenter Lebenserfahrung – um flexibles, selbstbestimmtes Lernen und Wachstum zu ermöglichen. Herkömmliche Produktivitäts-Apps gehen von linearem Fortschritt und festen Zeitplänen aus. Wir nicht. (Spoiler: unsere Gehirne auch nicht!)"
+    "content": "Wir bauen Tools, die zu neurodivergenten Menschen passen – basierend auf unserer eigenen Erfahrung. Damit flexibles, selbstbestimmtes Lernen und Wachstum möglich wird. Normale Produktivitäts-Apps gehen von linearem Fortschritt und festen Zeitplänen aus. Wir nicht. (Spoiler: unsere Gehirne auch nicht!)"
   },
   "whoWeAre": {
     "title": "Wer wir sind",
-    "content": "Ein gemeinschaftsgeführtes Kollektiv aus Designern, Entwicklern und neurodivergenten Mitarbeitern, die sich dem Aufbau besserer digitaler Werkzeuge verschrieben haben."
+    "content": "Ein Community-geführtes Team aus Designern, Entwicklern und neurodivergenten Menschen, die bessere digitale Tools bauen wollen."
   },
   "values": {
     "title": "Was uns wichtig ist",
@@ -29,11 +29,11 @@
     }
   },
   "benefits": {
-    "title": "Wie du profitierst",
+    "title": "Was es dir bringt",
     "item1": "Setze Ziele, die zu deinem Rhythmus passen.",
-    "item2": "Dokumentiere Erfolge mit <a href=\"https://openbadges.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Open Badges</a>—digitale Nachweise deiner Fähigkeiten, die für immer bei dir bleiben.",
-    "item3": "Visualisiere dein Wachstum auf bedeutungsvolle Weise.",
-    "item4": "Verbinde dich mit anderen, die die Reise verstehen."
+    "item2": "Sammle Erfolge mit <a href=\"https://openbadges.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Open Badges</a> – digitale Nachweise deiner Fähigkeiten, die für immer dir gehören.",
+    "item3": "Sieh dein Wachstum auf eine Art, die für dich Sinn macht.",
+    "item4": "Verbinde dich mit anderen, die den Weg verstehen."
   },
   "cta": {
     "joinWaitlist": "Zur Warteliste",

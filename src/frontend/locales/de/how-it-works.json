@@ -8,34 +8,34 @@
     "step1": {
       "number": "1",
       "title": "Definiere dein Ziel",
-      "description": "Zerlege große Ziele in kleine, bedeutungsvolle Schritte."
+      "description": "Teile große Ziele in kleine, machbare Schritte auf."
     },
     "step2": {
       "number": "2",
-      "title": "Badges verdienen",
-      "description": "Jeder Schritt kann ein <a href=\"https://openbadges.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Open Badge</a> erzeugen – digitale Nachweise deiner Erfolge. Sie sind portabel, verifizierbar und für immer deins."
+      "title": "Badges sammeln",
+      "description": "Jeder Schritt kann dir ein <a href=\"https://openbadges.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Open Badge</a> bringen – digitale Nachweise deiner Erfolge. Sie gehören dir, sind überall gültig und bleiben für immer bei dir."
     },
     "step3": {
       "number": "3",
-      "title": "Fortschritt visualisieren",
-      "description": "Wähle Zeitleisten-, Raster- oder Baumansichten, um Muster zu erkennen."
+      "title": "Fortschritte sehen",
+      "description": "Wähle zwischen Zeitleiste, Raster oder Baum-Ansicht – so erkennst du deine Muster."
     },
     "step4": {
       "number": "4",
-      "title": "Pausieren — und fortsetzen",
-      "description": "Mache dort weiter, wo du aufgehört hast, druckfrei, mit intaktem Kontext. Das Leben passiert—wir verstehen das."
+      "title": "Pausieren — und weitermachen",
+      "description": "Mach einfach dort weiter, wo du aufgehört hast. Ohne Druck, alles ist noch da. So ist das Leben – das kennen wir."
     },
     "step5": {
       "number": "5",
-      "title": "Teilen & vernetzen",
-      "description": "Exportiere Badges, zeige Fortschritte und lerne von Gleichgesinnten."
+      "title": "Teilen & sich vernetzen",
+      "description": "Teile deine Badges, zeig deine Fortschritte und lerne von anderen."
     }
   },
   "neuroInclusive": {
-    "title": "Neuro-inklusiv durch Design",
-    "feature1": "Kurze Abschnitte + \"Mehr anzeigen\" Umschalter",
-    "feature2": "Vorhersagbares Layout & Beschriftungen",
+    "title": "Neuro-inklusiv von Grund auf",
+    "feature1": "Kurze Abschnitte + „Mehr anzeigen Buttons",
+    "feature2": "Klares Layout & verständliche Beschriftungen",
     "feature3": "Respektiert prefers-reduced-motion",
-    "feature4": "Kontrastreiche Typografie und großzügige Abstände"
+    "feature4": "Starke Kontraste und viel Platz"
   }
 }

@@ -27,10 +27,10 @@
     "completed": "Abgeschlossen"
   },
   "emptyStates": {
-    "noData": "Hier ist noch nichts. Bereit anzufangen?",
-    "noResults": "Keine Treffer gefunden. Versuche deine Suche anzupassen.",
+    "noData": "Hier ist noch nichts. Bereit loszulegen?",
+    "noResults": "Keine Treffer gefunden. Probier mal andere Suchbegriffe.",
     "noProjects": "Noch keine Projekte. Zeit für dein erstes!",
-    "noBadges": "Deine Badge-Sammlung wartet darauf zu wachsen. Verdiene dein erstes Badge!"
+    "noBadges": "Deine Badge-Sammlung wartet auf dich. Hol dir dein erstes Badge!"
   },
   "github": "GitHub",
   "progress": "Fortschritt",
