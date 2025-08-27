@@ -9,6 +9,8 @@ permissions:
   contents: write
   actions: read
   pull-requests: read
+  issues: write
+  packages: write
 
 jobs:
   # Check if this is a merge commit (not just a direct push to main)
@@ -142,6 +144,7 @@ jobs:
           RD_GITHUB_CLIENT_SECRET: ${{ secrets.RD_GITHUB_CLIENT_SECRET }}
       
       - name: Update release with deployment info
+        if: needs.release.outputs.version != ''
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NEW_VERSION: v${{ needs.release.outputs.version }}
