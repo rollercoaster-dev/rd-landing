@@ -1,5 +1,5 @@
 {
-  "title": "How It Works - RollerCoaster.dev",
+  "title": "How It Works - Rollercoaster.dev",
   "meta": {
     "description": "Flexible progress tracking with Open Badges - your journey, your pace."
   },
@@ -8,27 +8,27 @@
     "step1": {
       "number": "1",
       "title": "Define Your Goal",
-      "description": "Break big aims into small, meaningful steps."
+      "description": "Break big aims into small, meaningful steps. Start with what matters to you."
     },
     "step2": {
       "number": "2",
       "title": "Earn Badges",
-      "description": "Each step can produce an <a href=\"https://openbadges.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Open Badge</a>—digital credentials that prove your achievements. They're portable, verifiable, and yours to keep forever."
+      "description": "Each step can earn you an <a href=\"https://openbadges.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Open Badge</a>—digital credentials that prove your achievements. They're portable, verifiable, and yours to keep forever."
     },
     "step3": {
       "number": "3",
       "title": "Visualize Progress",
-      "description": "Choose timeline, grid, or tree views to spot patterns."
+      "description": "Choose timeline, grid, or tree views to see your patterns and progress."
     },
     "step4": {
       "number": "4",
       "title": "Pause — and Resume",
-      "description": "Pick up where you left off, pressure-free, with context intact. Life happens—we get it."
+      "description": "Pick up where you left off, pressure-free, with your context intact. Life happens—we get it."
     },
     "step5": {
       "number": "5",
       "title": "Share & Connect",
-      "description": "Export badges, showcase progress, and learn from peers."
+      "description": "Export your badges, showcase your progress, and learn from others in the community."
     }
   },
   "neuroInclusive": {

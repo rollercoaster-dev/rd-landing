@@ -33,7 +33,7 @@
   },
   "neuroInclusive": {
     "title": "Neuro-inklusiv von Grund auf",
-    "feature1": "Kurze Abschnitte + „Mehr anzeigen Buttons",
+    "feature1": "Kurze Abschnitte + `Mehr anzeigen` Buttons",
     "feature2": "Klares Layout & verständliche Beschriftungen",
     "feature3": "Respektiert prefers-reduced-motion",
     "feature4": "Starke Kontraste und viel Platz"

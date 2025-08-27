@@ -14,7 +14,7 @@
     "text": "Der für deine personenbezogenen Daten verantwortliche Datenverantwortliche ist:",
     "name": "Rollercoaster.dev",
     "address": "[Adresse wie im Impressum angegeben]",
-    "email": "dev@rollercoaster.dev"
+    "email": "dev{'@'}rollercoaster.dev"
   },
   "dataCollection": {
     "title": "Welche Daten wir sammeln",
