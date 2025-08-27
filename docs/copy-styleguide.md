@@ -38,6 +38,11 @@ Use to align; don’t paste verbatim.
    • Proof/roadmap: transparent, precise (dates, status).
    • Errors/status banners: empathetic, action‑oriented (what happened → what to do).
    • Bias‑free language: avoid ableist terms and stereotypes.
+   • Defaults (internal):
+   • Use second person (“you”) and contractions in EN.
+   • Tone sliders: Humor = light; Formality = low–medium; Respect = high; Enthusiasm = moderate.
+   • Specific over abstract: prefer concrete nouns, numbers, and examples.
+   • No hype or empty claims; if we can’t back it up, cut it or label it as WIP.
 
 ⸻
 
@@ -56,6 +61,8 @@ Use to align; don’t paste verbatim.
    • Define acronyms once; use descriptive links.
    • Provide TL;DR when content is complex.
    • Chunk with clear headings and short lists.
+   • Front‑load the key information in each paragraph (don’t bury the lede).
+   • Prefer specifics over adjectives: replace “fast, robust, seamless” with measurable facts (e.g., “issue a badge in <2 minutes”).
 
 ⸻
 
@@ -138,7 +145,7 @@ Start with {issues board} → {first‑timer label} → {docs link}.
 11. Editorial workflow (PR checklist)
     1.  Audience fit (section maps to tasks).
     2.  Above‑the‑fold rule (one primary CTA).
-    3.  Plain‑language pass (short, active, descriptive links).
+    3.  Plain‑language + De‑AI pass (short, active, descriptive links; replace buzzwords with specifics; read aloud once).
     4.  Inclusive language pass (bias‑free; no ableist terms).
     5.  Accessibility pass (headings/steps/alternatives; error pattern).
     6.  Standards/legal pass (Open Badges naming; no uncertified seals; accurate claims).
@@ -159,8 +166,30 @@ Start with {issues board} → {first‑timer label} → {docs link}.
 
 13. Measurement & iteration
 
-Track: primary‑CTA CTR, scroll depth to “How it works,” newsletter signups (if present), time to first GitHub interaction.
-Run tiny A/Bs (1 variable at a time; headline verb, CTA verb, transparency note).
+Track: primary‑CTA CTR, scroll depth to “How it works,” newsletter signups (if present), time to first GitHub interaction, readability indicators (avg sentence length; % sentences > 25 words).
+
+⸻
+
+15. “De‑AI” pass (internal checklist)
+    • Cut buzzwords: revolutionize, cutting‑edge, best‑in‑class, leverage, utilize, robust, seamless, state‑of‑the‑art, game‑changing, AI‑powered (unless we name the model and task).
+    • Replace abstractions with specifics: numbers (counts, times), file names, steps, standards (OB3/VC), GitHub links.
+    • Read aloud once; remove robotic rhythms; keep sentences short.
+    • 5‑second skim test with one person: ask “What is this and who is it for?” If they can’t answer, tighten the H1/deck.
+    • Structure sections as Problem → Outcome → How.
+    • Keep second person (“you”), active voice, contractions (EN); avoid idioms.
+
+⸻
+
+16. Avoid list → preferred replacements (public copy)
+    • revolutionize → describe the change with a metric (“reduce setup from 20 to 5 minutes”).
+    • cutting‑edge/state‑of‑the‑art → name the concrete tech or standard we use/support.
+    • best‑in‑class/world‑class → remove or provide a credible benchmark.
+    • leverage/utilize → use.
+    • robust → say what it handles (“works with private repos and forks”).
+    • seamless → state the actual friction removed (“no login; one click from GitHub”).
+    • scalable → explain how (“multi‑tenant; tested to N projects”).
+    • AI‑powered → name the model/task only if true (“uses model X to suggest badge criteria”).
+    • game‑changing/breakthrough → cut; show proof instead.
 
 ⸻
 

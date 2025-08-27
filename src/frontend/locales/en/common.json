@@ -18,7 +18,7 @@
   },
   "status": {
     "loading": "Loading (~5 seconds)",
-    "error": "Something went wrong",
+    "error": "Unable to load data. Check your connection and try again.",
     "success": "Success! 🎉",
     "warning": "Warning",
     "info": "Information",

@@ -1,58 +1,58 @@
 {
   "hero": {
     "title": "Rollercoaster.dev",
-    "subtitle": "Werkzeuge von und für neurodivergente Köpfe. Entwickelt für flexibles Lernen und Wachstum."
+    "subtitle": "Tools von neurodivergenten Menschen für neurodivergente Menschen. Damit Lernen und Wachstum zu dir passen."
   },
   "whatWeBuild": {
-    "title": "Was wir entwickeln",
-    "subtitle": "Open Badges Plattform für neurodivergente Kreative",
-    "description": "Wir erschaffen ein umfassendes <a href=\"https://openbadges.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Open Badges</a> Ökosystem, das vielfältige Erfolge und Lernwege würdigt. Open Badges (ein offener Standard für digitale Abzeichen) sind digitale Nachweise, die du besitzt und kontrollierst—portabel, verifizierbar und für immer dein. Unsere Plattform erkennt an, dass Erfolg nicht für alle gleich aussieht."
+    "title": "Was wir bauen",
+    "subtitle": "<a href=\"https://openbadges.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Open Badges</a> Plattform für neurodivergente Kreative",
+    "description": "Wir bauen eine komplette <a href=\"https://openbadges.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Open Badges</a> Plattform, die zeigt, was du wirklich draufhast. Open Badges sind digitale Nachweise deiner Fähigkeiten – sie gehören dir, du kontrollierst sie, und sie bleiben für immer bei dir. Wir wissen: Erfolg sieht für jeden anders aus."
   },
   "features": {
     "trackProgress": {
-      "title": "Fortschritt verfolgen und präsentieren",
-      "description": "Verfolgen Sie Fortschritte bei jedem Ziel, das Ihnen wichtig ist – Lernen, Arbeit, Hobbys, Gemeinschaftsaktionen, persönliches Wachstum und mehr. Unser flexibles System passt sich Ihrer einzigartigen Reise an und ermöglicht es Ihnen, Erfolge auf eine Weise zu dokumentieren und zu feiern, die für Sie Sinn macht.",
-      "item1": "Flexible Zielverfolgung",
-      "item2": "Individuelle Erfolgswege",
-      "item3": "Fortschrittsvisualisierung"
+      "title": "Behalte im Blick, was dir wichtig ist",
+      "description": "Verfolge deine Fortschritte bei allem, was dir wichtig ist – beim Lernen, bei der Arbeit, bei Hobbys oder persönlichen Zielen. Unser System passt sich an dich an und hilft dir dabei, deine Erfolge so zu dokumentieren und zu feiern, wie es für dich Sinn macht.",
+      "item1": "Ziele flexibel verfolgen",
+      "item2": "Deine eigenen Wege gehen",
+      "item3": "Fortschritte sichtbar machen"
     },
     "visualizeJourney": {
-      "title": "Ihre Reise visualisieren",
-      "description": "Sehen Sie Ihren Fortschritt und Ihre Erfolge auf bedeutungsvolle, visuelle Weise. Unsere Plattform bietet verschiedene Ansichten und Darstellungen Ihrer Reise, die Ihnen helfen, Muster zu erkennen, Meilensteine zu feiern und durch visuelles Feedback motiviert zu bleiben.",
-      "item1": "Mehrere Ansichtsoptionen",
-      "item2": "Mustererkennung",
-      "item3": "Visuelle Meilenstein-Verfolgung"
+      "title": "Sieh deinen Weg",
+      "description": "Sieh deine Fortschritte und Erfolge auf eine Art, die für dich Sinn macht. Unsere Plattform zeigt dir deine Reise in verschiedenen Ansichten – so erkennst du Muster, feierst Meilensteine und bleibst motiviert.",
+      "item1": "Verschiedene Ansichten",
+      "item2": "Muster erkennen",
+      "item3": "Meilensteine sichtbar machen"
     },
     "pauseRestart": {
-      "title": "Pausieren und Neustarten mit Leichtigkeit",
-      "description": "Das Leben ist nicht linear, und Fortschritt auch nicht. Unser System unterstützt natürliche Höhen und Tiefen und ermöglicht es Ihnen, während herausfordernder Zeiten wie Burnout oder geringer Motivation zu pausieren. Wenn Sie bereit sind zurückzukehren, finden Sie Ihren Fortschritt bewahrt und Werkzeuge, die Ihnen helfen, dort weiterzumachen, wo Sie aufgehört haben.",
-      "item1": "Flexibles Pausieren",
-      "item2": "Fortschrittsbewahrung",
-      "item3": "Einfache Wiederaufnahme"
+      "title": "Einfach pausieren und weitermachen",
+      "description": "Das Leben ist nicht linear – und Fortschritt auch nicht. Du kannst jederzeit pausieren, bei Burnout, wenig Motivation oder wenn das Leben dazwischenkommt. Wenn du bereit bist, ist alles noch da und du kannst einfach weitermachen.",
+      "item1": "Jederzeit pausieren",
+      "item2": "Nichts geht verloren",
+      "item3": "Einfach weitermachen"
     },
     "connectCommunity": {
-      "title": "Mit der Gemeinschaft verbinden",
-      "description": "Treten Sie einer Gemeinschaft bei, die versteht. Teilen Sie Erfahrungen, lernen Sie von den Reisen anderer und finden Sie gegenseitige Unterstützung. Unsere Plattform ermöglicht bedeutungsvolle Verbindungen durch geteilte Erfolge und kollaborative Lernwege.",
-      "item1": "Geteilte Erfolge",
-      "item2": "Lerngemeinschaften",
-      "item3": "Gegenseitige Unterstützung"
+      "title": "Teil einer Gemeinschaft werden",
+      "description": "Werde Teil einer Gemeinschaft, die dich versteht. Teile deine Erfahrungen, lerne von anderen und findet euch gegenseitig. Hier entstehen echte Verbindungen durch gemeinsame Erfolge und das, was ihr zusammen lernt.",
+      "item1": "Erfolge teilen",
+      "item2": "Zusammen lernen",
+      "item3": "Sich gegenseitig unterstützen"
     },
     "buildCommunity": {
       "title": "Gemeinschaft aufbauen",
-      "description": "Vernetzen Sie sich mit anderen neurodivergenten Kreativen, teilen Sie Ihre Reise und entdecken Sie neue Möglichkeiten. Unsere Plattform ist darauf ausgelegt, echte Verbindungen und kollaboratives Wachstum zu fördern.",
+      "description": "Vernetze dich mit anderen neurodivergenten Kreativen, teile deine Reise und entdecke neue Möglichkeiten. Hier entstehen echte Verbindungen und ihr wachst zusammen.",
       "items": [
-        "Kreative-Netzwerk",
-        "Kollaborative Projekte",
+        "Netzwerk für Kreative",
+        "Gemeinsame Projekte",
         "Mentoring-Möglichkeiten"
       ]
     },
     "shareJourney": {
-      "title": "Ihre Reise teilen",
-      "description": "Erzählen Sie Ihre Geschichte auf eine Weise, die bei Ihnen Anklang findet. Unsere Plattform unterstützt verschiedene Formate und Stile, sodass Sie Ihren Fortschritt authentisch dokumentieren und teilen können.",
+      "title": "Deine Geschichte erzählen",
+      "description": "Erzähle deine Geschichte so, wie sie zu dir passt. Unsere Plattform unterstützt verschiedene Formate und Stile – damit du deinen Weg authentisch dokumentieren und teilen kannst.",
       "items": [
-        "Mehrere Inhaltsformate",
-        "Persönliches Storytelling",
-        "Erfolgs-Portfolios"
+        "Verschiedene Formate",
+        "Deine eigene Geschichte",
+        "Deine Erfolge sammeln"
       ]
     }
   },
@@ -66,35 +66,35 @@
     "focusNote": "Unser Fokus liegt darauf, zuerst ein solides Fundament zu schaffen und dann die Funktionen basierend auf Gemeinschaftsfeedback und -bedürfnissen zu erweitern."
   },
   "empowerment": {
-    "description": "Wir glauben, dass dieses System neurodivergente Personen dabei unterstützen kann, ihre Ziele zu navigieren, ihre einzigartigen Wege zu dokumentieren und dabei Vertrauen aufzubauen."
+    "description": "Wir glauben, dass dieses System neurodivergente Menschen dabei unterstützen kann, ihre Ziele zu erreichen und ihre eigenen Wege zu dokumentieren. Dabei Vertrauen aufzubauen."
   },
   "vision": {
-    "title": "Unsere Vision: Werkzeuge aus gelebter Erfahrung",
-    "description": "Standard-Produktivitätswerkzeuge werden neurodivergenten Personen oft nicht gerecht.",
+    "title": "Unsere Vision: Tools aus eigener Erfahrung",
+    "description": "Standard-Produktivitäts-Tools funktionieren für neurodivergente Menschen oft einfach nicht.",
     "challenge": {
-      "title": "Die Herausforderung",
-      "content": "Starre Zeitpläne und lineare Listen passen nicht immer zu der Art, wie unser Verstand am besten funktioniert. Wir verstehen, dass neurodivergente Stärken anders sind, und das Navigieren von Zielen erfordert Werkzeuge, die Flexibilität, klare Schritte und echtes Verständnis bieten – nicht nur einen weiteren Kalender."
+      "title": "Das Problem",
+      "content": "Starre Zeitpläne und lineare To-Do-Listen passen nicht zu der Art, wie unser Gehirn funktioniert. Wir wissen: neurodivergente Stärken sind anders. Und für unsere Ziele brauchen wir Tools, die flexibel sind, klare Schritte zeigen und uns wirklich verstehen – nicht nur noch einen Kalender."
     },
     "solution": {
       "title": "Unsere Lösung",
-      "content": "Bei Rollercoaster.dev ist unsere Vision einfach: <strong class='block mt-2 text-xl text-accent'>Die Werkzeuge erschaffen, die wir uns gewünscht hätten, entwickelt <em>von</em> und <em>für</em> die neurodivergente Gemeinschaft.</strong>"
+      "content": "Bei Rollercoaster.dev ist unsere Vision einfach: <strong class='block mt-2 text-xl text-accent'>Wir bauen die Tools, die wir selbst gerne gehabt hätten – <em>von</em> neurodivergenten Menschen <em>für</em> neurodivergente Menschen.</strong>"
     },
     "goals": {
       "title": "Unsere Ziele",
       "empower": {
-        "title": "🎯 Benutzer stärken",
-        "description": "Überwältigende Ziele in handhabbare, umsetzbare Schritte aufteilen, die für Sie Sinn machen."
+        "title": "🎯 Dich stärken",
+        "description": "Große Ziele in machbare Schritte aufteilen, die für dich Sinn machen."
       },
       "flexibility": {
         "title": "🌊 Flexibilität bieten",
-        "description": "Anpassung an Ihre schwankende Energie und Konzentration, frei von starren Zeitplänen und Erwartungen."
+        "description": "Passt sich an deine Energie und Konzentration an – ohne starre Zeitpläne und Erwartungen."
       },
       "community": {
-        "title": "🤝 Gemeinschaft fördern",
-        "description": "Verbindungen durch gemeinsames Verständnis und gegenseitige Unterstützung aufbauen, weil wir es wirklich 'verstehen'."
+        "title": "🤝 Gemeinschaft schaffen",
+        "description": "Verbindungen schaffen durch gemeinsames Verständnis und gegenseitige Unterstützung – weil wir es einfach verstehen."
       }
     },
-    "closing": "Wir bauen das, weil wir den Bedarf aus erster Hand verstehen. Es geht darum, Lösungen zu schaffen, die die vielfältigen Wege, wie neurodivergente Köpfe gedeihen, umarmen und unterstützen."
+    "closing": "Wir bauen das, weil wir selbst wissen, wie es ist. Es geht darum, Lösungen zu schaffen, die zu den vielfältigen Wegen passen, wie neurodivergente Köpfe funktionieren und wachsen."
   },
   "currentWorkStatus": {
     "title": "Wo wir stehen & wohin wir gehen",
@@ -136,11 +136,11 @@
     }
   },
   "getInvolved": {
-    "title": "Begleiten Sie unsere Reise",
-    "description": "Rollercoaster.dev wird von neurodivergenten Personen für neurodivergente Personen entwickelt. Wir glauben an die Kraft gelebter Erfahrung, um Werkzeuge zu schaffen, die wirklich resonieren.",
+    "title": "Komm mit auf unsere Reise",
+    "description": "Rollercoaster.dev wird von neurodivergenten Menschen für neurodivergente Menschen entwickelt. Wir glauben an die Kraft gelebter Erfahrung, um Tools zu schaffen, die wirklich funktionieren.",
     "users": {
-      "title": "👋 Interessiert an der Nutzung der Werkzeuge?",
-      "description": "Möchten Sie wissen, wann die Plattform startet oder wichtige Updates veröffentlicht werden?",
+      "title": "👋 Interessiert an der Nutzung der Tools?",
+      "description": "Möchtest du wissen, wann die Plattform startet oder wichtige Updates veröffentlicht werden?",
       "feature1": "Frühen Zugang zu Funktionen erhalten",
       "feature2": "Über die Entwicklung auf dem Laufenden bleiben",
       "feature3": "Wertvolles Feedback geben",
@@ -148,10 +148,10 @@
     },
     "contributors": {
       "title": "🚀 Interessiert am Beitragen?",
-      "description": "Wir suchen leidenschaftliche neurodivergente Kreative (Designer, Frontend, Backend, Full-Stack). Erkunden Sie unsere Arbeit oder nehmen Sie Kontakt auf!",
+      "description": "Wir suchen leidenschaftliche neurodivergente Kreative (Designer, Frontend, Backend, Full-Stack). Schau dir unsere Arbeit an oder nimm Kontakt auf!",
       "feature1": "Die Zukunft der Plattform gestalten",
       "feature2": "Mit Gleichgesinnten arbeiten",
-      "feature3": "Werkzeuge bauen, die wichtig sind",
+      "feature3": "Tools bauen, die wichtig sind",
       "actions": {
         "explore": "Auf GitHub erkunden",
         "email": "E-Mail senden"

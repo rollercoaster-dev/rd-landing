@@ -13,7 +13,7 @@
     },
     "item1": {
       "timeframe": "Jetzt – Q4 2025",
-      "description": "Modular-Server & UI stabilisieren; MVP-Scope definieren; erste Contributor-Dokumentation veröffentlichen; \"help wanted\"-Issues öffnen.",
+      "description": "Modular-Server & UI stabilisieren; MVP-Bereich definieren; erste Contributor-Dokumentation veröffentlichen; 'help wanted'-Issues öffnen.",
       "status": "In Bearbeitung"
     },
     "item2": {
@@ -37,7 +37,7 @@
       "status": "Laufend"
     }
   },
-  "transparency": "Wir halten das realistisch: Punkte können sich verschieben. Links zu GitHub-Issues/PRs, sobald vorhanden.",
+  "transparency": "Wir bleiben realistisch: Punkte können sich verschieben. Links zu GitHub-Issues/PRs gibt es, sobald sie da sind.",
   "tableHeaders": {
     "timeframe": "Zeitrahmen",
     "description": "Was als Nächstes kommt",
