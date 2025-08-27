@@ -152,7 +152,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [check-merge, create-release]
+    needs: [check-merge, build, create-release]
     if: needs.create-release.outputs.release-created == 'true'
     steps:
       - uses: actions/checkout@v4
