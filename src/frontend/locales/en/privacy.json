@@ -14,7 +14,7 @@
     "text": "The data controller responsible for your personal data is:",
     "name": "Rollercoaster.dev",
     "address": "[Address as listed in Impressum]",
-    "email": "dev@rollercoaster.dev"
+    "email": "dev{'@'}rollercoaster.dev"
   },
   "dataCollection": {
     "title": "What Data We Collect",
