@@ -2,6 +2,10 @@
 
 A monolithic application for Open Badges, built with Vue 3 + TypeScript frontend and Bun + Elysia backend.
 
+## Auto Release Status
+
+✅ Auto Release workflow fixed and ready for testing
+
 ## Tech Stack
 
 ### Frontend
