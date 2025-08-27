@@ -136,11 +136,11 @@
     }
   },
   "getInvolved": {
-    "title": "Begleiten Sie unsere Reise",
-    "description": "Rollercoaster.dev wird von neurodivergenten Personen für neurodivergente Personen entwickelt. Wir glauben an die Kraft gelebter Erfahrung, um Werkzeuge zu schaffen, die wirklich resonieren.",
+    "title": "Komm mit auf unsere Reise",
+    "description": "Rollercoaster.dev wird von neurodivergenten Menschen für neurodivergente Menschen entwickelt. Wir glauben an die Kraft gelebter Erfahrung, um Tools zu schaffen, die wirklich funktionieren.",
     "users": {
-      "title": "👋 Interessiert an der Nutzung der Werkzeuge?",
-      "description": "Möchten Sie wissen, wann die Plattform startet oder wichtige Updates veröffentlicht werden?",
+      "title": "👋 Interessiert an der Nutzung der Tools?",
+      "description": "Möchtest du wissen, wann die Plattform startet oder wichtige Updates veröffentlicht werden?",
       "feature1": "Frühen Zugang zu Funktionen erhalten",
       "feature2": "Über die Entwicklung auf dem Laufenden bleiben",
       "feature3": "Wertvolles Feedback geben",
@@ -148,10 +148,10 @@
     },
     "contributors": {
       "title": "🚀 Interessiert am Beitragen?",
-      "description": "Wir suchen leidenschaftliche neurodivergente Kreative (Designer, Frontend, Backend, Full-Stack). Erkunden Sie unsere Arbeit oder nehmen Sie Kontakt auf!",
+      "description": "Wir suchen leidenschaftliche neurodivergente Kreative (Designer, Frontend, Backend, Full-Stack). Schau dir unsere Arbeit an oder nimm Kontakt auf!",
       "feature1": "Die Zukunft der Plattform gestalten",
       "feature2": "Mit Gleichgesinnten arbeiten",
-      "feature3": "Werkzeuge bauen, die wichtig sind",
+      "feature3": "Tools bauen, die wichtig sind",
       "actions": {
         "explore": "Auf GitHub erkunden",
         "email": "E-Mail senden"
