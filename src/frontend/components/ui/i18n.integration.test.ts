@@ -106,7 +106,7 @@ describe("i18n Integration Tests", () => {
       i18n.global.locale.value = "de";
       expect(i18n.global.t("home.hero.title")).toBe("Rollercoaster.dev");
       expect(i18n.global.t("home.hero.subtitle")).toContain(
-        "neurodivergente Köpfe",
+        "neurodivergente Menschen",
       );
     });
 
@@ -176,9 +176,7 @@ describe("i18n Integration Tests", () => {
       // Test German nested keys
       i18n.global.locale.value = "de";
       expect(i18n.global.t("home.hero.title")).toBe("Rollercoaster.dev");
-      expect(i18n.global.t("home.whatWeBuild.title")).toBe(
-        "Was wir entwickeln",
-      );
+      expect(i18n.global.t("home.whatWeBuild.title")).toBe("Was wir bauen");
     });
   });
 });
